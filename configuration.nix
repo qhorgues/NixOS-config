@@ -170,9 +170,9 @@ in
     packages = with pkgs; [
       # Gnome extension
       gnomeExtensions.dash-to-dock
-      	gnomeExtensions.blur-my-shell
-      	gnomeExtensions.appindicator
-      	gnomeExtensions.removable-drive-menu
+      gnomeExtensions.blur-my-shell
+      gnomeExtensions.appindicator
+      gnomeExtensions.removable-drive-menu
       gnomeExtensions.caffeine
       gnomeExtensions.user-themes
       
@@ -210,10 +210,10 @@ in
       
       # Desktop
       texstudio
-      	libreoffice-fresh
+      libreoffice-fresh
       	
-      	# Graphism
-      	inkscape
+      # Graphism
+      inkscape
     ];
   };
   home-manager.users.quentin = { pkgs, ... }: {
@@ -230,16 +230,16 @@ in
       settings."org/gnome/shell" = {
         disable-user-extensions = false;
         enabled-extensions = with pkgs.gnomeExtensions; [
-	        blur-my-shell.extensionUuid
-	        dash-to-dock.extensionUuid
-	        appindicator.extensionUuid
-	        removable-drive-menu.extensionUuid
-	        caffeine.extensionUuid
-	        user-themes.extensionUuid
+	  blur-my-shell.extensionUuid
+	  dash-to-dock.extensionUuid
+	  appindicator.extensionUuid
+	  removable-drive-menu.extensionUuid
+	  caffeine.extensionUuid
+	  user-themes.extensionUuid
         ];
       };
       settings."org/gnome/desktop/interface" = {
-	      icon-theme = "ePapirus";
+	icon-theme = "ePapirus";
         show-battery-percentage = true;
         text-scaling-factor = 0.8;
         toolbar-style = "text";
@@ -264,25 +264,25 @@ in
        	autohide = true;
         background-opacity = 0.8;
         custom-theme-shrink = false;
-	      dash-max-icon-size = 48;
-	      dock-fixed = false;
-	      dock-position = "BOTTOM";
-	      extend-height = false;
-	      height-fraction = 0.9;
-	      intellihide = false;
-	      intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
-	      multi-monitor = true;
-	      preferred-monitor = -2;
-	      scroll-to-focused-applications = true;
-	      show-icons-emblems = true;
-	      show-icons-network = false;
-	      show-mounts = false;
-	      show-mounts-neetwork = false;
-	      show-mounts-only-mounted = true;
-	      show-running = true;
-	      show-show-apps-button = false;
-	      show-trash = false;
-	      transparency-mode = "DEFAULT";
+	dash-max-icon-size = 48;
+	dock-fixed = false;
+	dock-position = "BOTTOM";
+	extend-height = false;
+	height-fraction = 0.9;
+	intellihide = false;
+	intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
+	multi-monitor = true;
+	preferred-monitor = -2;
+	scroll-to-focused-applications = true;
+	show-icons-emblems = true;
+	show-icons-network = false;
+	show-mounts = false;
+	show-mounts-neetwork = false;
+	show-mounts-only-mounted = true;
+	show-running = true;
+	show-show-apps-button = false;
+	show-trash = false;
+	transparency-mode = "DEFAULT";
       };
 
       settings."org/gnome/TextEditor" = {
@@ -305,10 +305,10 @@ in
         bash.enable = true;
         git = {
           enable = true;
-	        userName  = "Quentin Horgues";
-	        userEmail = "quentin.horgues@ikmail.com";
-	      };
-	      zsh = {
+	    userName  = "Quentin Horgues";
+	    userEmail = "quentin.horgues@ikmail.com";
+	};
+	zsh = {
           enable = true;
           enableCompletion = true;
           autosuggestion.enable = true;
@@ -339,38 +339,38 @@ in
   # hardware.amdgpu.opencl.enable=true;
 
   environment.gnome.excludePackages = with pkgs; [
-	  atomix # puzzle game
-	  cheese # webcam tool
-	  # baobab
-	  snapshot
-	  simple-scan
-	  eog
-	  file-roller
-	  seahorse
-	  epiphany # web browser
-	  # evince # document viewer
-	  geary # email reader
-	  gnome-characters
-	  # gnome-music
-	  gnome-photos
-	  gnome-tour
-	  hitori # sudoku game
-	  iagno # go game
-	  tali # poker game
-	  totem # video player
-	  yelp
-	  gnome-calculator
-	  gnome-calendar
-	  gnome-clocks
-	  gnome-contacts
-		gnome-font-viewer
-		gnome-logs
-		gnome-maps
-		gnome-screenshot
-		gnome-system-monitor
-		gnome-weather
-		gnome-connections
-		gnomeExtensions.auto-move-windows
+    atomix # puzzle game
+    cheese # webcam tool
+    # baobab
+    snapshot
+    simple-scan
+    eog
+    file-roller
+    seahorse
+    epiphany # web browser
+    # evince # document viewer
+    geary # email reader
+    gnome-characters
+    # gnome-music
+    gnome-photos
+    gnome-tour
+    hitori # sudoku game
+    iagno # go game
+    tali # poker game
+    totem # video player
+    yelp
+    gnome-calculator
+    gnome-calendar
+    gnome-clocks
+    gnome-contacts
+    gnome-font-viewer
+    gnome-logs
+    gnome-maps
+    gnome-screenshot
+    gnome-system-monitor
+    gnome-weather
+    gnome-connections
+    gnomeExtensions.auto-move-windows
   ];
   # Install firefox.
   programs.firefox = {
