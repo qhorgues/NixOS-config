@@ -305,10 +305,10 @@ in
         bash.enable = true;
         git = {
           enable = true;
-	    userName  = "Quentin Horgues";
-	    userEmail = "quentin.horgues@ikmail.com";
-	};
-	zsh = {
+	        userName  = "Quentin Horgues";
+	        userEmail = "quentin.horgues@ikmail.com";
+        };
+	      zsh = {
           enable = true;
           enableCompletion = true;
           autosuggestion.enable = true;
