@@ -311,9 +311,8 @@ in
 	      zsh = {
           enable = true;
           enableCompletion = true;
-          #autosuggestions.enable = true;
+          autosuggestion.enable = true;
           syntaxHighlighting.enable = true;
-
           shellAliases = {
             ll = "ls -l";
             update = "sudo nix-channel --update
@@ -431,4 +430,3 @@ in
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = config.system.nixos.release; # Did you read the comment?
 }
-
