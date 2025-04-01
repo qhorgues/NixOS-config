@@ -50,7 +50,7 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
-  
+
   # Bootloader.
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.systemd-boot.enable = true;
@@ -175,19 +175,19 @@ in
       gnomeExtensions.removable-drive-menu
       gnomeExtensions.caffeine
       gnomeExtensions.user-themes
-      
+
       # Icons
       unstable.epapirus-icon-theme
-      
+
       # VM
       virt-manager
-      
+
       # Dev
       	zed-editor
       zeal
       	gaphor
       	jetbrains.idea-community-bin
-      
+
       # Nix
       nixd # Nix language server for zeditor
 
@@ -202,21 +202,21 @@ in
       cargo
       rustc
       rustup
-      	
+
       	# Games
       goverlay
       	adwsteamgtk
       	discord
-      
+
       # Desktop
       texstudio
       libreoffice-fresh
-      	
+
       # Graphism
       inkscape
     ];
   };
-  home-manager.users.quentin = { pkgs, ... }: {
+  home-manager.users.quentin = { pkgs, lib, ... }: {
     # Pointer settings for VM
     home.pointerCursor = {
       gtk.enable = true;
@@ -230,27 +230,27 @@ in
       settings."org/gnome/shell" = {
         disable-user-extensions = false;
         enabled-extensions = with pkgs.gnomeExtensions; [
-	  blur-my-shell.extensionUuid
-	  dash-to-dock.extensionUuid
-	  appindicator.extensionUuid
-	  removable-drive-menu.extensionUuid
-	  caffeine.extensionUuid
-	  user-themes.extensionUuid
+	        blur-my-shell.extensionUuid
+	        dash-to-dock.extensionUuid
+	        appindicator.extensionUuid
+	        removable-drive-menu.extensionUuid
+	        caffeine.extensionUuid
+	        user-themes.extensionUuid
         ];
       };
       settings."org/gnome/desktop/interface" = {
-	icon-theme = "ePapirus";
+	      icon-theme = "ePapirus";
         show-battery-percentage = true;
         text-scaling-factor = 0.8;
         toolbar-style = "text";
         gtk-theme = "HighContrastInverse";
       };
       settings."org/gnome/desktop/background" = {
-        	picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-l.svg";
-        	picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-d.svg";
+        picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-l.svg";
+        picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-d.svg";
       };
       settings."org/gnome/desktop/keyboard" = {
-        	numlock-state = true;
+        numlock-state = true;
         remember-numlock-state = false;
       };
       settings."org/gnome/desktop/peripherals/touchpad".natural-scroll = false;
@@ -264,25 +264,25 @@ in
        	autohide = true;
         background-opacity = 0.8;
         custom-theme-shrink = false;
-	dash-max-icon-size = 48;
-	dock-fixed = false;
-	dock-position = "BOTTOM";
-	extend-height = false;
-	height-fraction = 0.9;
-	intellihide = false;
-	intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
-	multi-monitor = true;
-	preferred-monitor = -2;
-	scroll-to-focused-applications = true;
-	show-icons-emblems = true;
-	show-icons-network = false;
-	show-mounts = false;
-	show-mounts-neetwork = false;
-	show-mounts-only-mounted = true;
-	show-running = true;
-	show-show-apps-button = false;
-	show-trash = false;
-	transparency-mode = "DEFAULT";
+	      dash-max-icon-size = 48;
+	      dock-fixed = false;
+	      dock-position = "BOTTOM";
+	      extend-height = false;
+	      height-fraction = 0.9;
+	      intellihide = false;
+	      intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
+	      multi-monitor = true;
+	      preferred-monitor = -2;
+	      scroll-to-focused-applications = true;
+	      show-icons-emblems = true;
+	      show-icons-network = false;
+	      show-mounts = false;
+	      show-mounts-neetwork = false;
+	      show-mounts-only-mounted = true;
+	      show-running = true;
+	      show-show-apps-button = false;
+	      show-trash = false;
+	      transparency-mode = "DEFAULT";
       };
 
       settings."org/gnome/TextEditor" = {
@@ -291,13 +291,17 @@ in
         show-line-numbers = true;
         show-right-margin = false;
         style-scheme = "Adwaita";
-        # tab-width = 2;
+        tab-width = lib.hm.gvariant.mkUint32 2;
         use-system-font = true;
       };
 
       settings."org/gnome/gnome-session".logout-prompt = false;
 
-      # settings."org/gnome/shell".favorite-apps = ['firefox.desktop','org.gnome.Nautilus.desktop','org.gnome.Console.desktop','org.gnome.TextEditor.desktop','dev.zed.Zed.desktop'];
+      settings."org/gnome/shell".favorite-apps = ["firefox.desktop"
+                                                  "org.gnome.Nautilus.desktop"
+                                                  "org.gnome.Console.desktop"
+                                                  "dev.zed.Zed.desktop"
+                                                  "org.gnome.TextEditor.desktop"];
 
     };
 
