@@ -183,7 +183,7 @@ in
       virt-manager
 
       # Dev
-      	zed-editor
+      	unstable.zed-editor
       zeal
       	gaphor
       	jetbrains.idea-community-bin
