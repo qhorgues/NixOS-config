@@ -183,7 +183,7 @@ in
       virt-manager
 
       # Dev
-      	unstable.zed-editor
+      unstable.	zed-editor
       zeal
       	gaphor
       	jetbrains.idea-community-bin
@@ -202,6 +202,9 @@ in
       cargo
       rustc
       rustup
+      
+      # Python
+      python3
 
       	# Games
       goverlay
@@ -405,6 +408,7 @@ in
     gnome-extension-manager
     nix-software-center
     steam-run # For launch single executable (no connection with valve)
+    pciutils
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
