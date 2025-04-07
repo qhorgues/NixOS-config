@@ -6,16 +6,7 @@
 
 let
   home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz;
-in
-
-let
-  unstableTarball =
-    fetchTarball
-      https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz;
-in
-
-
-let
+  unstableTarball = builtins.fetchTarball https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz;
   nix-software-center = import (pkgs.fetchFromGitHub {
     owner = "snowfallorg";
     repo = "nix-software-center";
@@ -23,7 +14,6 @@ let
     sha256 = "xiqF1mP8wFubdsAQ1BmfjzCgOD3YZf7EGWl9i69FTls=";
   }) {};
 in
-
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -39,8 +29,8 @@ in
       };
     };
   };
-
-
+  
+    
   networking.hostName = "fw-laptop-quentin"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -50,6 +40,7 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.firewall.enable = true;
 
   # Bootloader.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -58,6 +49,7 @@ in
   boot.initrd.systemd.enable = true;
   boot.plymouth.enable = true;
   boot.kernelParams = [ "quiet" ];
+  boot.loader.systemd-boot.configurationLimit = 10; 
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
@@ -138,12 +130,22 @@ in
     #media-session.enable = true;
   };
 
-  # Steam
   programs = {
+    firefox = {
+      enable = true;
+      preferences = {
+        "widget.use-xdg-desktop-portal.file-picker" = 1;
+      };
+    };
+    
+    nix-ld.enable = true;
+    nix-ld.libraries = with pkgs; [];
+  
+    # Games
     gamescope.enable = true;
     gamemode.enable = true;
-    java.enable = true;
     steam = {
+      gamescopeSession.enable = true;
       enable = true;
       extest.enable = true;
       remotePlay.openFirewall = false;
@@ -176,6 +178,7 @@ in
     extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     shell = pkgs.zsh;
 
+
     packages = with pkgs; [
       # Gnome extension
       gnomeExtensions.dash-to-dock
@@ -199,6 +202,7 @@ in
 
       # Nix
       nixd # Nix language server for zeditor
+      nil
 
       # C / C++
       gcc
@@ -211,10 +215,12 @@ in
       cargo
       rustc
       rustup
+      rust-analyzer
 
       # Python
       python3
       uv
+      ruff
 
       	# Games
       	adwsteamgtk
@@ -263,7 +269,7 @@ in
       };
       settings."org/gnome/desktop/keyboard" = {
         numlock-state = true;
-        remember-numlock-state = false;
+        remember-numlock-state = true;
       };
       settings."org/gnome/desktop/peripherals/touchpad".natural-scroll = false;
       settings."org/gnome/desktop/privacy".hide-identity = true;
@@ -387,31 +393,32 @@ in
     gnome-weather
     gnome-connections
     gnomeExtensions.auto-move-windows
+    gnome-software
   ];
-  # Install firefox.
-  programs.firefox = {
-    enable = true;
-    preferences = {
-      "widget.use-xdg-desktop-portal.file-picker" = 1;
-    };
-  };
-
+  
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   system.autoUpgrade.enable = true;
+  nix.gc.automatic = true;
   nix.settings.auto-optimise-store = true;
 
+  services.ollama = {
+      enable = true;
+      acceleration = "rocm";
+      # Optional: preload models, see https://ollama.com/library
+      loadModels = [ "llama3.2:3b" "mistral:7b" ];
+    };
+  services.open-webui.enable = true;
+  
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     home-manager
-
+    
     # Tools
     fastfetch
-    htmlq
     htop
-    gnome-software
     gnome-tweaks
     dconf-editor
     gnome-extension-manager
@@ -421,6 +428,8 @@ in
 
     # Games
     mangohud
+    
+    ollama
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
