@@ -199,6 +199,7 @@ in
       zeal
       	gaphor
       	jetbrains.idea-community-bin
+      	git
 
       # Nix
       nixd # Nix language server for zeditor
