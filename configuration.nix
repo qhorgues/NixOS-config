@@ -30,7 +30,7 @@ in
     };
   };
   
-    
+  services.udisks2.enable = true;
   networking.hostName = "fw-laptop-quentin"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
