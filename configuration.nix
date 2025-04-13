@@ -30,7 +30,6 @@ in
     };
   };
   
-  services.udisks2.enable = true;
   networking.hostName = "fw-laptop-quentin"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -43,14 +42,20 @@ in
   networking.firewall.enable = true;
 
   # Bootloader.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.systemd.enable = true;
-  boot.plymouth.enable = true;
-  boot.kernelParams = [ "quiet" ];
-  boot.loader.systemd-boot.configurationLimit = 10; 
-
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    loader= {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 10;
+      };
+      efi.canTouchEfiVariables = true;
+    };
+    initrd.systemd.enable = true;
+    plymouth.enable = true;
+    kernelParams = [ "quiet" ];
+  };
+  
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
@@ -71,16 +76,26 @@ in
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = false;
 
   # Enable the KDE Plasma Desktop Environment.
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.gnome.gnome-keyring.enable = lib.mkForce false;
+  services.xserver = {
+    enable = true; 
+    displayManager.gdm = {
+      enable = true; 
+      # Configuration spécifique ajoutée : activer le Verr Num au démarrage de GDM
+      settings = {
+        "org/gnome/desktop/peripherals/keyboard" = {
+          numlock-state = true;
+        }; 
+      };
+    };
+    desktopManager.gnome.enable = true;
+  };
+  # services.gnome.gnome-keyring.enable = lib.mkForce false;
 
   # VM
   security.apparmor.enable = false;
@@ -131,6 +146,7 @@ in
   };
 
   programs = {
+    zsh.enable = true;
     firefox = {
       enable = true;
       preferences = {
@@ -165,11 +181,27 @@ in
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
       MANGOHUD_CONFIG = "control=mangohud,legacy_layout=false,horizontal,background_alpha=0.6,round_corners=0,background_alpha=0.6,background_color=000000,font_size=24,text_color=FFFFFF,position=top-left,toggle_hud=Shift_R+F12,no_display,table_columns=1,gpu_text=GPU,gpu_stats,gpu_temp,gpu_power,gpu_color=2E9762,cpu_text=CPU,cpu_stats,cpu_temp,cpu_power,cpu_color=2E97CB,vram,vram_color=AD64C1,vram_color=AD64C1,ram,ram_color=C26693,battery,battery_color=00FF00,fps,gpu_name,wine,wine_color=EB5B5B,fps_limit_method=late,toggle_fps_limit=Shift_L+F1,fps_limit=0,time";
     };
-
-  programs.zsh.enable = true;
-
+    
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
+
+
+  services.xserver.displayManager.setupCommands = "su - gdm -s $(which bash) -c gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true";
+  home-manager.users.gdm = { lib, ... }: {
+    dconf.settings = {
+      "org/gnome/desktop/peripherals/keyboard" = {
+        numlock-state = true;
+        remember-numlock-state = true;
+      };
+      "org/gnome/settings-daemon/plugins/color" = {
+        night-light-enabled = true;
+      };
+      "org/gnome/desktop/interface" = {
+        scaling-factor = lib.hm.gvariant.mkUint32 2;
+      };
+    };
+    home.stateVersion = config.system.nixos.release;
+  };
 
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.quentin = {
@@ -177,7 +209,7 @@ in
     description = "Quentin Horgues";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     shell = pkgs.zsh;
-
+  
 
     packages = with pkgs; [
       # Gnome extension
@@ -193,6 +225,8 @@ in
 
       # VM
       virt-manager
+      
+      ventoy-full
 
       # Dev
       unstable.	zed-editor
@@ -246,86 +280,81 @@ in
 
     dconf = {
       enable = true;
-      settings."org/gnome/shell" = {
-        disable-user-extensions = false;
-        enabled-extensions = with pkgs.gnomeExtensions; [
-	        blur-my-shell.extensionUuid
-	        dash-to-dock.extensionUuid
-	        appindicator.extensionUuid
-	        removable-drive-menu.extensionUuid
-	        caffeine.extensionUuid
-	        user-themes.extensionUuid
-        ];
+      settings = {
+        "org/gnome/desktop/peripherals/keyboard" = {
+          numlock-state = true;
+          remember-numlock-state = true;
+        };
+        "org/gnome/shell" = {
+          disable-user-extensions = false;
+          enabled-extensions = with pkgs.gnomeExtensions; [
+	          blur-my-shell.extensionUuid
+	          dash-to-dock.extensionUuid
+	          appindicator.extensionUuid
+	          removable-drive-menu.extensionUuid
+	          caffeine.extensionUuid
+	          user-themes.extensionUuid
+          ];
+        };
+        "org/gnome/desktop/interface" = {
+          icon-theme = "ePapirus";
+          show-battery-percentage = true;
+          text-scaling-factor = 0.8;
+          toolbar-style = "text";
+          gtk-theme = "HighContrastInverse";
+        };
+        "org/gnome/desktop/background" = {
+          picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-l.svg";
+          picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-d.svg";
+        };
+        "org/gnome/desktop/peripherals/touchpad".natural-scroll = false;
+        "org/gnome/desktop/privacy".hide-identity = true;
+        "org/gnome/SessionManager".logout-prompt = false;
+        "org/gnome/shell/extensions/blur-my-shell/panel".blur = false;
+        "org/gnome/shell/extensions/blur-my-shell/dash-to-dock".blur = false;
+        "org/gnome/shell/extensions/dash-to-dock" = {
+         	autohide = true;
+          background-opacity = 0.8;
+          custom-theme-shrink = false;
+	        dash-max-icon-size = 48;
+	        dock-fixed = false;
+	        dock-position = "BOTTOM";
+	        extend-height = false;
+	        height-fraction = 0.9;
+	        intellihide = false;
+	        intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
+	        multi-monitor = true;
+	        preferred-monitor = -2;
+	        scroll-to-focused-applications = true;
+	        show-icons-emblems = true;
+	        show-icons-network = false;
+	        show-mounts = false;
+	        show-mounts-neetwork = false;
+	        show-mounts-only-mounted = true;
+	        show-running = true;
+	        show-show-apps-button = false;
+	        show-trash = false;
+	        transparency-mode = "DEFAULT";
+        };
+        "org/gnome/TextEditor" = {
+          indent-style = "space";
+          restore-session = true;
+          show-line-numbers = true;
+          show-right-margin = false;
+          style-scheme = "Adwaita";
+          tab-width = lib.hm.gvariant.mkUint32 2;
+          use-system-font = true;
+        };
+        "org/gnome/gnome-session".logout-prompt = false;
+        "org/gnome/shell".favorite-apps = ["firefox.desktop"
+                                           "org.gnome.Nautilus.desktop"
+                                           "org.gnome.Console.desktop"
+                                           "dev.zed.Zed.desktop"
+                                           "org.gnome.TextEditor.desktop"];
       };
-      settings."org/gnome/desktop/interface" = {
-	      icon-theme = "ePapirus";
-        show-battery-percentage = true;
-        text-scaling-factor = 0.8;
-        toolbar-style = "text";
-        gtk-theme = "HighContrastInverse";
-      };
-      settings."org/gnome/desktop/background" = {
-        picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-l.svg";
-        picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-d.svg";
-      };
-      settings."org/gnome/desktop/keyboard" = {
-        numlock-state = true;
-        remember-numlock-state = true;
-      };
-      settings."org/gnome/desktop/peripherals/touchpad".natural-scroll = false;
-      settings."org/gnome/desktop/privacy".hide-identity = true;
-      settings."org/gnome/SessionManager".logout-prompt = false;
-
-      settings."org/gnome/shell/extensions/blur-my-shell/panel".blur = false;
-      settings."org/gnome/shell/extensions/blur-my-shell/dash-to-dock".blur = false;
-
-      settings."org/gnome/shell/extensions/dash-to-dock" = {
-       	autohide = true;
-        background-opacity = 0.8;
-        custom-theme-shrink = false;
-	      dash-max-icon-size = 48;
-	      dock-fixed = false;
-	      dock-position = "BOTTOM";
-	      extend-height = false;
-	      height-fraction = 0.9;
-	      intellihide = false;
-	      intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
-	      multi-monitor = true;
-	      preferred-monitor = -2;
-	      scroll-to-focused-applications = true;
-	      show-icons-emblems = true;
-	      show-icons-network = false;
-	      show-mounts = false;
-	      show-mounts-neetwork = false;
-	      show-mounts-only-mounted = true;
-	      show-running = true;
-	      show-show-apps-button = false;
-	      show-trash = false;
-	      transparency-mode = "DEFAULT";
-      };
-
-      settings."org/gnome/TextEditor" = {
-        indent-style = "space";
-        restore-session = true;
-        show-line-numbers = true;
-        show-right-margin = false;
-        style-scheme = "Adwaita";
-        tab-width = lib.hm.gvariant.mkUint32 2;
-        use-system-font = true;
-      };
-
-      settings."org/gnome/gnome-session".logout-prompt = false;
-
-      settings."org/gnome/shell".favorite-apps = ["firefox.desktop"
-                                                  "org.gnome.Nautilus.desktop"
-                                                  "org.gnome.Console.desktop"
-                                                  "dev.zed.Zed.desktop"
-                                                  "org.gnome.TextEditor.desktop"];
-
     };
 
       programs = {
-        bash.enable = true;
         git = {
           enable = true;
 	        userName  = "Quentin Horgues";
@@ -408,7 +437,7 @@ in
       enable = true;
       acceleration = "rocm";
       # Optional: preload models, see https://ollama.com/library
-      loadModels = [ "llama3.2:3b" "mistral:7b" ];
+      loadModels = [ "llama3.2:3b" ];
     };
   services.open-webui.enable = true;
   
@@ -431,6 +460,7 @@ in
     mangohud
     
     ollama
+    unstable.open-webui
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
