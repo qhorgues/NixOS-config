@@ -93,6 +93,9 @@ in
         }; 
       };
     };
+    excludePackages = with pkgs; [
+      xterm
+    ]; 
     desktopManager.gnome.enable = true;
   };
   # services.gnome.gnome-keyring.enable = lib.mkForce false;
@@ -295,6 +298,11 @@ in
 	          caffeine.extensionUuid
 	          user-themes.extensionUuid
           ];
+          favorite-apps = ["firefox.desktop"
+                           "org.gnome.Nautilus.desktop"
+                           "org.gnome.Console.desktop"
+                           "dev.zed.Zed.desktop"
+                           "org.gnome.TextEditor.desktop"];
         };
         "org/gnome/desktop/interface" = {
           icon-theme = "ePapirus";
@@ -346,11 +354,6 @@ in
           use-system-font = true;
         };
         "org/gnome/gnome-session".logout-prompt = false;
-        "org/gnome/shell".favorite-apps = ["firefox.desktop"
-                                           "org.gnome.Nautilus.desktop"
-                                           "org.gnome.Console.desktop"
-                                           "dev.zed.Zed.desktop"
-                                           "org.gnome.TextEditor.desktop"];
       };
     };
 
@@ -445,6 +448,7 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     home-manager
+    adwaita-icon-theme
     
     # Tools
     fastfetch
