@@ -84,15 +84,7 @@ in
   # Enable the GNOME Desktop Environment.
   services.xserver = {
     enable = true; 
-    displayManager.gdm = {
-      enable = true; 
-      # Configuration spécifique ajoutée : activer le Verr Num au démarrage de GDM
-      settings = {
-        "org/gnome/desktop/peripherals/keyboard" = {
-          numlock-state = true;
-        }; 
-      };
-    };
+    displayManager.gdm.enable = true; 
     excludePackages = with pkgs; [
       xterm
     ]; 
@@ -157,6 +149,21 @@ in
       };
     };
     
+    dconf.profiles.gdm.databases = [{
+      settings = {
+        "org/gnome/desktop/peripherals/keyboard" = {
+          numlock-state = true;
+          remember-numlock-state = true;
+        };
+        "org/gnome/settings-daemon/plugins/color" = {
+          night-light-enabled = true;
+        };
+        "org/gnome/desktop/interface" = {
+          scaling-factor = lib.gvariant.mkUint32 2;
+        };
+      };
+    }];
+    
     nix-ld.enable = true;
     nix-ld.libraries = with pkgs; [];
   
@@ -187,24 +194,6 @@ in
     
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
-
-  services.xserver.displayManager.setupCommands = "su - gdm -s $(which bash) -c gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true";
-  home-manager.users.gdm = { lib, ... }: {
-    dconf.settings = {
-      "org/gnome/desktop/peripherals/keyboard" = {
-        numlock-state = true;
-        remember-numlock-state = true;
-      };
-      "org/gnome/settings-daemon/plugins/color" = {
-        night-light-enabled = true;
-      };
-      "org/gnome/desktop/interface" = {
-        scaling-factor = lib.hm.gvariant.mkUint32 2;
-      };
-    };
-    home.stateVersion = config.system.nixos.release;
-  };
 
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.quentin = {
