@@ -7,12 +7,6 @@
 let
   home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz;
   unstableTarball = builtins.fetchTarball https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz;
-  nix-software-center = import (pkgs.fetchFromGitHub {
-    owner = "snowfallorg";
-    repo = "nix-software-center";
-    rev = "0.1.2";
-    sha256 = "xiqF1mP8wFubdsAQ1BmfjzCgOD3YZf7EGWl9i69FTls=";
-  }) {};
 in
 {
   imports =
@@ -189,7 +183,7 @@ in
   };
   environment.sessionVariables = {
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
-      MANGOHUD_CONFIG = "control=mangohud,legacy_layout=false,horizontal,background_alpha=0.6,round_corners=0,background_alpha=0.6,background_color=000000,font_size=24,text_color=FFFFFF,position=top-left,toggle_hud=Shift_R+F12,no_display,table_columns=1,gpu_text=GPU,gpu_stats,gpu_temp,gpu_power,gpu_color=2E9762,cpu_text=CPU,cpu_stats,cpu_temp,cpu_power,cpu_color=2E97CB,vram,vram_color=AD64C1,vram_color=AD64C1,ram,ram_color=C26693,battery,battery_color=00FF00,fps,gpu_name,wine,wine_color=EB5B5B,fps_limit_method=late,toggle_fps_limit=Shift_L+F1,fps_limit=0,time";
+      MANGOHUD_CONFIG = "control=mangohud,hud_no_margin,legacy_layout=false,horizontal,background_alpha=0.6,round_corners=0,background_alpha=0.2,background_color=000000,font_size=24,text_color=FFFFFF,position=top-center,toggle_hud=Shift_R+F12,no_display,table_columns=1,gpu_text=GPU,gpu_stats,gpu_temp,gpu_power,gpu_color=2E9762,cpu_text=CPU,cpu_stats,cpu_temp,cpu_power,cpu_color=2E97CB,vram,vram_color=AD64C1,vram_color=AD64C1,ram,ram_color=C26693,battery,battery_color=00FF00,fps,gpu_name,wine,wine_color=EB5B5B,fps_limit_method=late,toggle_fps_limit=Shift_L+F1,fps_limit=0,time";
     };
     
   # Enable touchpad support (enabled default in most desktopManager).
@@ -259,6 +253,8 @@ in
 
       # Graphism
       inkscape
+      gimp
+      krita
     ];
   };
   home-manager.users.quentin = { pkgs, lib, ... }: {
@@ -437,7 +433,6 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     home-manager
-    adwaita-icon-theme
     
     # Tools
     fastfetch
@@ -445,7 +440,6 @@ in
     gnome-tweaks
     dconf-editor
     gnome-extension-manager
-    nix-software-center
     steam-run # For launch single executable (no connection with valve)
     pciutils
 
@@ -453,7 +447,7 @@ in
     mangohud
     
     ollama
-    unstable.open-webui
+    open-webui
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
