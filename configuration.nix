@@ -5,13 +5,13 @@
 { config, pkgs, lib, ... }:
 
 let
-  home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz;
-  unstableTarball = builtins.fetchTarball https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz;
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz";
+  unstableTarball = builtins.fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz";
 in
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
       ./framework-16.nix
       (import "${home-manager}/nixos")
     ];
@@ -23,7 +23,9 @@ in
       };
     };
   };
-  
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   networking.hostName = "fw-laptop-quentin"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -48,8 +50,9 @@ in
     initrd.systemd.enable = true;
     plymouth.enable = true;
     kernelParams = [ "quiet" ];
+    binfmt.emulatedSystems = ["aarch64-linux"];
   };
-  
+
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
@@ -77,11 +80,11 @@ in
 
   # Enable the GNOME Desktop Environment.
   services.xserver = {
-    enable = true; 
-    displayManager.gdm.enable = true; 
+    enable = true;
+    displayManager.gdm.enable = true;
     excludePackages = with pkgs; [
       xterm
-    ]; 
+    ];
     desktopManager.gnome.enable = true;
   };
   # services.gnome.gnome-keyring.enable = lib.mkForce false;
@@ -93,7 +96,7 @@ in
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
-      package = pkgs.qemu_kvm;
+      package = pkgs.qemu;
       runAsRoot = true;
       swtpm.enable = true;
       ovmf = {
@@ -142,7 +145,7 @@ in
         "widget.use-xdg-desktop-portal.file-picker" = 1;
       };
     };
-    
+
     dconf.profiles.gdm.databases = [{
       settings = {
         "org/gnome/desktop/peripherals/keyboard" = {
@@ -154,13 +157,15 @@ in
         };
         "org/gnome/desktop/interface" = {
           scaling-factor = lib.gvariant.mkUint32 2;
+          icon-theme = "ePapirus";
+          show-battery-percentage = true;
+          text-scaling-factor = 0.8;
         };
       };
     }];
-    
+
     nix-ld.enable = true;
-    nix-ld.libraries = with pkgs; [];
-  
+
     # Games
     gamescope.enable = true;
     gamemode.enable = true;
@@ -185,7 +190,7 @@ in
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
       MANGOHUD_CONFIG = "control=mangohud,hud_no_margin,legacy_layout=false,horizontal,background_alpha=0.6,round_corners=0,background_alpha=0.2,background_color=000000,font_size=24,text_color=FFFFFF,position=top-center,toggle_hud=Shift_R+F12,no_display,table_columns=1,gpu_text=GPU,gpu_stats,gpu_temp,gpu_power,gpu_color=2E9762,cpu_text=CPU,cpu_stats,cpu_temp,cpu_power,cpu_color=2E97CB,vram,vram_color=AD64C1,vram_color=AD64C1,ram,ram_color=C26693,battery,battery_color=00FF00,fps,gpu_name,wine,wine_color=EB5B5B,fps_limit_method=late,toggle_fps_limit=Shift_L+F1,fps_limit=0,time";
     };
-    
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -195,7 +200,7 @@ in
     description = "Quentin Horgues";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     shell = pkgs.zsh;
-  
+
 
     packages = with pkgs; [
       # Gnome extension
@@ -211,15 +216,15 @@ in
 
       # VM
       virt-manager
-      
+
       ventoy-full
 
       # Dev
       unstable.	zed-editor
       zeal
-      	gaphor
-      	jetbrains.idea-community-bin
-      	git
+      gaphor
+      jetbrains.idea-community-bin
+      git
 
       # Nix
       nixd # Nix language server for zeditor
@@ -243,9 +248,10 @@ in
       uv
       ruff
 
-      	# Games
-      	adwsteamgtk
-      	discord
+      # Games
+      adwsteamgtk
+      discord
+      # openrgb
 
       # Desktop
       texstudio
@@ -253,8 +259,12 @@ in
 
       # Graphism
       inkscape
-      gimp
+      unstable.gimp3
       krita
+
+      kdenlive
+
+      # gdm-settings
     ];
   };
   home-manager.users.quentin = { pkgs, lib, ... }: {
@@ -292,6 +302,7 @@ in
         "org/gnome/desktop/interface" = {
           icon-theme = "ePapirus";
           show-battery-percentage = true;
+          scaling-factor = lib.hm.gvariant.mkUint32 2;
           text-scaling-factor = 0.8;
           toolbar-style = "text";
           gtk-theme = "HighContrastInverse";
@@ -397,9 +408,9 @@ in
     hitori # sudoku game
     iagno # go game
     tali # poker game
-    totem # video player
+    # totem # video player
     yelp
-    gnome-calculator
+    # gnome-calculator
     gnome-calendar
     gnome-clocks
     gnome-contacts
@@ -412,29 +423,36 @@ in
     gnome-connections
     gnomeExtensions.auto-move-windows
     gnome-software
+    gnome-disk-utility
   ];
-  
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+
   system.autoUpgrade.enable = true;
+  system.autoUpgrade.dates = "weekly";
+
   nix.gc.automatic = true;
+  nix.gc.dates = "daily";
+  nix.gc.options = "--delete-older-than 10d";
   nix.settings.auto-optimise-store = true;
 
-  services.ollama = {
+  /* services.ollama = {
       enable = true;
       acceleration = "rocm";
       # Optional: preload models, see https://ollama.com/library
       loadModels = [ "llama3.2:3b" ];
     };
-  services.open-webui.enable = true;
-  
+  services.open-webui.enable = true;*/
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     home-manager
-    
+
     # Tools
+    git
     fastfetch
     htop
     gnome-tweaks
@@ -445,10 +463,17 @@ in
 
     # Games
     mangohud
-    
-    ollama
-    open-webui
+
+    # ollama
+    # open-webui
   ];
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 25;
+    priority = 5;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
