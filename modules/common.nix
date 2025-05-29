@@ -25,4 +25,8 @@
   console.keyMap = "fr";
 
   programs.nix-ld.enable = lib.mkDefault true;
+
+  environment.systemPackages = with pkgs; [
+    home-manager
+  ];
 }

@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, pkgs-unstable, ... }:
 
 {
   programs.firefox = {
@@ -14,6 +14,6 @@
       "intl.locale.requested" = "fr,en-US";
       "widget.use-xdg-desktop-portal.file-picker" = 1;
     };
-    nativeMessagingHosts.packages = [ pkgs.unstable.firefoxpwa ];
+    nativeMessagingHosts.packages = [ pkgs-unstable.firefoxpwa ];
   };
 }

@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, pkgs-unstable, lib, ... }: {
 
   home.packages = with pkgs; [
     gnomeExtensions.dash-to-dock
@@ -8,7 +8,7 @@
     gnomeExtensions.caffeine
     gnomeExtensions.user-themes
     # Icons
-    unstable.epapirus-icon-theme
+    pkgs-unstable.epapirus-icon-theme
   ];
 
   dconf = {
