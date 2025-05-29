@@ -2,11 +2,12 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware }@inputs:
   let
     system = "x86_64-linux";
     nixpkgsConfig = {
@@ -28,7 +29,7 @@
     nixosConfigurations = {
       "fw-laptop-16" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit system pkgs-unstable; };
+        specialArgs = { inherit system pkgs-unstable nixos-hardware; };
         modules = [
           ./hosts/fw-laptop-16.nix
         ];
@@ -40,9 +41,6 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         modules = [
           ./users/quentin/home.nix
-          ./users/quentin/shell.nix
-          ./users/quentin/git.nix
-          ./users/quentin/gnome.nix
         ];
         extraSpecialArgs = { inherit system pkgs-unstable; };
       };
