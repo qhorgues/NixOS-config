@@ -1,6 +1,7 @@
-{}:
+{ ... }:
 {
   imports = [
+    ./hardware/fw-laptop-16.nix
     ../modules/bootloader.nix
     ../modules/common.nix
     ../modules/fonts.nix
