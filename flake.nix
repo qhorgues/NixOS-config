@@ -27,6 +27,13 @@
           ./hosts/fw-laptop-16.nix
         ];
       };
+      "unowhy-13" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit system pkgs-unstable nixos-hardware; };
+        modules = [
+          ./hosts/unowhy-13.nix
+        ];
+      };
     };
 
     homeConfigurations = {
