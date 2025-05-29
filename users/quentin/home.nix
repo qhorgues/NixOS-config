@@ -4,6 +4,7 @@
     ./git.nix
     ./gnome.nix
     ./shell.nix
+    ./zed.nix
   ];
 
   home.username = "quentin";
@@ -34,8 +35,6 @@
     # uv
     # ruff
 
-    # Games
-    adwsteamgtk
     discord
     # openrgb
 
@@ -56,9 +55,6 @@
     rhythmbox
 
     thunderbird
-
-    # VM
-    virt-manager
 
     # Dev
     pkgs-unstable.zed-editor

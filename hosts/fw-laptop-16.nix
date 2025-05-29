@@ -9,11 +9,12 @@
     ../modules/firefox.nix
     ../modules/users.nix
     ../modules/sound.nix
-    ../modules/desktop.nix
+    ../modules/desktop-gnome.nix
     ../modules/security.nix
     ../modules/vm.nix
     ../modules/zram.nix
     ../modules/games.nix
+    ../module/ollama.nix
     ../modules/update.nix
   ];
 
