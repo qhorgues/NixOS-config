@@ -7,23 +7,16 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware }:
   let
     system = "x86_64-linux";
     nixpkgsConfig = {
       allowUnfree = true;
     };
-    # Utilisation de nixpkgsConfig pour la cohérence
-    pkgsStable = import nixpkgs {
+    pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config = nixpkgsConfig;
     };
-
-    pkgsUnstable = import nixpkgs-unstable {
-      inherit system;
-      config = nixpkgsConfig;
-    };
-    pkgs-unstable = pkgsUnstable;
   in
   {
     nixosConfigurations = {

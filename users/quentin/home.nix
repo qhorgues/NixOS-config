@@ -1,4 +1,4 @@
-{ pkgs, lib, pkgs-unstable, ... }: {
+{ pkgs, ... }: {
 
   imports = [
     ./git.nix
@@ -57,7 +57,6 @@
     thunderbird
 
     # Dev
-    pkgs-unstable.zed-editor
     zeal
     git
 

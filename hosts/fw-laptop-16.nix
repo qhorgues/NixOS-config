@@ -14,7 +14,7 @@
     ../modules/vm.nix
     ../modules/zram.nix
     ../modules/games.nix
-    ../module/ollama.nix
+    ../modules/ollama.nix
     ../modules/update.nix
   ];
 
