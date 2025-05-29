@@ -1,5 +1,9 @@
 { pkgs, pkgs-unstable, lib, ... }: {
-
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.vanilla-dmz;
+    name = "Vanilla-DMZ";
+  };
   home.packages = with pkgs; [
     gnomeExtensions.dash-to-dock
     gnomeExtensions.blur-my-shell
