@@ -16,6 +16,8 @@
     ../modules/games.nix
     ../modules/ollama.nix
     ../modules/update.nix
+    ../modules/postgresSQL.nix
+    ../modules/zuka_bot.nix
   ];
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
