@@ -1,4 +1,4 @@
-{ pkgs, lib, pkgs-unstable, ... }:
+{ pkgs, pkgs-unstable, ... }:
 
 {
   programs = {
