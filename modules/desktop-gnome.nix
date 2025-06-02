@@ -11,14 +11,16 @@
       ];
       desktopManager.gnome.enable = true;
       xkb = {
-        layout = "fr";
+        layout = lib.mkDefault "fr";
         variant = "";
       };
     };
   };
 
-  programs.dconf.profiles.gdm.databases = [{
-    settings = {
+  programs.dconf = {
+    enable = true;
+    profiles.gdm.databases = [{
+      settings = {
         "org/gnome/desktop/peripherals/keyboard" = {
             numlock-state = true;
             remember-numlock-state = true;
@@ -31,8 +33,15 @@
             show-battery-percentage = true;
             text-scaling-factor = 0.8;
         };
-    };
-  }];
+        "org/gnome/desktop/input-sources" = {
+          sources = [
+            (lib.gvariant.mkTuple[("xkb") ("fr+oss")])
+          ];
+        };
+      };
+
+    }];
+  };
 
   environment.gnome.excludePackages = with pkgs; [
     atomix # puzzle game
