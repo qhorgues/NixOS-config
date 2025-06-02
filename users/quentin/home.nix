@@ -69,7 +69,7 @@
     gnome-console
     gnome-text-editor
     gnome-calculator
-    totem
+    showtime
     evince
     file-roller
     nautilus
