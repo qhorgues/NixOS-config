@@ -1,8 +1,11 @@
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, pkgs-unstable, lib, ... }:
 
 {
   programs = {
-    gamescope.enable = true;
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+    };
     gamemode.enable = true;
     steam = {
       gamescopeSession.enable = true;
@@ -31,4 +34,20 @@
     mangohud
     adwsteamgtk
   ];
+
+  programs.dconf = {
+    enable = true;
+    profiles.user.databases = [{
+      settings = {
+        "org/gnome/desktop/input-sources" = {
+          per-window = false;
+          sources = [
+            (lib.gvariant.mkTuple[("xkb") ("fr+oss")])
+            (lib.gvariant.mkTuple[("xkb") ("us")])
+          ];
+        };
+      };
+    }];
+  };
+
 }

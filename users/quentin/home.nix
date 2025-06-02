@@ -2,6 +2,7 @@
 
   imports = [
     ./git.nix
+    ./firefox.nix
     ./gnome.nix
     ./shell.nix
     ./zed.nix
