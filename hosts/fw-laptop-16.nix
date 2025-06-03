@@ -18,6 +18,7 @@
     ../modules/update.nix
     ../modules/postgresSQL.nix
     ../modules/zuka_bot.nix
+    ../modules/disable-bluetooth.nix
   ];
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
