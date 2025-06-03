@@ -74,6 +74,7 @@
     file-roller
     nautilus
     baobab
+    loupe
 
     # Tools
     fastfetch
