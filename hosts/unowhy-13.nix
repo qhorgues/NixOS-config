@@ -15,6 +15,7 @@
     ../modules/security.nix
     ../modules/zram.nix
     ../modules/update.nix
+    ../modules/disable-bluetooth.nix
   ];
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
