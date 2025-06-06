@@ -1,4 +1,4 @@
-{ pkgs, nixos-hardware, ... }:
+{ nixos-hardware, ... }:
 {
   imports = [
     nixos-hardware.nixosModules.framework-16-7040-amd
@@ -17,8 +17,9 @@
     ../modules/ollama.nix
     ../modules/update.nix
     ../modules/postgresSQL.nix
-    ../modules/zuka_bot.nix
+    # ../modules/zuka_bot.nix
     ../modules/disable-bluetooth.nix
+    ../modules/powersave.nix
   ];
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
@@ -42,13 +43,6 @@
 
       # Framework Laptop 16 Keyboard Module - ISO
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0018", ATTR{power/wakeup}="disabled"
-
-      # Unplug
-      SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="0",RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver"
-
-      # Plug
-      SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="1",RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced"
-
     '';
 
     /*
