@@ -24,7 +24,7 @@ in
 
   services.ollama = {
     enable = true;
-    loadModels = [ "llama3.2:3b" ];
+    loadModels = [ "qwen3:8b" ];
     acceleration = null; # use cuda if nvidia, rocm if amd, and cpu only otherwise
   };
 }

@@ -1,4 +1,4 @@
-{ pkgs, nixos-hardware, ... }:
+{ nixos-hardware, ... }:
 {
   imports = [
     nixos-hardware.nixosModules.common-cpu-intel
@@ -16,14 +16,6 @@
     ../modules/zram.nix
     ../modules/update.nix
     ../modules/disable-bluetooth.nix
+    ../modules/powersave.nix
   ];
-
-  fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
-  services.udev.extraRules = ''
-    # Unplug
-    SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="0",RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver"
-
-    # Plug
-    SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="1",RUN+="${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced"
-  '';
 }

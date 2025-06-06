@@ -4,7 +4,6 @@
   services = {
     xserver = {
       enable = true;
-      videoDrivers = [ "mesa" ];
       displayManager.gdm.enable = true;
       excludePackages = with pkgs; [
         xterm
@@ -84,5 +83,6 @@
     decibels
     loupe
     cups
+    simple-scan
   ];
 }
