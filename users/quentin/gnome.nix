@@ -49,6 +49,9 @@
         picture-uri =  "file:///run/current-system/sw/share/backgrounds/gnome/blobs-l.svg";
         picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-d.svg";
       };
+      "org/desktop/vm/preferences" = {
+        button-layout = "appmenu:minimize,maximize,close";
+      };
       "org/gnome/desktop/peripherals/touchpad" = {
         natural-scroll = false;
         disable-while-typing = true;

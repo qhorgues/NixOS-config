@@ -83,7 +83,6 @@
     dconf-editor
     gnome-extension-manager
     steam-run
-
   ];
 
   home.stateVersion = "25.05";
