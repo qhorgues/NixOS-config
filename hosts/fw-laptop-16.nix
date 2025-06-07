@@ -1,4 +1,4 @@
-{ nixos-hardware, ... }:
+{ nixos-hardware, lib, ... }:
 {
   imports = [
     nixos-hardware.nixosModules.framework-16-7040-amd
@@ -44,6 +44,24 @@
       # Framework Laptop 16 Keyboard Module - ISO
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0018", ATTR{power/wakeup}="disabled"
     '';
+
+    programs.dconf = {
+      enable = true;
+      profiles.gdm.databases = [{
+          settings."org/gnome/desktop/interface" = {
+            scaling-factor = lib.gvariant.mkUint32 2;
+            text-scaling-factor = 0.8;
+          };
+      }];
+      profiles.users.databases = [{
+        settings = {
+          "org/gnome/desktop/interface" = {
+              scaling-factor = lib.gvariant.mkUint32 2;
+              text-scaling-factor =  0.8;
+          };
+        };
+      }];
+    };
 
     /*
     RUN+="${pkgs.lib.getExe (pkgs.writeShellScriptBin "powersave"

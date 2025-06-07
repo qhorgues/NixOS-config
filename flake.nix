@@ -34,6 +34,13 @@
           ./hosts/unowhy-13.nix
         ];
       };
+      "desktop-acer-n50" = nixpkgs.lib.nixosSystem {
+	system = "x86_64-linux";
+	specialArgs = { inherit system pkgs-unstable nixos-hardware; };
+	modules = [
+	  ./hosts/desktop-acer-n50.nix
+	];
+      };
     };
 
     homeConfigurations = {
@@ -47,3 +54,4 @@
     };
   };
 }
+

@@ -41,8 +41,6 @@
       "org/gnome/desktop/interface" = {
         icon-theme = "ePapirus";
         show-battery-percentage = true;
-        scaling-factor = lib.hm.gvariant.mkUint32 2;
-        text-scaling-factor = 0.8;
         toolbar-style = "text";
         gtk-theme = "Adwaita";
         enable-hot-corners = false;

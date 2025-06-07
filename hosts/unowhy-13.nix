@@ -18,4 +18,5 @@
     ../modules/disable-bluetooth.nix
     ../modules/powersave.nix
   ];
+  boot.tmp.useTmpfs = true;
 }
