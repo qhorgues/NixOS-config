@@ -28,9 +28,9 @@
             night-light-enabled = true;
         };
         "org/gnome/desktop/interface" = {
-            scaling-factor = lib.gvariant.mkUint32 2;
+            scaling-factor = lib.gvariant.mkUint32 1;
             show-battery-percentage = true;
-            text-scaling-factor = 0.8;
+            text-scaling-factor = 1.;
         };
         "org/gnome/desktop/input-sources" = {
           sources = [
@@ -39,6 +39,15 @@
         };
       };
 
+    }];
+
+    profiles.user.databases = [{
+      settings = {
+        "org/gnome/desktop/interface" = {
+            scaling-factor = lib.gvariant.mkUint32 1;
+            text-scaling-factor = 1.;
+        };
+      };
     }];
   };
 
