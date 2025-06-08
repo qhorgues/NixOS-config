@@ -18,10 +18,6 @@
   dconf = {
     enable = true;
     settings = {
-      "org/gnome/desktop/peripherals/keyboard" = {
-        numlock-state = true;
-        remember-numlock-state = true;
-      };
       "org/gnome/shell" = {
         disable-user-extensions = false;
         enabled-extensions = with pkgs.gnomeExtensions; [
@@ -100,6 +96,9 @@
           "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
         ];
       };
+      "org/gnome/Console" = {
+        theme = "auto";
+      };
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
         binding = "<Control>MonBrightnessDown";
         command = "busctl --user set-property org.gnome.Mutter.DisplayConfig /org/gnome/Mutter/DisplayConfig org.gnome.Mutter.DisplayConfig PowerSaveMode i 1";
@@ -109,6 +108,11 @@
         binding = "<Control>MonBrightnessUp";
         command = "busctl --user set-property org.gnome.Mutter.DisplayConfig /org/gnome/Mutter/DisplayConfig org.gnome.Mutter.DisplayConfig PowerSaveMode i 0";
         name = "Allumer l'ecran";
+      };
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
+        binding = "<Control><Alt>T";
+        command = "kgx";
+        name = "Terminal";
       };
     };
   };
