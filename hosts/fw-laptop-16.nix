@@ -22,46 +22,47 @@
     ../modules/powersave.nix
   ];
 
+  networking.hostName = "fw-laptop-quentin";
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
-    fileSystems."/mnt/Games" =
-    { device = "/dev/disk/by-uuid/1b35568b-4447-4c80-9880-4b359d4ecb6c";
-      fsType = "ext4";
-      options = [ "noatime" "nodiratime" "discard" ];
-    };
+  fileSystems."/mnt/Games" =
+  { device = "/dev/disk/by-uuid/1b35568b-4447-4c80-9880-4b359d4ecb6c";
+    fsType = "ext4";
+    options = [ "noatime" "nodiratime" "discard" ];
+  };
     # environment.systemPackages = with pkgs; [
     #   gnome-randr
     # ];
-    services.udev.extraRules = ''
-      # Framework Laptop 16 Keyboard Module - ANSI
-      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0012", ATTR{power/wakeup}="disabled"
+  services.udev.extraRules = ''
+    # Framework Laptop 16 Keyboard Module - ANSI
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0012", ATTR{power/wakeup}="disabled"
 
-      # Framework Laptop 16 RGB Macropad
-      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0013", ATTR{power/wakeup}="disabled"
+    # Framework Laptop 16 RGB Macropad
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0013", ATTR{power/wakeup}="disabled"
 
-      # Framework Laptop 16 Numpad Module
-      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0014", ATTR{power/wakeup}="disabled"
+    # Framework Laptop 16 Numpad Module
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0014", ATTR{power/wakeup}="disabled"
 
-      # Framework Laptop 16 Keyboard Module - ISO
-      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0018", ATTR{power/wakeup}="disabled"
-    '';
+    # Framework Laptop 16 Keyboard Module - ISO
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0018", ATTR{power/wakeup}="disabled"
+  '';
 
-    programs.dconf = {
-      enable = true;
-      profiles.gdm.databases = [{
-          settings."org/gnome/desktop/interface" = {
-            scaling-factor = lib.gvariant.mkUint32 2;
-            text-scaling-factor = 0.8;
-          };
-      }];
-      profiles.users.databases = [{
-        settings = {
-          "org/gnome/desktop/interface" = {
-              scaling-factor = lib.gvariant.mkUint32 2;
-              text-scaling-factor =  0.8;
-          };
+  programs.dconf = {
+    enable = true;
+    profiles.gdm.databases = [{
+        settings."org/gnome/desktop/interface" = {
+          scaling-factor = lib.gvariant.mkUint32 2;
+          text-scaling-factor = 0.8;
         };
-      }];
-    };
+    }];
+    profiles.users.databases = [{
+      settings = {
+        "org/gnome/desktop/interface" = {
+            scaling-factor = lib.gvariant.mkUint32 2;
+            text-scaling-factor =  0.8;
+        };
+      };
+    }];
+  };
 
     /*
     RUN+="${pkgs.lib.getExe (pkgs.writeShellScriptBin "powersave"
