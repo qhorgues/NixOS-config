@@ -42,8 +42,8 @@
         enable-hot-corners = false;
       };
       "org/gnome/desktop/background" = {
-        picture-uri =  "file:///run/current-system/sw/share/backgrounds/gnome/blobs-l.svg";
-        picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-d.svg";
+        picture-uri =  "file:///run/current-system/sw/share/backgrounds/gnome/amber-l.jxl";
+        picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/amber-d.jxl";
       };
       "org/desktop/vm/preferences" = {
         button-layout = "appmenu:minimize,maximize,close";
