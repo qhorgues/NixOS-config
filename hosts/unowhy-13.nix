@@ -18,6 +18,8 @@
     ../modules/disable-bluetooth.nix
     ../modules/powersave.nix
   ];
+
+  networking.hostName = "uw-laptop-quentin";
   boot.tmp.useTmpfs = true;
   boot.kernelPackages = pkgs.linuxPackages;
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
