@@ -1,6 +1,10 @@
 { pkgs, lib, ... }:
 
 {
+  imports = [
+    ./gnome-numlock.nix
+  ];
+
   services = {
     xserver = {
       enable = true;
@@ -20,10 +24,6 @@
     enable = true;
     profiles.gdm.databases = [{
       settings = {
-        "org/gnome/desktop/peripherals/keyboard" = {
-            numlock-state = true;
-            remember-numlock-state = true;
-        };
         "org/gnome/settings-daemon/plugins/color" = {
             night-light-enabled = true;
         };
@@ -39,15 +39,6 @@
         };
       };
 
-    }];
-
-    profiles.user.databases = [{
-      settings = {
-        "org/gnome/desktop/interface" = {
-            scaling-factor = lib.gvariant.mkUint32 1;
-            text-scaling-factor = 1.;
-        };
-      };
     }];
   };
 
