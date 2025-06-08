@@ -1,4 +1,4 @@
-{ nixos-hardware, ... }:
+{ pkgs, nixos-hardware, ... }:
 {
   imports = [
     nixos-hardware.nixosModules.common-cpu-intel
@@ -19,4 +19,23 @@
     ../modules/powersave.nix
   ];
   boot.tmp.useTmpfs = true;
+  boot.kernelPackages = pkgs.linuxPackages;
+  fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
+  enableNumlockConfig = false;
+
+  programs.dconf = {
+    enable = true;
+    profiles.gdm.databases = [{
+        settings."org/gnome/desktop/interface" = {
+          text-scaling-factor = 1.2;
+        };
+    }];
+    profiles.users.databases = [{
+      settings = {
+        "org/gnome/desktop/interface" = {
+            text-scaling-factor =  1.2;
+        };
+      };
+    }];
+  };
 }
