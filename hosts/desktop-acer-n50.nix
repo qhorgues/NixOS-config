@@ -1,4 +1,9 @@
 { pkgs, nixos-hardware, ... }:
+
+let
+  monitorsXmlContent = builtins.readFile ./screen/desktop-acer-n50.xml;
+  monitorsConfig = pkgs.writeText "gdm_monitors.xml" monitorsXmlContent;
+in
 {
   imports = [
     nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
@@ -29,4 +34,8 @@
     fsType = "ext4";
     options = [ "noatime" "nodiratime" "discard" ];
   };
+
+  systemd.tmpfiles.rules = [
+    "L+ /run/gdm/.config/monitors.xml - - - - ${monitorsConfig}"
+  ];
 }
