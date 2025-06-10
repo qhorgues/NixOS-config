@@ -23,6 +23,7 @@
   ];
 
   networking.hostName = "fw-laptop-quentin";
+  services.fwupd.enable = true;
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
   fileSystems."/mnt/Games" =
   { device = "/dev/disk/by-uuid/1b35568b-4447-4c80-9880-4b359d4ecb6c";
