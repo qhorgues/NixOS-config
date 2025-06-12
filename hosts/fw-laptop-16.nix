@@ -20,6 +20,7 @@
     # ../modules/zuka_bot.nix
     ../modules/disable-bluetooth.nix
     ../modules/powersave.nix
+    ../modules/ios-connect.nix
   ];
 
   networking.hostName = "fw-laptop-quentin";
