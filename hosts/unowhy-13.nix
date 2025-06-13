@@ -17,7 +17,6 @@
     ../modules/zram.nix
     ../modules/update.nix
     ../modules/disable-bluetooth.nix
-    ../modules/powersave.nix
     ../modules/kdrive.nix
   ];
 
