@@ -111,8 +111,8 @@
     dark = "One Dark";
     };
     show_whitespaces = "none" ;
-    ui_font_size = 12;
-    buffer_font_size = 12;
+    ui_font_size = 16;
+    buffer_font_size = 14;
     diagnostics.include_warnings = true;
     collaboration_panel.button = true;
     chat_panel.button = "when_in_call";

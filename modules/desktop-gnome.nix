@@ -2,7 +2,8 @@
 
 {
   imports = [
-    ./gnome-numlock.nix
+    ./gnome/numlock.nix
+    ./gnome/trash.nix
   ];
 
   services = {

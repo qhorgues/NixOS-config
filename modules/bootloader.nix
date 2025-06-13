@@ -1,6 +1,9 @@
-{ pkgs, lib, ... }:
+{ pkgs, pkgs-unstable, lib, ... }:
 
 {
+  imports = [
+    boot-options/nvidia-standby.nix
+  ];
   boot = {
     loader.systemd-boot.enable = lib.mkDefault true;
     loader.systemd-boot.configurationLimit = lib.mkDefault 10;
