@@ -52,11 +52,12 @@
       option_as_meta = false;
       button = false;
       shell = "system";
-      #{
-      #                    program = "zsh";
-      #};
       toolbar = {
-          title = false;
+        title = false;
+        breadcrumbs = false;
+      };
+      scrollbar = {
+        show = false;
       };
       working_directory = "current_project_directory";
     };
