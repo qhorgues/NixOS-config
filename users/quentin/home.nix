@@ -47,23 +47,10 @@
     # libreoffice-fresh
     onlyoffice-desktopeditors
 
-    # Graphism
-    inkscape
-    gimp3
-    krita
-
     kdePackages.kdenlive
     rhythmbox
 
     thunderbird
-
-    # Dev
-    zeal
-    git
-
-    # Nix
-    nixd # Nix language server for zeditor
-    nil
 
     # Base gnome app
     gnome-console

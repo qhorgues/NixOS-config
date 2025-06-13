@@ -50,4 +50,10 @@
     }];
   };
 
+  hardware.graphics = {
+    enable = true;
+    package = pkgs-unstable.mesa;
+    package32 = pkgs-unstable.pkgsi686Linux.mesa;
+  };
+
 }
