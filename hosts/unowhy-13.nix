@@ -9,6 +9,7 @@
     ../modules/common.nix
     ../modules/fonts.nix
     ../modules/firefox.nix
+    ../modules/dev.nix
     ../modules/users.nix
     ../modules/sound.nix
     ../modules/desktop-gnome.nix
