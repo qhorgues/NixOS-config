@@ -16,4 +16,7 @@
     };
     nativeMessagingHosts.packages = [ pkgs-unstable.firefoxpwa ];
   };
+  environment.sessionVariables = {
+    MOZ_USE_XINPUT2 = "1";
+  };
 }

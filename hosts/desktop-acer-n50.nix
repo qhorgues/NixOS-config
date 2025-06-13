@@ -25,6 +25,7 @@ in
     ../modules/update.nix
     ../modules/disable-bluetooth.nix
     ../modules/postgresSQL.nix
+    ../modules/kdrive.nix
   ];
 
   networking.hostName = "desktop-quentin";
