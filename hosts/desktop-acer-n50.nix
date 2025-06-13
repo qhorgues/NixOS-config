@@ -22,6 +22,7 @@ in
     ../modules/games.nix
     ../modules/update.nix
     ../modules/disable-bluetooth.nix
+    ../modules/postgresSQL.nix
   ];
 
   networking.hostName = "desktop-quentin";

@@ -11,6 +11,7 @@
     gnomeExtensions.removable-drive-menu
     gnomeExtensions.caffeine
     gnomeExtensions.user-themes
+    gnomeExtensions.places-status-indicator
     # Icons
     pkgs-unstable.epapirus-icon-theme
   ];
@@ -27,6 +28,7 @@
           removable-drive-menu.extensionUuid
           caffeine.extensionUuid
           user-themes.extensionUuid
+          places-status-indicator.extensionUuid
         ];
         favorite-apps = ["firefox.desktop"
           "org.gnome.Nautilus.desktop"
