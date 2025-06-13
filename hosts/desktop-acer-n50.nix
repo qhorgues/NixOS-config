@@ -14,12 +14,14 @@ in
     ../modules/common.nix
     ../modules/fonts.nix
     ../modules/firefox.nix
+    ../modules/dev.nix
     ../modules/users.nix
     ../modules/sound.nix
     ../modules/desktop-gnome.nix
     ../modules/security.nix
     ../modules/zram.nix
     ../modules/games.nix
+    ../modules/graphism.nix
     ../modules/update.nix
     ../modules/disable-bluetooth.nix
     ../modules/postgresSQL.nix
@@ -39,4 +41,6 @@ in
   systemd.tmpfiles.rules = [
     "L+ /run/gdm/.config/monitors.xml - - - - ${monitorsConfig}"
   ];
+
+  winter.nvidia.standBy = true;
 }

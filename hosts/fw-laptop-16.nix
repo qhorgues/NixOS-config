@@ -7,6 +7,7 @@
     ../modules/common.nix
     ../modules/fonts.nix
     ../modules/firefox.nix
+    ../modules/dev.nix
     ../modules/users.nix
     ../modules/sound.nix
     ../modules/desktop-gnome.nix
@@ -14,6 +15,7 @@
     ../modules/vm.nix
     ../modules/zram.nix
     ../modules/games.nix
+    ../modules/graphism.nix
     ../modules/ollama.nix
     ../modules/update.nix
     ../modules/postgresSQL.nix
