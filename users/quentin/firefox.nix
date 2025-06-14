@@ -1,13 +1,13 @@
-{ pkgs, ... }:
+{ pkgs-unstable, ... }:
 
 {
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox;
     languagePacks = [
     "fr"
     "en-US"
     ];
+    nativeMessagingHosts = [ pkgs-unstable.firefoxpwa ];
     profiles."default" = {
       settings = {
         "browser.tabs.vertical" = true;
@@ -20,4 +20,7 @@
       };
     };
   };
+  home.packages = [
+      pkgs-unstable.firefoxpwa
+  ];
 }
