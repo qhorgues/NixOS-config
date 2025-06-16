@@ -34,9 +34,7 @@
     fsType = "ext4";
     options = [ "noatime" "nodiratime" "discard" ];
   };
-    # environment.systemPackages = with pkgs; [
-    #   gnome-randr
-    # ];
+  zramSwap.memoryPercent = 20;
   services.udev.extraRules = ''
     # Framework Laptop 16 Keyboard Module - ANSI
     ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0012", ATTR{power/wakeup}="disabled"
