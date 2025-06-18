@@ -27,6 +27,7 @@ in
     ../modules/postgresSQL.nix
     ../modules/kdrive.nix
     ../modules/vm.nix
+    ../modules/only-office.nix
   ];
 
   networking.hostName = "desktop-quentin";
