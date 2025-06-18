@@ -112,7 +112,7 @@
         name = "Allumer l'ecran";
       };
       "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
-        binding = "<Control><Alt>T";
+        binding = "<Control><Alt>t";
         command = "kgx";
         name = "Terminal";
       };
