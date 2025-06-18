@@ -1,6 +1,11 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ./custom-fonts/cooper-black.nix
+  ];
+
+
   fonts.packages = with pkgs; [
     dejavu_fonts
     freefont_ttf

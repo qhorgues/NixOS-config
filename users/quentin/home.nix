@@ -44,8 +44,7 @@
     texstudio
     # python312Packages.pygments
 
-    # libreoffice-fresh
-    onlyoffice-desktopeditors
+    libreoffice-fresh
 
     kdePackages.kdenlive
     rhythmbox
