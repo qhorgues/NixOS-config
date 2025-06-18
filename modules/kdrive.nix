@@ -1,12 +1,12 @@
 { pkgs, ... }:
 let
   pname = "kDrive";
-  version = "3.6.11.20250415";
+  version = "3.7.1.20250604";
 
   # Téléchargement de l'AppImage de kDrive
   src = pkgs.fetchurl {
     url = "https://download.storage.infomaniak.com/drive/desktopclient/${pname}-${version}-amd64.AppImage";
-    sha256 = "sha256-foYqhErZ5G7FKpjvQbdW4wC0WcA+XvMC7Ynphn42W/0=";
+    sha256 = "sha256-k73WoeKm2tKwwSJB791eHRGgb/cjJvBASVJ3d0KZJ3g=";
   };
 
   # Code source de l'icône au format SVG (à adapter au besoin)
@@ -60,9 +60,36 @@ Categories=Network;
 EOF
     '';
   };
+
+    kdrive_update = pkgs.writeShellScriptBin "kdrive_update" ''
+#!${pkgs.bash}/bin/bash
+
+# Vérification du nombre de paramètres
+if [ "$#" -ne 2 ]; then
+    echo "Usage: kdrive_update <numéro_de_version> <chemin_du_fichier_nix"
+    exit 1
+fi
+
+VERSION=$1
+FILE_PATH=$2
+
+URL="https://download.storage.infomaniak.com/drive/desktopclient/kDrive-$VERSION-amd64.AppImage"
+
+# Calcul du nouveau hash
+HASH=$(nix-prefetch-url "$URL")
+SRI_HASH=$(nix hash convert --hash-algo sha256 --to sri "$HASH")
+
+# Mise à jour du fichier .nix
+sed -i "s/version = \".*\";/version = \"$VERSION\";/g" "$FILE_PATH"
+sed -i "s|sha256 = \".*\";|sha256 = \"$SRI_HASH\";|g" "$FILE_PATH"
+
+echo "Mise à jour réussie :"
+echo "- Version : $VERSION"
+echo "- SHA256 SRI : $SRI_HASH"
+    '';
 in
 {
-  environment.systemPackages = [ kdriveApp ];
+  environment.systemPackages = [ kdriveApp kdrive_update ];
 
   systemd.user.services."kdrive" = {
     description = "Lancement de kDrive AppImage";
