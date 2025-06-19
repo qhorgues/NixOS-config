@@ -44,6 +44,7 @@
     texstudio
     # python312Packages.pygments
 
+    onlyoffice-bin
     # libreoffice-fresh
 
     kdePackages.kdenlive
