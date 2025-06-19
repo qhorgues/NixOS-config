@@ -18,8 +18,6 @@
     ../modules/graphism.nix
     ../modules/ollama.nix
     ../modules/update.nix
-    ../modules/postgresSQL.nix
-    # ../modules/zuka_bot.nix
     ../modules/disable-bluetooth.nix
     ../modules/powersave.nix
     ../modules/ios-connect.nix

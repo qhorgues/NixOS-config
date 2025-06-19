@@ -24,10 +24,8 @@ in
     ../modules/graphism.nix
     ../modules/update.nix
     ../modules/disable-bluetooth.nix
-    ../modules/postgresSQL.nix
     ../modules/kdrive.nix
     ../modules/vm.nix
-    ../modules/only-office.nix
   ];
 
   networking.hostName = "desktop-quentin";
