@@ -16,6 +16,7 @@
       #           ";
       clean  = "sudo nix-env -u --always
                 sudo nix-store --gc
+                sudo nix-collect-garbage -d
                 ";
       killall = "pgrep -d ' ' $1 | xargs kill -15";
       srihash=''function _srihash() {
