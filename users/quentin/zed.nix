@@ -57,7 +57,7 @@
         breadcrumbs = false;
       };
       scrollbar = {
-        show = false;
+        show = "never";
       };
       working_directory = "current_project_directory";
     };
