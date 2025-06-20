@@ -1,9 +1,4 @@
 { pkgs, pkgs-unstable, lib, ... }: {
-  home.pointerCursor = {
-    gtk.enable = true;
-    package = pkgs.vanilla-dmz;
-    name = "Vanilla-DMZ";
-  };
   home.packages = with pkgs; [
     gnomeExtensions.dash-to-dock
     gnomeExtensions.blur-my-shell
@@ -37,7 +32,7 @@
           "org.gnome.TextEditor.desktop"];
       };
       "org/gnome/desktop/interface" = {
-        icon-theme = "ePapirus";
+        icon-theme = "Papirus";
         show-battery-percentage = true;
         toolbar-style = "text";
         gtk-theme = "Adwaita";

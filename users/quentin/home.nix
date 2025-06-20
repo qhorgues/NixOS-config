@@ -50,7 +50,7 @@
     kdePackages.kdenlive
     rhythmbox
 
-    thunderbird
+    thunderbird-latest
 
     # Base gnome app
     gnome-console
@@ -62,6 +62,7 @@
     nautilus
     baobab
     loupe
+    eyedropper
 
     # Tools
     fastfetch
