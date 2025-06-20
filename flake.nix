@@ -22,21 +22,21 @@
     nixosConfigurations = {
       "fw-laptop-16" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit system pkgs-unstable nixos-hardware; };
+        specialArgs = { inherit system pkgs-unstable nixos-hardware self; };
         modules = [
           ./hosts/fw-laptop-16.nix
         ];
       };
       "unowhy-13" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit system pkgs-unstable nixos-hardware; };
+        specialArgs = { inherit system pkgs-unstable nixos-hardware self; };
         modules = [
           ./hosts/unowhy-13.nix
         ];
       };
       "desktop-acer-n50" = nixpkgs.lib.nixosSystem {
 	system = "x86_64-linux";
-	specialArgs = { inherit system pkgs-unstable nixos-hardware; };
+	specialArgs = { inherit system pkgs-unstable nixos-hardware self; };
 	modules = [
 	  ./hosts/desktop-acer-n50.nix
 	];
@@ -54,4 +54,3 @@
     };
   };
 }
-
