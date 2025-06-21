@@ -1,4 +1,4 @@
-{ ... }: {
+{ self, ... }: {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -7,13 +7,13 @@
     history.size = 10000;
     shellAliases = {
       ll = "ls -l";
-      # update = "sudo nix-channel --update
-      #           sudo nix-env -u --always
-      #           sudo nixos-rebuild boot --flakes . --upgrade-all
-      #           sudo rm /nix/var/nix/gcroots/auto/*
-      #           sudo nix-store --gc
-      #           sudo nix-collect-garbage -d
-      #           ";
+      update = "sudo nix-channel --update
+                sudo nix-env -u --always
+                sudo nixos-rebuild boot --flakes ${self.outPath} --upgrade-all
+                sudo rm /nix/var/nix/gcroots/auto/*
+                sudo nix-store --gc
+                sudo nix-collect-garbage -d
+                ";
       clean  = "sudo nix-env -u --always
                 sudo nix-store --gc
                 sudo nix-collect-garbage -d

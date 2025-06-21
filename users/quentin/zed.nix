@@ -119,6 +119,7 @@
     chat_panel.button = "when_in_call";
     show_wrap_guides = false;
     tab_bar.show = false;
+    debugger.dock = "left";
     edit_prediction.enabled = false;
     soft_wrap = "bounded";
     soft_wrap_column = 80;

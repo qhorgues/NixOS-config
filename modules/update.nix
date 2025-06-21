@@ -9,8 +9,11 @@
     flags = [
         "--update-input"
         "nixpkgs"
+        "--update-input"
         "home-manager"
+        "--update-input"
         "nixos-hardware"
+        "--no-write-lock-file"
       ];
     rebootWindow =
     {
