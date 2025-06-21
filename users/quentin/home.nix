@@ -17,25 +17,6 @@
     variant = "fr";
   };
   home.packages = with pkgs; [
-
-    # C / C++
-    # gcc
-    # clang-tools
-    # clang
-    # cmake
-    # gnumake
-
-    # Rust
-    # cargo
-    # rustc
-    # rustup
-    # rust-analyzer
-
-    # Python
-    # python3
-    # uv
-    # ruff
-
     discord
     # openrgb
 

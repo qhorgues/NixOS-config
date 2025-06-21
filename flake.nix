@@ -49,7 +49,7 @@
         modules = [
           ./users/quentin/home.nix
         ];
-        extraSpecialArgs = { inherit system pkgs-unstable; };
+        extraSpecialArgs = { inherit system pkgs-unstable self; };
       };
     };
   };
