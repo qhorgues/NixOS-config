@@ -34,21 +34,18 @@
     mangohud
     adwsteamgtk
   ];
-
   programs.dconf = {
     enable = true;
     profiles.user.databases = [{
       settings = {
         "org/gnome/desktop/input-sources" = {
           per-window = false;
-          sources = [
-            (lib.gvariant.mkTuple[("xkb") ("fr+oss")])
-            (lib.gvariant.mkTuple[("xkb") ("us")])
-          ];
+          current = lib.gvariant.mkUint32 1;
         };
       };
     }];
   };
+  services.xserver.xkb.layout = "us,fr";
 
   hardware.graphics = {
     enable = true;
