@@ -4,7 +4,7 @@
   users.users.quentin = {
     isNormalUser = true;
     description = "Quentin Horgues";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "render" ];
     shell = pkgs.zsh;
 
   };

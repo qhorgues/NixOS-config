@@ -25,7 +25,6 @@
     ruff
 
     nixd # Nix language server for zeditor
-    nil
   ];
 
 }

@@ -44,4 +44,9 @@ in
   ];
 
   winter.nvidia.standBy = true;
+  winter.vm = {
+    users = [ "quentin" ];
+    platform = "intel";
+    vfioIds = [ "10de:1c82" "10de:0fb9" ];
+  };
 }
