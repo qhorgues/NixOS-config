@@ -30,6 +30,7 @@ in
 
   networking.hostName = "desktop-quentin";
   hardware.nvidia.open = false;
+
   boot.kernelPackages = pkgs.linuxPackages;
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
   fileSystems."/home".options = [ "noatime" "nodiratime" "discard" "defaults" ];

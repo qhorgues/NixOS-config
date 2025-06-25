@@ -31,7 +31,7 @@
     kdePackages.kdenlive
     rhythmbox
 
-    thunderbird-latest
+    thunderbird-latest-bin
 
     # Base gnome app
     gnome-console

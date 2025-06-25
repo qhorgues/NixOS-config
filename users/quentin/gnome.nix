@@ -7,8 +7,9 @@
     gnomeExtensions.caffeine
     gnomeExtensions.user-themes
     gnomeExtensions.places-status-indicator
+    gnomeExtensions.quick-settings-audio-panel
     # Icons
-    pkgs-unstable.epapirus-icon-theme
+    pkgs-unstable.papirus-icon-theme
   ];
 
   dconf = {
@@ -24,6 +25,7 @@
           caffeine.extensionUuid
           user-themes.extensionUuid
           places-status-indicator.extensionUuid
+          quick-settings-audio-panel.extensionUuid
         ];
         favorite-apps = ["firefox.desktop"
           "org.gnome.Nautilus.desktop"
