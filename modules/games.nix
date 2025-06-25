@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, lib, ... }:
+{ pkgs, pkgs-unstable, ... }:
 
 {
   programs = {
@@ -34,18 +34,6 @@
     mangohud
     adwsteamgtk
   ];
-  programs.dconf = {
-    enable = true;
-    profiles.user.databases = [{
-      settings = {
-        "org/gnome/desktop/input-sources" = {
-          per-window = false;
-          current = lib.gvariant.mkUint32 1;
-        };
-      };
-    }];
-  };
-  services.xserver.xkb.layout = "us,fr";
 
   hardware.graphics = {
     enable = true;
