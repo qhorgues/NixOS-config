@@ -1,6 +1,6 @@
 { pkgs, pkgs-unstable, ... }:
 {
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     pkgs-unstable.zed-editor
     zeal
     git

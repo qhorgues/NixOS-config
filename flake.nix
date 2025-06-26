@@ -2,18 +2,21 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-25.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixos-hardware }:
+  outputs = { self, nixpkgs, ... }@inputs:
   let
     system = "x86_64-linux";
     nixpkgsConfig = {
       allowUnfree = true;
     };
-    pkgs-unstable = import nixpkgs-unstable {
+    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs-unstable = import inputs.nixpkgs-unstable {
       inherit system;
       config = nixpkgsConfig;
     };
@@ -22,21 +25,22 @@
     nixosConfigurations = {
       "fw-laptop-16" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit system pkgs-unstable nixos-hardware self; };
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/fw-laptop-16.nix
+          inputs.home-manager.nixosModules.default
         ];
       };
       "unowhy-13" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit system pkgs-unstable nixos-hardware self; };
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/unowhy-13.nix
         ];
       };
       "desktop-acer-n50" = nixpkgs.lib.nixosSystem {
 	system = "x86_64-linux";
-	specialArgs = { inherit system pkgs-unstable nixos-hardware self; };
+	specialArgs = { inherit inputs; };
 	modules = [
 	  ./hosts/desktop-acer-n50.nix
 	];
