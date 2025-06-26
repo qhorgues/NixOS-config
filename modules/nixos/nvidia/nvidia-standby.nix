@@ -1,15 +1,13 @@
 { pkgs, lib, config, ... }:
 
 {
-  options.winter.nvidia.standBy = lib.mkOption {
+  options.winter.nvidia.standby = lib.mkOption {
     description = "Enable Standby fix";
     type = lib.types.bool;
     default = false;
   };
 
-  config = lib.mkIf config.winter.nvidia.standBy {
-    hardware.nvidia.powerManagement.enable = true;
-    hardware.nvidia.modesetting.enable = true;
+  config = lib.mkIf config.winter.nvidia.standby {
     boot.kernelParams = [
       "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
       "NVreg_TemporaryFilePath=/var/tmp"
