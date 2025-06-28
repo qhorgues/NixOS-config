@@ -13,14 +13,23 @@ in
         username
       '';
     };
+
+    winter.main-user.userFullName = lib.mkOption {
+      default = ''main user'';
+      description = ''
+        full username
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
     users.users.${cfg.userName} = {
       isNormalUser = true;
       initialPassword = "1234";
-      description = "main user";
+      description = cfg.userFullName;
+      extraGroups = [ "wheel" "networkmanager" ];
       shell = pkgs.zsh;
     };
+    programs.zsh.enable = true;
   };
 }

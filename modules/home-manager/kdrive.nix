@@ -89,16 +89,22 @@ echo "- SHA256 SRI : $SRI_HASH"
     '';
 in
 {
-  environment.systemPackages = [ kdriveApp kdrive_update ];
+  home.packages = [ kdriveApp kdrive_update ];
 
-  systemd.user.services."kdrive" = {
-    description = "Lancement de kDrive AppImage";
-    after = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "oneshot";
+  systemd.user.services.kdrive = {
+    Unit = {
+      Description = "Lancement de kDrive AppImage";
+      After = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      Type = "exec";
       ExecStart = "${kdriveApp}/bin/kdrive";
       Restart = "on-failure";
     };
-    wantedBy = [ "default.target" ];
+
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
   };
 }

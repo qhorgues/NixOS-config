@@ -1,31 +1,27 @@
-{ nixos-hardware, lib, ... }:
+{ self, inputs, pkgs-unstable, lib, ... }:
 {
   imports = [
-    nixos-hardware.nixosModules.framework-16-7040-amd
-    ./hardware/fw-laptop-16.nix
-    ../modules/bootloader.nix
-    ../modules/common.nix
-    ../modules/fonts.nix
-    ../modules/firefox.nix
-    ../modules/dev.nix
-    ../modules/users.nix
-    ../modules/sound.nix
-    ../modules/desktop-gnome.nix
-    ../modules/security.nix
-    ../modules/vm.nix
-    ../modules/zram.nix
-    ../modules/games.nix
-    ../modules/graphism.nix
-    ../modules/ollama.nix
-    ../modules/update.nix
-    ../modules/disable-bluetooth.nix
-    ../modules/powersave.nix
-    ../modules/ios-connect.nix
-    ../modules/kdrive.nix
+    inputs.nixos-hardware.nixosModules.framework-16-7040-amd
+    ./hardware-configuration.nix
+    ../../modules/nixos/fonts
+    ../../modules/nixos/gnome
+    ../../modules/nixos/boot.nix
+    ../../modules/nixos/common.nix
+    ../../modules/nixos/main-users.nix
+    ../../modules/nixos/sound.nix
+    ../../modules/nixos/security.nix
+    ../../modules/nixos/zram.nix
+    ../../modules/nixos/games.nix
+    ../../modules/nixos/update.nix
+    ../../modules/nixos/disable-bluetooth.nix
+    ../../modules/nixos/vm.nix
+    ../../modules/nixos/ollama.nix
+    ../../modules/nixos/powersave.nix
+    ../../modules/nixos/ios-connect.nix
   ];
 
   networking.hostName = "fw-laptop-quentin";
-  services.fwupd.enable = true;
+
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
   fileSystems."/mnt/Games" =
   { device = "/dev/disk/by-uuid/1b35568b-4447-4c80-9880-4b359d4ecb6c";
@@ -65,17 +61,20 @@
     }];
   };
 
-    /*
-    RUN+="${pkgs.lib.getExe (pkgs.writeShellScriptBin "powersave"
-    ''
-      ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set power-saver
-      ${pkgs.su}/bin/su - quentin -c "${pkgs.dbus}/bin/dbus-launch `${pkgs.gnome-randr}/bin/gnome-randr modify 'eDP-1' --mode 2560x1600@60.002`"
-    '')}"
+  winter.main-user = {
+    enable = true;
+    userName = "quentin";
+    userFullName = "Quentin Horgues";
+  };
 
-    "${pkgs.lib.getExe (pkgs.writeShellScriptBin "performance"
-    ''
-      ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance
-      ${pkgs.su}/bin/su - quentin -c "${pkgs.dbus}/bin/dbus-launch `${pkgs.gnome-randr}/bin/gnome-randr modify 'eDP-1' --mode 2560x1600@165.000`"
-    '')}"
-    */
+  home-manager = {
+    extraSpecialArgs = { inherit self inputs pkgs-unstable; };
+    users = {
+      "quentin" = import ./quentin.nix;
+    };
+  };
+
+  winter.vm = {
+    users = [ "quentin" ];
+  };
 }

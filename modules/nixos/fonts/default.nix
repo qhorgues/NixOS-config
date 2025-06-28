@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  cooper-black = import ./custom-fonts/cooper-black.nix { inherit pkgs; };
+  cooper-black = import ./cooper-black.nix { inherit pkgs; };
 
 
   winter-use-system-font = pkgs.writeShellScriptBin "winter-use-system-font" ''
