@@ -26,10 +26,6 @@
 
   programs.nix-ld.enable = lib.mkDefault true;
 
-  environment.systemPackages = with pkgs; [
-    home-manager
-  ];
-
   services.devmon.enable = true;
   services.gvfs.enable = true;
   services.udisks2 = {
