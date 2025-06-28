@@ -67,6 +67,8 @@
     userFullName = "Quentin Horgues";
   };
 
+  winter.ollama.acceleration = "rocm";
+
   home-manager = {
     extraSpecialArgs = { inherit self inputs pkgs-unstable; };
     users = {
