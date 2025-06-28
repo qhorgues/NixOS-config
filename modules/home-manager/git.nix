@@ -1,7 +1,7 @@
 { ... }: {
   programs.git = {
     enable = true;
-    userName  = "Quentin Horgues";
-    userEmail = "quentin.horgues@ikmail.com";
+    userName  = "qhorgues";
+    userEmail = "quentin.horgues@outlook.fr";
   };
 }
