@@ -28,4 +28,5 @@
     dates = "daily";
     options = "--delete-older-than 5d";
   };
+  services.fwupd.enable = true;
 }

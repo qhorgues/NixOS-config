@@ -6,17 +6,14 @@
     git
 
     # C / C++
-    gcc
     clang-tools
     clang
-    cmake
     cmakeWithGui
     gnumake
 
     # Rust
     cargo
     rustc
-    rustup
     rust-analyzer
 
     # Python

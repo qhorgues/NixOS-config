@@ -1,23 +1,22 @@
-{ pkgs, nixos-hardware, ... }:
+{ self, inputs, pkgs, pkgs-unstable, ... }:
 {
   imports = [
-    nixos-hardware.nixosModules.common-cpu-intel
-    nixos-hardware.nixosModules.common-pc-laptop
-    nixos-hardware.nixosModules.common-pc-laptop-ssd
-    ./hardware/unowhy-13.nix
-    ../modules/bootloader.nix
-    ../modules/common.nix
-    ../modules/fonts.nix
-    ../modules/firefox.nix
-    ../modules/dev.nix
-    ../modules/users.nix
-    ../modules/sound.nix
-    ../modules/desktop-gnome.nix
-    ../modules/security.nix
-    ../modules/zram.nix
-    ../modules/update.nix
-    ../modules/disable-bluetooth.nix
-    ../modules/kdrive.nix
+    inputs.nixos-hardware.nixosModules.common-cpu-intel
+    inputs.nixos-hardware.nixosModules.common-pc-laptop
+    inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
+    ./hardware-configuration.nix
+    ../../modules/nixos/fonts
+    ../../modules/nixos/gnome
+    ../../modules/nixos/boot.nix
+    ../../modules/nixos/common.nix
+    ../../modules/nixos/main-users.nix
+    ../../modules/nixos/sound.nix
+    ../../modules/nixos/security.nix
+    ../../modules/nixos/zram.nix
+    ../../modules/nixos/update.nix
+    ../../modules/nixos/disable-bluetooth.nix
+    ../../modules/nixos/powersave.nix
+    ../../modules/nixos/ios-connect.nix
   ];
 
   networking.hostName = "uw-laptop-quentin";
@@ -40,5 +39,18 @@
         };
       };
     }];
+  };
+
+  winter.main-user = {
+    enable = true;
+    userName = "quentin";
+    userFullName = "Quentin Horgues";
+  };
+
+  home-manager = {
+    extraSpecialArgs = { inherit self inputs pkgs-unstable; };
+    users = {
+      "quentin" = import ./quentin.nix;
+    };
   };
 }

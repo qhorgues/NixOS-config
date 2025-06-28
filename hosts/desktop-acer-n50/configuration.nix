@@ -1,31 +1,28 @@
-{ pkgs, nixos-hardware, ... }:
+{ self, pkgs, inputs, pkgs-unstable, ... }:
 
 let
-  monitorsXmlContent = builtins.readFile ./screen/desktop-acer-n50.xml;
+  monitorsXmlContent = builtins.readFile ./monitors.xml;
   monitorsConfig = pkgs.writeText "gdm_monitors.xml" monitorsXmlContent;
 in
 {
   imports = [
-    nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
-    nixos-hardware.nixosModules.common-pc-ssd
-    nixos-hardware.nixosModules.common-pc
-    ./hardware/desktop-acer-n50.nix
-    ../modules/bootloader.nix
-    ../modules/common.nix
-    ../modules/fonts.nix
-    ../modules/firefox.nix
-    ../modules/dev.nix
-    ../modules/users.nix
-    ../modules/sound.nix
-    ../modules/desktop-gnome.nix
-    ../modules/security.nix
-    ../modules/zram.nix
-    ../modules/games.nix
-    ../modules/graphism.nix
-    ../modules/update.nix
-    ../modules/disable-bluetooth.nix
-    ../modules/kdrive.nix
-    ../modules/vm.nix
+    inputs.nixos-hardware.nixosModules.common-gpu-nvidia-pascal
+    inputs.nixos-hardware.nixosModules.common-pc-ssd
+    inputs.nixos-hardware.nixosModules.common-pc
+    ./hardware-configuration.nix
+    ../../modules/nixos/nvidia-standby-fix.nix
+    ../../modules/nixos/fonts
+    ../../modules/nixos/gnome
+    ../../modules/nixos/boot.nix
+    ../../modules/nixos/common.nix
+    ../../modules/nixos/main-users.nix
+    ../../modules/nixos/sound.nix
+    ../../modules/nixos/security.nix
+    ../../modules/nixos/zram.nix
+    ../../modules/nixos/games.nix
+    ../../modules/nixos/update.nix
+    ../../modules/nixos/disable-bluetooth.nix
+    ../../modules/nixos/vm.nix
   ];
 
   networking.hostName = "desktop-quentin";
@@ -42,10 +39,27 @@ in
     "L+ /run/gdm/.config/monitors.xml - - - - ${monitorsConfig}"
   ];
 
-  winter.nvidia.standBy = true;
+  winter.main-user = {
+    enable = true;
+    userName = "quentin";
+    userFullName = "Quentin Horgues";
+  };
+
+  winter.nvidia.standby = {
+    enable = true;
+    old-gpu = true;
+  };
+
+  home-manager = {
+    extraSpecialArgs = { inherit self inputs pkgs-unstable; };
+    users = {
+      "quentin" = import ./quentin.nix;
+    };
+  };
+
   winter.vm = {
     users = [ "quentin" ];
-    platform = "intel";
-    vfioIds = [ "10de:1c82" "10de:0fb9" ];
+    # platform = "intel";
+    # vfioIds = [ "10de:1c82" "10de:0fb9" ];
   };
 }

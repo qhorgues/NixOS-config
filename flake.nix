@@ -7,53 +7,48 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons"; inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
   let
     system = "x86_64-linux";
     nixpkgsConfig = {
       allowUnfree = true;
     };
-    pkgs = nixpkgs.legacyPackages.${system};
-    pkgs-unstable = import inputs.nixpkgs-unstable {
+    pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config = nixpkgsConfig;
     };
   in
   {
-    nixosConfigurations = {
+    nixosConfigurations =
+    {
       "fw-laptop-16" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit self inputs pkgs-unstable; };
         modules = [
-          ./hosts/fw-laptop-16.nix
+          ./hosts/fw-laptop-16/configuration.nix
           inputs.home-manager.nixosModules.default
         ];
       };
       "unowhy-13" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit self inputs pkgs-unstable; };
         modules = [
-          ./hosts/unowhy-13.nix
+          ./hosts/unowhy-13/configuration.nix
+          inputs.home-manager.nixosModules.default
         ];
       };
       "desktop-acer-n50" = nixpkgs.lib.nixosSystem {
-	system = "x86_64-linux";
-	specialArgs = { inherit inputs; };
-	modules = [
-	  ./hosts/desktop-acer-n50.nix
-	];
-      };
-    };
-
-    homeConfigurations = {
-      "quentin" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [
-          ./users/quentin/home.nix
-        ];
-        extraSpecialArgs = { inherit system pkgs-unstable self; };
+       	system = "x86_64-linux";
+       	specialArgs = { inherit self inputs pkgs-unstable; };
+       	modules = [
+       	  ./hosts/desktop-acer-n50/configuration.nix
+          inputs.home-manager.nixosModules.default
+       	];
       };
     };
   };

@@ -1,5 +1,19 @@
 { pkgs, pkgs-unstable, lib, ... }: {
   home.packages = with pkgs; [
+    # Base gnome app
+    gnome-tweaks
+    gnome-extension-manager
+    gnome-console
+    gnome-text-editor
+    gnome-calculator
+    showtime
+    evince
+    file-roller
+    nautilus
+    loupe
+    eyedropper
+
+    # Extension
     gnomeExtensions.dash-to-dock
     gnomeExtensions.blur-my-shell
     gnomeExtensions.appindicator
