@@ -68,7 +68,6 @@ in {
       spice
       spice-gtk
       spice-vdagent
-      virt-manager
     ];
   };
 }
