@@ -10,6 +10,7 @@
     ../../modules/home-manager/dev.nix
     ../../modules/home-manager/shell.nix
     ../../modules/home-manager/office.nix
+    ../../modules/home-manager/vm-manager.nix
   ];
 
   home.username = "quentin";
