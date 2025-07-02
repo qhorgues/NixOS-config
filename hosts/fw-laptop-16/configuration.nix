@@ -18,6 +18,8 @@
     ../../modules/nixos/ollama.nix
     ../../modules/nixos/powersave.nix
     ../../modules/nixos/ios-connect.nix
+    ../../modules/nixos/mariadb.nix
+    #../../modules/nixos/phpmyadmin.nix
   ];
 
   networking.hostName = "fw-laptop-quentin";
@@ -79,4 +81,12 @@
   winter.vm = {
     users = [ "quentin" ];
   };
+
+
+  # services.phpmyadmin = {
+  #   enable = true;
+  #   vhost = "phpmyadmin.local";
+  #   enableHostEntry = true;
+  # };
+
 }
