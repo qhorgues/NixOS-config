@@ -21,7 +21,9 @@
     uv
     ruff
 
+    nil
     nixd # Nix language server for zeditor
+    alejandra
   ];
 
 }

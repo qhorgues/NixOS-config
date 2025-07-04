@@ -71,6 +71,9 @@
     };
     "Nix" = {
         language_servers = [ "nixd" ];
+        formatter = [
+          "alejandra"
+        ];
         format_on_save = "on";
     };
     };

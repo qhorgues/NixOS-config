@@ -64,11 +64,9 @@ in {
     }) cfg.users);
 
     environment.systemPackages = with pkgs; [
-      qemu
       spice
       spice-gtk
       spice-vdagent
-      virt-manager
     ];
   };
 }

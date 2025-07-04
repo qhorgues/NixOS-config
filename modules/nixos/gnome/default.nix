@@ -11,7 +11,7 @@
       enable = true;
       displayManager.gdm.enable = true;
       excludePackages = with pkgs; [
-        xterm
+ xterm
       ];
       desktopManager.gnome.enable = true;
       xkb = {
@@ -35,7 +35,7 @@
         };
         "org/gnome/desktop/input-sources" = {
           sources = [
-            (lib.gvariant.mkTuple[("xkb") ("fr+oss")])
+            (lib.gvariant.mkTuple["xkb" "fr+oss"])
           ];
         };
       };
@@ -75,7 +75,6 @@
     gnome-system-monitor
     gnome-weather
     gnome-connections
-    gnomeExtensions.auto-move-windows
     gnome-software
     gnome-disk-utility
     gnome-console
@@ -85,5 +84,6 @@
     loupe
     cups
     simple-scan
+    gnome-shell-extensions
   ];
 }
