@@ -6,7 +6,7 @@ let
 in
 {
   imports = [
-    inputs.nixos-hardware.nixosModules.common-gpu-nvidia-pascal
+    inputs.nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     inputs.nixos-hardware.nixosModules.common-pc
     ./hardware-configuration.nix
@@ -26,6 +26,7 @@ in
     ../../modules/nixos/mariadb.nix
   ];
 
+  hardware.nvidia.open = true;
   networking.hostName = "desktop-quentin";
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
