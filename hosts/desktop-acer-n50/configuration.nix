@@ -26,7 +26,7 @@ in
     ../../modules/nixos/mariadb.nix
   ];
 
-  hardware.nvidia.open = true;
+  hardware.nvidia.open = false;
   networking.hostName = "desktop-quentin";
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
