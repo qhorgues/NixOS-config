@@ -2,7 +2,6 @@
   home.packages = with pkgs; [
     # Base gnome app
     gnome-tweaks
-    gnome-extension-manager
     gnome-console
     gnome-text-editor
     gnome-calculator
@@ -12,7 +11,7 @@
     nautilus
     loupe
     eyedropper
-
+    gnome-extension-manager
     # Extension
     gnomeExtensions.dash-to-dock
     gnomeExtensions.blur-my-shell
