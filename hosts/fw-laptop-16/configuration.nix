@@ -19,7 +19,6 @@
     ../../modules/nixos/powersave.nix
     ../../modules/nixos/ios-connect.nix
     ../../modules/nixos/mariadb.nix
-    #../../modules/nixos/phpmyadmin.nix
   ];
 
   networking.hostName = "fw-laptop-quentin";
