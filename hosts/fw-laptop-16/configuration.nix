@@ -18,6 +18,7 @@
     ../../modules/nixos/ollama.nix
     ../../modules/nixos/powersave.nix
     ../../modules/nixos/ios-connect.nix
+    ../../modules/nixos/mariadb.nix
   ];
 
   networking.hostName = "fw-laptop-quentin";
@@ -79,4 +80,5 @@
   winter.vm = {
     users = [ "quentin" ];
   };
+
 }
