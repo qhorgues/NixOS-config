@@ -24,7 +24,6 @@
   };
   home.packages = with pkgs; [
     discord
-    kdePackages.kdenlive
     rhythmbox
 
     fastfetch
@@ -32,6 +31,7 @@
     dconf-editor
 
     mysql-workbench
+    gnome-music
   ];
 
   home.stateVersion = "25.05";

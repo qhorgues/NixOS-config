@@ -24,7 +24,6 @@
   };
   home.packages = with pkgs; [
     discord
-    kdePackages.kdenlive
     rhythmbox
 
     fastfetch
