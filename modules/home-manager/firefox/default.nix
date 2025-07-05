@@ -25,6 +25,7 @@ in
           # darkreader
           user-agent-string-switcher
           pwas-for-firefox
+          multi-account-containers
         ];
 
         settings = {
