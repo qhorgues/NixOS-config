@@ -209,6 +209,7 @@ in
           "privacy.trackingprotection.emailtracking.enabled" = true;
           "privacy.trackingprotection.enabled" = true;
           "privacy.trackingprotection.socialtracking.enabled" = true;
+          "privacy.userContext.newTabContainerOnLeftClick.enabled" = false;
 
           "sidebar.backupState" = builtins.toJSON {
             panelOpen = false;
