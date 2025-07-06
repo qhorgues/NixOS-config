@@ -31,7 +31,6 @@
     dconf-editor
 
     mysql-workbench
-    gnome-music
   ];
 
   home.stateVersion = "25.05";
