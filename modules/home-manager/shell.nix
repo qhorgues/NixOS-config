@@ -7,9 +7,8 @@
     history.size = 10000;
     shellAliases = {
       ll = "ls -l";
-      update = "sudo nix-channel --update
-                sudo nix-env -u --always
-                sudo nixos-rebuild boot --flakes ${self.outPath} --upgrade-all
+      update = "nix flake update --flake ~/config
+                sudo nixos-rebuild boot --flakes $WINTER_CONFIG_PATH --upgrade-all
                 sudo rm /nix/var/nix/gcroots/auto/*
                 sudo nix-store --gc
                 sudo nix-collect-garbage -d
