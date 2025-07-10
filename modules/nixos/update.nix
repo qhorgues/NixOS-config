@@ -1,11 +1,11 @@
-{ self, ... }:
+{ ... }:
 
 {
   system.autoUpgrade = {
     enable = true;
     dates = "weekly";
     allowReboot = true;
-    flake = self.outPath;
+    flake = "$WINTER_CONFIG_PATH";
     flags = [
         "--update-input"
         "nixpkgs"
@@ -13,7 +13,6 @@
         "home-manager"
         "--update-input"
         "nixos-hardware"
-        "--no-write-lock-file"
       ];
     rebootWindow =
     {

@@ -19,6 +19,7 @@
     ../../modules/nixos/powersave.nix
     ../../modules/nixos/ios-connect.nix
     ../../modules/nixos/mariadb.nix
+    ../../modules/nixos/GestionBudget-CalculationModule_php.nix
   ];
 
   networking.hostName = "fw-laptop-quentin";
@@ -29,7 +30,7 @@
     fsType = "ext4";
     options = [ "noatime" "nodiratime" "discard" ];
   };
-  zramSwap.memoryPercent = 20;
+
   services.udev.extraRules = ''
     # Framework Laptop 16 Keyboard Module - ANSI
     ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0012", ATTR{power/wakeup}="disabled"
@@ -70,6 +71,9 @@
 
   winter.ollama.acceleration = "rocm";
 
+  environment.variables = {
+      WINTER_CONFIG_PATH = "/home/quentin/config";
+  };
   home-manager = {
     extraSpecialArgs = { inherit self inputs pkgs-unstable; };
     users = {
