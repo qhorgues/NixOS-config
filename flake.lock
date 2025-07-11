@@ -1,5 +1,23 @@
 {
   "nodes": {
+    "calculationModule_php": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1752160121,
+        "narHash": "sha256-9/mwMJs2Lz18fEnmSq3yZWcnEW8sop2C6qr7+XmKsUs=",
+        "ref": "refs/heads/main",
+        "rev": "7c0bead075f6b1cf24e0652ddf043f6e2479d0af",
+        "revCount": 11,
+        "submodules": true,
+        "type": "git",
+        "url": "ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git"
+      }
+    },
     "firefox-addons": {
       "inputs": {
         "nixpkgs": [
@@ -8,11 +26,11 @@
       },
       "locked": {
         "dir": "pkgs/firefox-addons",
-        "lastModified": 1752033806,
-        "narHash": "sha256-XUHXDV8vwVjX6aYeJmPShMGJI9jx+JC0yWw0hsKbtMw=",
+        "lastModified": 1752120209,
+        "narHash": "sha256-htBJrss6a1Zh510pXecBYlYLRXkYs+9PcT+JNim54Cw=",
         "owner": "rycee",
         "repo": "nur-expressions",
-        "rev": "08bd298d38f4110a3049cbe1876c1c77a8b4797f",
+        "rev": "46fbfdbbbd5418716fced1d049aecba0ac370033",
         "type": "gitlab"
       },
       "original": {
@@ -60,11 +78,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1752063563,
-        "narHash": "sha256-oZfvJ+oJklQNG5IECNHnzN6n5P4gZAs+bayCKDwI+Dc=",
+        "lastModified": 1752156167,
+        "narHash": "sha256-y2crrti9zDPveC6f0y96c59eLVunGCYFhA/OqmFSBUA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "3c07a9b44f31419fb71adce4af66be0fb1358a10",
+        "rev": "d3889fb701e99819df752f611e1c11adb29ea293",
         "type": "github"
       },
       "original": {
@@ -76,11 +94,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1751792365,
-        "narHash": "sha256-J1kI6oAj25IG4EdVlg2hQz8NZTBNYvIS0l4wpr9KcUo=",
+        "lastModified": 1751984180,
+        "narHash": "sha256-LwWRsENAZJKUdD3SpLluwDmdXY9F45ZEgCb0X+xgOL0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1fd8bada0b6117e6c7eb54aad5813023eed37ccb",
+        "rev": "9807714d6944a957c2e036f84b0ff8caf9930bc0",
         "type": "github"
       },
       "original": {
@@ -92,6 +110,7 @@
     },
     "root": {
       "inputs": {
+        "calculationModule_php": "calculationModule_php",
         "firefox-addons": "firefox-addons",
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",

@@ -10,6 +10,10 @@
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons"; inputs.nixpkgs.follows = "nixpkgs";
     };
+    calculationModule_php = {
+        url   = "git+ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git?submodules=1";
+        flake = false;
+      };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
@@ -22,20 +26,19 @@
       inherit system;
       config = nixpkgsConfig;
     };
-    calculationModule_php = builtins.fetchGit {
-      url = "ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git";
-      ref = "main";
-      rev = "01590c03e0d4bba295f4bca80c88d716082d12df";
-      allRefs = true;
-      submodules = true;
-    };
+    # pkgs = import nixpkgs { inherit system; };
+    # calculationModule_php = pkgs.fetchgit {
+    #   url = "ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git";
+    #   rev = "01590c03e0d4bba295f4bca80c88d716082d12df";
+    #   fetchSubmodules = true;
+    # };
   in
   {
     nixosConfigurations =
     {
       "fw-laptop-16" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit self inputs pkgs-unstable calculationModule_php; };
+        specialArgs = { inherit self inputs pkgs-unstable; };
         modules = [
           ./hosts/fw-laptop-16/configuration.nix
           inputs.home-manager.nixosModules.default
@@ -51,7 +54,7 @@
       };
       "desktop-acer-n50" = nixpkgs.lib.nixosSystem {
        	system = "x86_64-linux";
-       	specialArgs = { inherit self inputs pkgs-unstable calculationModule_php; };
+       	specialArgs = { inherit self inputs pkgs-unstable; };
        	modules = [
        	  ./hosts/desktop-acer-n50/configuration.nix
           inputs.home-manager.nixosModules.default

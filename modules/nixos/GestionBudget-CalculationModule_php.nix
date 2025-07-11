@@ -1,7 +1,7 @@
-{ pkgs, calculationModule_php, ... }:
+{ pkgs, inputs, ... }:
 
 let
-    calculationModule = import calculationModule_php { inherit pkgs; };
+    calculationModule = import inputs.calculationModule_php { inherit pkgs; };
 in
 {
     environment.systemPackages = [

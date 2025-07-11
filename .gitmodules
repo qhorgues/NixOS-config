@@ -1,3 +1,0 @@
-[submodule "pkgs/GestionBudget-CalculationModule_php"]
-	path = pkgs/GestionBudget-CalculationModule_php
-	url = ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git
