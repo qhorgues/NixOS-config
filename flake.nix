@@ -8,7 +8,8 @@
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons"; inputs.nixpkgs.follows = "nixpkgs";
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     calculationModule_php = {
         url   = "git+ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git?submodules=1";
