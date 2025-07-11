@@ -26,6 +26,7 @@ in
           user-agent-string-switcher
           pwas-for-firefox
           multi-account-containers
+          sponsorblock
         ];
 
         settings = {
