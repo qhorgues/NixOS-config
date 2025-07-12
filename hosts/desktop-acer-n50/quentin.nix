@@ -11,7 +11,6 @@
     ../../modules/home-manager/shell.nix
     ../../modules/home-manager/office.nix
     ../../modules/home-manager/vm-manager.nix
-    ../../modules/home-manager/gaphor.nix
   ];
 
   home.username = "quentin";
@@ -30,6 +29,7 @@
     htop
     dconf-editor
 
+    gaphor
     mysql-workbench
   ];
 
