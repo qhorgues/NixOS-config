@@ -9,7 +9,7 @@ let
     sha256 = "sha256-k73WoeKm2tKwwSJB791eHRGgb/cjJvBASVJ3d0KZJ3g=";
   };
 
-  # Code source de l'icône au format SVG (à adapter au besoin)
+  # Code source de l'icône au format SVG
   iconSvgCode = ''
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 32 32" role="img">
         <path fill="#A2BFFF" fill-rule="evenodd" d="M11.628 1.606c0-1.145 1.139-1.921 2.171-1.48l2.702 1.156c.414.177.733.527.878.96l1.075 3.215c.173.517.591.909 1.11 1.039l11.241 2.813A1.6 1.6 0 0 1 32 10.867v13.425c0 1.08-1.02 1.85-2.028 1.533l-17.238-5.429a1.6 1.6 0 0 1-1.106-1.533z" clip-rule="evenodd" opacity="0.504">
@@ -66,7 +66,7 @@ EOF
 
 # Vérification du nombre de paramètres
 if [ "$#" -ne 2 ]; then
-    echo "Usage: kdrive_update <numéro_de_version> <chemin_du_fichier_nix"
+    echo "Usage: kdrive_update <numéro_de_version> <chemin_du_fichier_nix>"
     exit 1
 fi
 
