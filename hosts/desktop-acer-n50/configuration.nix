@@ -53,7 +53,7 @@ in
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit self inputs pkgs-unstable; };
+    extraSpecialArgs = { inherit self inputs pkgs pkgs-unstable; };
     users = {
       "quentin" = import ./quentin.nix;
     };

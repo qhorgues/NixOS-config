@@ -1,4 +1,4 @@
-{ self, inputs, pkgs-unstable, lib, ... }:
+{ self, inputs, pkgs, pkgs-unstable, lib, ... }:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.framework-16-7040-amd
@@ -75,7 +75,7 @@
       WINTER_CONFIG_PATH = "/home/quentin/config";
   };
   home-manager = {
-    extraSpecialArgs = { inherit self inputs pkgs-unstable; };
+    extraSpecialArgs = { inherit self inputs pkgs pkgs-unstable; };
     users = {
       "quentin" = import ./quentin.nix;
     };
