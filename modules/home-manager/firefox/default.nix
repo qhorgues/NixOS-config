@@ -96,8 +96,8 @@ in
               PersonalToolbar = ["personal-bookmarks"];
               TabsToolbar = [];
               unified-extensions-area = [
-                "addon_darkreader_org-browser-action"
                 "_${getId addons.user-agent-string-switcher.addonId}_-browser-action" # user agent switcher
+                "sponsorblocker_ajay_app-browser-action"
               ];
               nav-bar = [
                 "sidebar-button"
