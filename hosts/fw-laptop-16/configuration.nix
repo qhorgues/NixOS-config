@@ -71,9 +71,6 @@
 
   winter.ollama.acceleration = "rocm";
 
-  environment.variables = {
-      WINTER_CONFIG_PATH = "/home/quentin/config";
-  };
   home-manager = {
     extraSpecialArgs = { inherit self inputs pkgs pkgs-unstable; };
     users = {
