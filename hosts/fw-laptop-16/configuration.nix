@@ -45,27 +45,31 @@
         ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0018", ATTR{power/wakeup}="disabled"
     '';
 
-    winter.gnome = {
-        scaling = 2;
-        text-scaling = 0.8;
+    winter = {
+        update = {
+            flake_path = "/home/quentin/config";
+            flake_config = "fw-laptop-16";
+        };
+        auto-update.enable = true;
+        ollama.acceleration = "rocm";
+        main-user = {
+            enable = true;
+            userName = "quentin";
+            userFullName = "Quentin Horgues";
+        };
+        gnome = {
+            scaling = 2;
+            text-scaling = 0.8;
+        };
+        vm = {
+            users = [ "quentin" ];
+        };
     };
-
-    winter.main-user = {
-        enable = true;
-        userName = "quentin";
-        userFullName = "Quentin Horgues";
-    };
-
-    winter.ollama.acceleration = "rocm";
 
     home-manager = {
         extraSpecialArgs = { inherit self inputs pkgs pkgs-unstable; };
         users = {
         "quentin" = import ./quentin.nix;
         };
-    };
-
-    winter.vm = {
-        users = [ "quentin" ];
     };
 }

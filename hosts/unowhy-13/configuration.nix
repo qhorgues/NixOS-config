@@ -25,12 +25,20 @@
     fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
     enableNumlockConfig = false;
 
-    winter.gnome.text-scaling = 1.2;
-
-    winter.main-user = {
-        enable = true;
-        userName = "quentin";
-        userFullName = "Quentin Horgues";
+    winter = {
+        update = {
+            flake_path = "/home/quentin/config";
+            flake_config = "unowhy-13";
+        };
+        auto-update.enable = true;
+        main-user = {
+            enable = true;
+            userName = "quentin";
+            userFullName = "Quentin Horgues";
+        };
+        gnome = {
+            text-scaling = 1.2;
+        };
     };
 
     home-manager = {
