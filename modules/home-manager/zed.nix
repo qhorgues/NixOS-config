@@ -62,24 +62,31 @@
       working_directory = "current_project_directory";
     };
     languages = {
-    "Python" = {
-        language_servers = [ "ruff" "pyright" ];
-        format_on_save = "on";
-        formatter = [
+        "C++" = {
+            format_on_save = "on";
+            tab_size = 4;
+        };
+        "Python" = {
+            language_servers = [ "ruff" "pyright" ];
+            format_on_save = "on";
+            formatter = [
 
-        ];
-    };
-    "Nix" = {
-        language_servers = [ "nixd" ];
-        formatter = [
-          "alejandra"
-        ];
-        format_on_save = "on";
-    };
+            ];
+        };
+        "Nix" = {
+            language_servers = [ "nixd" ];
+            formatter = [
+            "alejandra"
+            ];
+            format_on_save = "on";
+        };
     };
     lsp = {
       clangd = {
-        binary.arguments = [ "--compile-commands-dir=build" ];
+        binary = {
+            path = "${pkgs.clang-tools}/bin/clangd";
+            arguments = [ "--compile-commands-dir=build" ];
+        };
       };
       pyright = {
         settings = {

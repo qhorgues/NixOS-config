@@ -11,10 +11,10 @@
         url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
         inputs.nixpkgs.follows = "nixpkgs";
     };
-    calculationModule_php = {
-        url   = "git+ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git?submodules=1";
-        flake = false;
-    };
+    # calculationModule_php = {
+    #     url   = "git+ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git?submodules=1";
+    #     flake = false;
+    # };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
