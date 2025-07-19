@@ -4,5 +4,6 @@
     gimp3
     inkscape
     krita
+    eyedropper
   ];
 }
