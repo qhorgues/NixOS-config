@@ -43,26 +43,36 @@ in
 
     config = lib.mkMerge [
         {
-            environment.systemPackages = [
+            home.packages = [
                 flake-update
                 nix-clean-boot
                 nix-clean
             ];
         }
         (lib.mkIf cfga.enable {
-            systemd.services.winter-auto-update = {
-                description = "Auto update services";
-                serviceConfig = {
+            systemd.user.services.winter-auto-update = {
+                Unit = {
+                  Description = "Auto update services";
+                  After = [ "graphical-session.target" ];
+                };
+                Service = {
+                    Type = "exec";
                     ExecStart = "${flake-update}/bin/flake-update";
                 };
-                wantedBy = [ "multi-user.target" ];
+                Install = {
+                  WantedBy = [ "multi-user.target" ];
+                };
             };
 
-            systemd.timers.winter-auto-update-timer = {
-                description = "Execute every day";
-                wantedBy = [ "timers.target" ];
-                timerConfig = {
+            systemd.user.timers.winter-auto-update-timer = {
+                Unit = {
+                    Description = "Execute every day";
+                    Wants = [ "winter-auto-update-service.service" ];
+                    WantedBy = [ "timers.target" ];
+                };
+                Timer = {
                     OnCalendar = "daily";
+                    Persistent = true;
                     Unit = "winter-auto-update-service.service";
                 };
             };

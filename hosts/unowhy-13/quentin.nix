@@ -9,7 +9,16 @@
     ../../modules/home-manager/dev.nix
     ../../modules/home-manager/shell.nix
     ../../modules/home-manager/office.nix
+    ../../modules/home-manager/flake-script.nix
   ];
+
+  winter = {
+    update = {
+        flake_path = "/home/quentin/config";
+        flake_config = "unowhy-13";
+    };
+    auto-update.enable = true;
+  };
 
   home.username = "quentin";
   home.homeDirectory = "/home/quentin";

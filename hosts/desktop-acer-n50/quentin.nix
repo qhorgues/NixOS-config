@@ -11,7 +11,16 @@
     ../../modules/home-manager/shell.nix
     ../../modules/home-manager/office.nix
     ../../modules/home-manager/vm-manager.nix
+    ../../modules/home-manager/flake-script.nix
   ];
+
+  winter = {
+    update = {
+        flake_path = "/home/quentin/config";
+        flake_config = "desktop-acer-n50";
+    };
+    auto-update.enable = true;
+  };
 
   home.username = "quentin";
   home.homeDirectory = "/home/quentin";

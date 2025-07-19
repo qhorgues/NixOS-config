@@ -17,7 +17,6 @@
         ../../modules/nixos/disable-bluetooth.nix
         ../../modules/nixos/powersave.nix
         ../../modules/nixos/ios-connect.nix
-        ../../modules/nixos/flake-script.nix
     ];
 
     networking.hostName = "uw-laptop-quentin";
@@ -27,11 +26,6 @@
     enableNumlockConfig = false;
 
     winter = {
-        update = {
-            flake_path = "/home/quentin/config";
-            flake_config = "unowhy-13";
-        };
-        auto-update.enable = true;
         main-user = {
             enable = true;
             userName = "quentin";
