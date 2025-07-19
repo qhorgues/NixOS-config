@@ -10,7 +10,6 @@
     file-roller
     nautilus
     loupe
-    eyedropper
     gnome-extension-manager
     # Extension
     gnomeExtensions.dash-to-dock
