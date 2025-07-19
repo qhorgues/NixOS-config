@@ -24,6 +24,7 @@ in
         ../../modules/nixos/disable-bluetooth.nix
         ../../modules/nixos/vm.nix
         ../../modules/nixos/mariadb.nix
+        ../../modules/nixos/flake-script.nix
     ];
 
     hardware.nvidia.open = false;
@@ -41,15 +42,21 @@ in
         "L+ /run/gdm/.config/monitors.xml - - - - ${monitorsConfig}"
     ];
 
-    winter.main-user = {
-        enable = true;
-        userName = "quentin";
-        userFullName = "Quentin Horgues";
-    };
-
-    winter.nvidia.standby = {
-        enable = true;
-        old-gpu = true;
+    winter = {
+        update = {
+            flake_path = "/home/quentin/config";
+            flake_config = "desktop-acer-n50";
+        };
+        auto-update.enable = true;
+        nvidia.standby = {
+            enable = true;
+            old-gpu = true;
+        };
+        main-user = {
+            enable = true;
+            userName = "quentin";
+            userFullName = "Quentin Horgues";
+        };
     };
 
     home-manager = {
