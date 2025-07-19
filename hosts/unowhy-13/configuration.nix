@@ -17,6 +17,7 @@
         ../../modules/nixos/disable-bluetooth.nix
         ../../modules/nixos/powersave.nix
         ../../modules/nixos/ios-connect.nix
+        ../../modules/nixos/flake-script.nix
     ];
 
     networking.hostName = "uw-laptop-quentin";
