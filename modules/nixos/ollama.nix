@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, config, lib, ... }:
+{ pkgs, config, lib, ... }:
 
 let
   open-webui-shortcut = pkgs.makeDesktopItem {
@@ -24,7 +24,7 @@ in
     ];
 
     services.open-webui = {
-      package = pkgs-unstable.open-webui;
+      package = pkgs.open-webui;
       enable = true;
       port = 8080;
     };
