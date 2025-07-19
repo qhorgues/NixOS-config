@@ -20,7 +20,6 @@
         ../../modules/nixos/ios-connect.nix
         ../../modules/nixos/mariadb.nix
         ../../modules/nixos/GestionBudget-CalculationModule_php.nix
-        ../../modules/nixos/flake-script.nix
     ];
 
     networking.hostName = "fw-laptop-quentin";
@@ -47,11 +46,6 @@
     '';
 
     winter = {
-        update = {
-            flake_path = "/home/quentin/config";
-            flake_config = "fw-laptop-16";
-        };
-        auto-update.enable = true;
         ollama.acceleration = "rocm";
         main-user = {
             enable = true;
