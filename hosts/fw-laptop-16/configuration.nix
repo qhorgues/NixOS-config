@@ -20,6 +20,7 @@
         ../../modules/nixos/ios-connect.nix
         ../../modules/nixos/mariadb.nix
         ../../modules/nixos/GestionBudget-CalculationModule_php.nix
+        ../../modules/nixos/flake-script.nix
     ];
 
     networking.hostName = "fw-laptop-quentin";
