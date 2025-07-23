@@ -11,7 +11,7 @@ Modular NixOS configuration managed with Flakes. It offers machine and user envi
 - Integrated custom packages
 - Configuration of KDrive, Pipewire, Gnome, Steam, Firefox, VM, etc...
 
-## Structure du dépôt
+## Repository structure
 
 ```
 .
