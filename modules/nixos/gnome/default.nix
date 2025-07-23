@@ -113,5 +113,11 @@
                 gnome-shell-extensions
             ];
         }
+        {
+            # Is used to fix blank screen on GDM
+
+            systemd.services."getty@tty1".enable = false;
+            systemd.services."autovt@tty1".enable = false;
+        }
   ];
 }
