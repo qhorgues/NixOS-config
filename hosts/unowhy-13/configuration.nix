@@ -23,7 +23,6 @@
     boot.tmp.useTmpfs = true;
     boot.kernelPackages = pkgs.linuxPackages;
     fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
-    enableNumlockConfig = false;
 
     winter = {
         main-user = {
@@ -33,6 +32,7 @@
         };
         gnome = {
             text-scaling = 1.2;
+            numlock = false;
         };
     };
 
