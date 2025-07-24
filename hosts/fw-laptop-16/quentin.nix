@@ -25,7 +25,6 @@
   home.username = "quentin";
   home.homeDirectory = "/home/quentin";
   nixpkgs.config.allowUnfree = true;
-  # home.enableNixpkgsRelease = false;
   home.keyboard = {
     layout = "fr";
     variant = "fr";
@@ -40,6 +39,7 @@
 
     gaphor
     mysql-workbench
+    filezilla
   ];
 
   home.stateVersion = "25.05";
