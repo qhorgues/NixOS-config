@@ -11,10 +11,6 @@
         url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
         inputs.nixpkgs.follows = "nixpkgs";
     };
-    # calculationModule_php = {
-    #     url   = "git+ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git?submodules=1";
-    #     flake = false;
-    # };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
@@ -27,12 +23,6 @@
         inherit system;
         config = nixpkgsConfig;
     };
-    # pkgs = import nixpkgs { inherit system; };
-    # calculationModule_php = pkgs.fetchgit {
-    #   url = "ssh://git@codeberg.org/GestionBudget/CppLayerPHP.git";
-    #   rev = "01590c03e0d4bba295f4bca80c88d716082d12df";
-    #   fetchSubmodules = true;
-    # };
   in
   {
     nixosConfigurations =
