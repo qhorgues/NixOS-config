@@ -8,12 +8,13 @@
                   {
                       paths = [
                           "~/Programmes/CppLayerPHP"
+                          "/var/www/api"
                       ];
                   }
               ];
               args = [
                   "-i"
-                  "~/.ssh/id_ed25519.pub"
+                  "~/.ssh/id_rsa"
               ];
               port = 22;
               username = "quentin";
