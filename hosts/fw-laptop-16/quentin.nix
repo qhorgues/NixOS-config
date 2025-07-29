@@ -12,6 +12,8 @@
     ../../modules/home-manager/office.nix
     ../../modules/home-manager/vm-manager.nix
     ../../modules/home-manager/flake-script.nix
+
+    ./home-manager/zed-remote-folder.nix
   ];
 
   winter = {
@@ -40,6 +42,7 @@
     gaphor
     mysql-workbench
     filezilla
+    escambo
   ];
 
   home.stateVersion = "25.05";
