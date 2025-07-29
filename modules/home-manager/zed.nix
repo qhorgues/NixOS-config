@@ -3,6 +3,7 @@
 {
     programs.zed-editor = {
         enable = true;
+        installRemoteServer = true;
         package = pkgs-unstable.zed-editor;
         extensions = ["html" "toml" "make" "neocmake"];
 
@@ -85,7 +86,10 @@
         clangd = {
             binary = {
                 path = "${pkgs.clang-tools}/bin/clangd";
-                arguments = [ "--compile-commands-dir=build" ];
+                arguments = [
+                    "--compile-commands-dir=build"
+                   "--std=c++23"
+                ];
             };
         };
         pyright = {
@@ -115,6 +119,7 @@
 
         ## tell zed to use direnv and direnv can use a flake.nix enviroment.
         load_direnv = "shell_hook";
+        upload_binary_over_ssh = true;
         base_keymap = "VSCode";
         theme = {
         mode = "system";

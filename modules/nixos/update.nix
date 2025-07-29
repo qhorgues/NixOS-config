@@ -1,26 +1,6 @@
-{ lib, config, ... }:
+{ ... }:
 
 {
-    #options.winter.auto-upgrade.enable = lib.mkOption {
-    #  description = "Enable auto upgrade";
-    #  type = lib.types.bool;
-    #  default = false;
-    #};
-
-    #config = lib.mkIf config.winter.auto-upgrade.enable {
-    # system.autoUpgrade = {
-    #     enable = true;
-    #     dates = "weekly";
-    #     allowReboot = true;
-    #     flake = "";
-    #     flags = [];
-    #     rebootWindow =
-    #     {
-    #         lower = "02:00";
-    #         upper = "06:00";
-    #     };
-    # };
-
     nix.settings.auto-optimise-store = true;
     nix.gc = {
         automatic = true;
