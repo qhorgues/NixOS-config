@@ -24,6 +24,7 @@ in
         ../../modules/nixos/disable-bluetooth.nix
         ../../modules/nixos/vm.nix
         ../../modules/nixos/mariadb.nix
+        ../../modules/nixos/ios-connect.nix
     ];
 
     hardware.nvidia.open = false;
@@ -57,6 +58,7 @@ in
         extraSpecialArgs = { inherit self inputs pkgs pkgs-unstable; };
         users = {
         "quentin" = import ./quentin.nix;
+        "elise" = import ./elise.nix;
         };
     };
 
@@ -64,5 +66,12 @@ in
         users = [ "quentin" ];
         # platform = "intel";
         # vfioIds = [ "10de:1c82" "10de:0fb9" ];
+    };
+
+    users.users."elise"= {
+      isNormalUser = true;
+      initialPassword = "1234";
+      description = "Elise Horgues";
+      extraGroups = [ "networkmanager" ];
     };
 }
