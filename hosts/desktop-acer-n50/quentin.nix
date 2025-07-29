@@ -37,9 +37,6 @@
     fastfetch
     htop
     dconf-editor
-
-    gaphor
-    mysql-workbench
   ];
 
   home.stateVersion = "25.05";

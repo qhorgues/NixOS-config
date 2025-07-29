@@ -24,6 +24,10 @@
     nil
     nixd # Nix language server for zeditor
     alejandra
+
+    gaphor
+    mysql-workbench
+    filezilla
   ];
 
 }
