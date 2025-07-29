@@ -86,7 +86,10 @@
         clangd = {
             binary = {
                 path = "${pkgs.clang-tools}/bin/clangd";
-                arguments = [ "--compile-commands-dir=build" ];
+                arguments = [
+                    "--compile-commands-dir=build"
+                   "--std=c++23"
+                ];
             };
         };
         pyright = {
