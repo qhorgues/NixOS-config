@@ -38,11 +38,6 @@
     fastfetch
     htop
     dconf-editor
-
-    gaphor
-    mysql-workbench
-    filezilla
-    escambo
   ];
 
   home.stateVersion = "25.05";
