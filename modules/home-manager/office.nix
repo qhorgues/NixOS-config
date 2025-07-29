@@ -6,5 +6,6 @@
     texstudio
     onlyoffice-bin
     thunderbird-latest-bin
+    joplin-desktop
   ];
 }
