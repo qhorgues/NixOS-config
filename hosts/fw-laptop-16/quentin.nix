@@ -33,7 +33,6 @@
   };
   home.packages = with pkgs; [
     discord
-    rhythmbox
 
     fastfetch
     htop
