@@ -5,6 +5,7 @@
     gnome-console
     gnome-text-editor
     gnome-calculator
+    gnome-music
     showtime
     evince
     file-roller
