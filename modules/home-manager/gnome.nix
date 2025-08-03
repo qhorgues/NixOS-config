@@ -57,6 +57,9 @@
         picture-uri =  "file:///run/current-system/sw/share/backgrounds/gnome/amber-l.jxl";
         picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/amber-d.jxl";
       };
+      "org/gnome/desktop/wm/preferences" = {
+        button-layout = "appmenu:minimize,maximize,close";
+      };
       "org/desktop/vm/preferences" = {
         button-layout = "appmenu:minimize,maximize,close";
       };
