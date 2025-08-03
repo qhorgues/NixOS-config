@@ -64,11 +64,13 @@ in
                 };
             };
 
-            systemd.user.timers.winter-auto-update-timer = {
+            systemd.user.timers.winter-auto-update = {
+                Install = {
+                    WantedBy = [ "timers.target" ];
+                };
                 Unit = {
                     Description = "Execute every day";
                     Wants = [ "winter-auto-update-service.service" ];
-                    WantedBy = [ "timers.target" ];
                 };
                 Timer = {
                     OnCalendar = "daily";
