@@ -19,7 +19,6 @@
       (
         lib.mkIf config.winter.nvidia.standby.old-gpu {
           hardware.nvidia.powerManagement.enable = true;
-          # hardware.nvidia.modesetting.enable = true;
           boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
         }
       )

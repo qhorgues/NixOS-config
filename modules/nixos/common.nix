@@ -35,4 +35,6 @@
   systemd.tmpfiles.rules = [
     "d /media 0755 root root -"
   ];
+
+  documentation.nixos.enable = false;
 }
