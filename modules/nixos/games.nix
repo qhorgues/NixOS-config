@@ -35,10 +35,11 @@
     adwsteamgtk
   ];
 
-  hardware.graphics = {
-    enable = true;
-    package = pkgs-unstable.mesa;
-    package32 = pkgs-unstable.pkgsi686Linux.mesa;
+  hardware = {
+      graphics = {
+        enable = true;
+        package = pkgs.mesa;
+        package32 = pkgs.pkgsi686Linux.mesa;
+      };
   };
-
 }
