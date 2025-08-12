@@ -28,7 +28,13 @@
                 excludePackages = with pkgs; [
                     xterm
                 ];
-                desktopManager.gnome.enable = true;
+                desktopManager.gnome = {
+                    enable = true;
+                    extraGSettingsOverrides = ''
+                      [org.gnome.mutter]
+                      experimental-features=['scale-monitor-framebuffer','xwayland-native-scaling','variable-refresh-rate']
+                    '';
+                };
                 xkb = {
                     layout = lib.mkDefault "fr";
                     variant = "";
@@ -48,20 +54,12 @@
                             "org/gnome/desktop/interface" = {
                                 scaling-factor = lib.gvariant.mkUint32 config.winter.gnome.scaling;
                                 show-battery-percentage = true;
-                                text-scaling-factor = config.winter.gnome.text-scaling;
+                                text-scaling-factor = lib.gvariant.mkDouble config.winter.gnome.text-scaling;
                             };
                             "org/gnome/desktop/input-sources" = {
                                 sources = [
                                     (lib.gvariant.mkTuple["xkb" "fr+oss"])
                                 ];
-                            };
-                        };
-                    }];
-                    users.databases = [{
-                        settings = {
-                            "org/gnome/desktop/interface" = {
-                                scaling-factor = lib.gvariant.mkUint32 config.winter.gnome.scaling;
-                                text-scaling-factor = config.winter.gnome.text-scaling;
                             };
                         };
                     }];
