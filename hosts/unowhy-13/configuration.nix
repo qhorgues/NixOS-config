@@ -1,4 +1,4 @@
-{ self, inputs, pkgs, pkgs-unstable, ... }:
+{ self, config, inputs, pkgs, pkgs-unstable, ... }:
 {
     imports = [
         inputs.nixos-hardware.nixosModules.common-cpu-intel
@@ -38,7 +38,10 @@
     };
 
     home-manager = {
-        extraSpecialArgs = { inherit self inputs pkgs pkgs-unstable; };
+        extraSpecialArgs = {
+            inherit self inputs pkgs pkgs-unstable;
+            system-version=config.system.nixos.release;
+        };
         users = {
             "quentin" = import ./quentin.nix;
         };

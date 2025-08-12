@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, system-version, ... }:
 {
   imports = [
     ../../modules/home-manager/firefox
@@ -36,5 +36,5 @@
     dconf-editor
   ];
 
-  home.stateVersion = "25.05";
+  home.stateVersion = system-version;
 }

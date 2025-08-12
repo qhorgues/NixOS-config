@@ -1,4 +1,4 @@
-{ self, pkgs, inputs, pkgs-unstable, ... }:
+{ self, config, pkgs, inputs, pkgs-unstable, ... }:
 
 let
     monitorsXmlContent = builtins.readFile ./monitors.xml;
@@ -55,7 +55,10 @@ in
     };
 
     home-manager = {
-        extraSpecialArgs = { inherit self inputs pkgs pkgs-unstable; };
+        extraSpecialArgs = {
+            inherit self inputs pkgs pkgs-unstable;
+            system-version = config.system.nixos.release;
+        };
         users = {
         "quentin" = import ./quentin.nix;
         "elise" = import ./elise.nix;
