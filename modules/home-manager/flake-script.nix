@@ -18,6 +18,10 @@ let
     nix-clean = import ../../pkgs/nix-clean.nix {
         pkgs = pkgs;
     };
+
+    nix-latest-update = import ../../pkgs/nix-latest-update.nix {
+        pkgs = pkgs;
+    };
 in
 {
     options.winter = {
@@ -47,6 +51,7 @@ in
                 flake-update
                 nix-clean-boot
                 nix-clean
+                nix-latest-update
             ];
         }
         (lib.mkIf cfga.enable {
