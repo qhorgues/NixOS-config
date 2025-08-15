@@ -113,6 +113,7 @@
             focus-window-up = ["<Control><Super>Up"];
             highlight-current-window = ["''"];
             inner-gaps = lib.hm.gvariant.mkUint32 6;
+            snap-assistant-threshold = lib.hm.gvariant.mkInt32 20;
             layouts-json = builtins.toJSON [
                 {
                     id =  "2 windows";
