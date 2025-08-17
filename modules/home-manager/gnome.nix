@@ -176,6 +176,7 @@
             tab-width = lib.hm.gvariant.mkUint32 2;
             use-system-font = true;
         };
+        "org/gnome/nautilus/list-view".use-tree-view = true;
         "org/gnome/gnome-session".logout-prompt = false;
         "org/gnome/settings-daemon/plugins/media-keys" = {
             custom-keybindings = [
