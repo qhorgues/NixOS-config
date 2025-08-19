@@ -1,5 +1,9 @@
 { pkgs, pkgs-unstable, lib,... }:
 {
+    imports = [
+        ./mineapps.nix
+    ];
+
     home.packages = with pkgs; [
         # Base gnome app
         gnome-tweaks
@@ -13,6 +17,7 @@
         nautilus
         loupe
         gnome-extension-manager
+        decibels
         # Extension
         gnomeExtensions.dash-to-dock
         gnomeExtensions.blur-my-shell
