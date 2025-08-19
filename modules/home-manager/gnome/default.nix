@@ -168,7 +168,7 @@
             ];
             selected-layouts = [["2 windows"] ["2 windows"]];
             outer-gaps = lib.hm.gvariant.mkUint32 6;
-            overriden-window-menu = true;
+            overriden-window-menu = false;
             top-edge-maximise = true;
             untile-window = ["<Super>d"];
         };
