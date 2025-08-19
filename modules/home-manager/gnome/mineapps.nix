@@ -27,6 +27,6 @@
 
         # Dossiers et fichiers
         inode/directory=nautilus.desktop
-        application/pdf=evince.desktop
+        application/pdf=org.gnome.Evince.desktop
       '';
 }
