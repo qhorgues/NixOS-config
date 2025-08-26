@@ -60,6 +60,10 @@
         };
     };
 
+    # environment.systemPackages = [
+    #     inputs.winteros-detect-hardware.packages.${pkgs.system}.default
+    # ];
+
     home-manager = {
         extraSpecialArgs = {
             inherit self inputs pkgs pkgs-unstable;
