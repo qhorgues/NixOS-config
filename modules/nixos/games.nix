@@ -38,40 +38,40 @@
     adwsteamgtk
   ];
 
-  system.activationScripts.steamConfigInject = {
-      text = ''
-        for user in /home/*; do
-          config_path="$user/.local/share/Steam/config/config.vdf"
-          if [ ! -f "$config_path" ]; then
-            mkdir -p "$(dirname "$config_path")"
-            cat > "$config_path" <<EOF
-  "InstallConfigStore"
-  {
-      "Software"
-      {
-          "Valve"
-          {
-              "Steam"
-              {
-                  "CompatToolMapping"
-                  {
-                      "0"
-                      {
-                          "name"      "GE-Proton"
-                          "config"        ""
-                          "priority"      "75"
-                      }
-                  }
-              }
-          }
-      }
-  }
-  EOF
-            chown $(basename "$user"):users "$config_path"
-          fi
-        done
-      '';
-    };
+#  system.activationScripts.steamConfigInject = {
+#      text = ''
+#        for user in /home/*; do
+#          config_path="$user/.local/share/Steam/config/config.vdf"
+#          if [ ! -f "$config_path" ]; then
+#            mkdir -p "$(dirname "$config_path")"
+#            cat > "$config_path" <<EOF
+#  "InstallConfigStore"
+#  {
+#      "Software"
+#      {
+#          "Valve"
+#          {
+#              "Steam"
+#              {
+#                  "CompatToolMapping"
+#                  {
+#                      "0"
+#                      {
+#                          "name"      "GE-Proton"
+#                          "config"        ""
+#                          "priority"      "75"
+#                      }
+#                  }
+#              }
+#          }
+#      }
+#  }
+#  EOF
+#            chown $(basename "$user"):users "$config_path"
+#          fi
+#        done
+#      '';
+#    };
 
 
   hardware = {
