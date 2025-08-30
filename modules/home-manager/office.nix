@@ -5,7 +5,7 @@
     texliveFull
     texstudio
     onlyoffice-bin
+    libreoffice-fresh
     thunderbird-latest-bin
-    joplin-desktop
   ];
 }
