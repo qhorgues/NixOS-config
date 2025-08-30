@@ -8,31 +8,27 @@
         extensions = ["html" "toml" "make" "neocmake"];
 
         userSettings = {
-        assistant = {
-            enabled = true;
-            version = "2";
-            default_model = {
-            provider = "ollama";
-            model = "llama3.2";
-            };
-        };
         language_models = {
-        ollama = {
-            api_url = "http://localhost:11434";
-            available_models = [
-                {
-                name = "llama3.2";
-                display_name = "llama3.2";
-                max_tokens = 32768;
-                supports_tools = true;
-                }
-            ];
+            ollama = {
+                api_url = "http://localhost:11434";
+                available_models = [
+                    {
+                        name = "gemma3:4b";
+                        display_name = "gemma3:4b";
+                        max_tokens = 32768;
+                        supports_tools = true;
+                    }
+                ];
             };
         };
-
-        hour_format = "hour24";
+        edit_predictions = {
+            enabled_in_text_threads = true;
+        };
         auto_update = true;
-        telemetry.enable = false;
+        telemetry = {
+            diagnostics = false;
+            metrics = false;
+        };
         terminal = {
         alternate_scroll = "off";
         blinking = "off";
@@ -54,7 +50,6 @@
         button = false;
         shell = "system";
         toolbar = {
-            title = false;
             breadcrumbs = false;
         };
         scrollbar = {
@@ -77,53 +72,49 @@
             "Nix" = {
                 language_servers = [ "nixd" ];
                 formatter = [
-                "alejandra"
+                    "prettier"
                 ];
                 format_on_save = "on";
             };
         };
         lsp = {
-        clangd = {
-            binary = {
-                path = "${pkgs.clang-tools}/bin/clangd";
-                arguments = [
-                    "--compile-commands-dir=build"
-                ];
+            clangd = {
+                binary = {
+                    path = "${pkgs.clang-tools}/bin/clangd";
+                    arguments = [
+                        "--compile-commands-dir=build"
+                    ];
+                };
             };
-        };
-        pyright = {
-            settings = {
-            python.analysis = {
-                diagnosticMode = "workspace";
-                typeCheckingMode = "strict";
+            pyright = {
+                settings = {
+                python.analysis = {
+                    diagnosticMode = "workspace";
+                    typeCheckingMode = "strict";
+                };
+                python = {
+                    pythonPath = ".venv/bin/python";
+                };
+                };
             };
-            python = {
-                pythonPath = ".venv/bin/python";
+            rust-analyzer = {
+                binary = {
+                    path = lib.getExe pkgs.rust-analyzer;
+                };
             };
+            nix = {
+                enable_lsp_tasks = true;
             };
-        };
-        rust-analyzer = {
-            binary = {
-            path = lib.getExe pkgs.rust-analyzer;
-            path_lookup = true;
-            };
-        };
-        nix = {
-            binary = {
-            path_lookup = true;
-            };
-        };
         };
 
 
         ## tell zed to use direnv and direnv can use a flake.nix enviroment.
         load_direnv = "shell_hook";
-        upload_binary_over_ssh = true;
         base_keymap = "VSCode";
         theme = {
-        mode = "system";
-        light = "One Light";
-        dark = "One Dark";
+            mode = "system";
+            light = "One Light";
+            dark = "One Dark";
         };
         show_whitespaces = "none" ;
         ui_font_size = 16;
@@ -134,15 +125,13 @@
         show_wrap_guides = false;
         tab_bar.show = false;
         debugger.dock = "left";
-        edit_prediction.enabled = false;
         soft_wrap = "bounded";
-        soft_wrap_column = 80;
         notification_panel.button = false;
         autosave = "on_focus_change";
 
         calls = {
-        mute_on_join = true;
-        share_on_join = true;
+          mute_on_join = true;
+          share_on_join = true;
         };
     };
   };
