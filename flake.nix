@@ -11,36 +11,36 @@
         url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
         inputs.nixpkgs.follows = "nixpkgs";
     };
-    # winteros-detect-hardware = {
-    #     url = "github:Winter-OS/winteros-detect-hardware/master";
-    #     inputs.nixpkgs.follows = "nixpkgs";
-    # };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
   let
     nixpkgsConfig = {
-        allowUnfree = true;
+      allowUnfree = true;
     };
   in
   {
     nixosConfigurations =
     {
-      "fw-laptop-16" = let system = "x86_64-linux"; in nixpkgs.lib.nixosSystem
+      "fw-laptop-16" = let
+        system = "x86_64-linux";
+      in nixpkgs.lib.nixosSystem
       {
         system = system;
         specialArgs = { inherit self inputs;
             pkgs-unstable = import nixpkgs-unstable {
-                system = system;
-                config = nixpkgsConfig;
+              system = system;
+              config = nixpkgsConfig;
             };
         };
         modules = [
-            ./hosts/fw-laptop-16/configuration.nix
-            inputs.home-manager.nixosModules.default
+          ./hosts/fw-laptop-16/configuration.nix
+          inputs.home-manager.nixosModules.default
         ];
       };
-      "unowhy-13" = let system = "x86_64-linux";in nixpkgs.lib.nixosSystem {
+      "unowhy-13" = let
+        system = "x86_64-linux";
+      in nixpkgs.lib.nixosSystem {
         system = system;
         specialArgs = { inherit self inputs;
             pkgs-unstable = import nixpkgs-unstable {
@@ -53,7 +53,9 @@
             inputs.home-manager.nixosModules.default
         ];
       };
-      "desktop-acer-n50" = let system = "x86_64-linux";in nixpkgs.lib.nixosSystem {
+      "desktop-acer-n50" = let
+        system = "x86_64-linux";
+      in nixpkgs.lib.nixosSystem {
        	system = system;
        	specialArgs = { inherit self inputs;
             pkgs-unstable = import nixpkgs-unstable {
