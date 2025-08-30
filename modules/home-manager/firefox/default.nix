@@ -84,13 +84,13 @@ in
 
             "browser.uiCustomization.state" = builtins.toJSON {
                 dirtyAreaCache = [
-                "vertical-tabs"
-                "nav-bar"
-                "PersonalToolbar"
-                "toolbar-menubar"
-                "TabsToolbar"
-                "widget-overflow-fixed-list"
-                "unified-extensions-area"
+                  "vertical-tabs"
+                  "nav-bar"
+                  "PersonalToolbar"
+                  "toolbar-menubar"
+                  "TabsToolbar"
+                  "widget-overflow-fixed-list"
+                  "unified-extensions-area"
                 ];
                 placements = {
                 PersonalToolbar = ["personal-bookmarks"];
@@ -100,35 +100,35 @@ in
                     "sponsorblocker_ajay_app-browser-action"
                 ];
                 nav-bar = [
-                    "sidebar-button"
-                    "back-button"
-                    "forward-button"
-                    "stop-reload-button"
-                    "home-button"
-                    "vertical-spacer"
-                    "urlbar-container"
-                    "downloads-button"
-                    "sync-button"
-                    "ublock0_raymondhill_net-browser-action"
-                    "firefox_ghostery_com-browser-action"
-                    "_${getId addons.bitwarden.addonId}_-browser-action" # bitwarden
-                    "reset-pbm-toolbar-button"
-                    "unified-extensions-button"
+                  "sidebar-button"
+                  "back-button"
+                  "forward-button"
+                  "stop-reload-button"
+                  "home-button"
+                  "vertical-spacer"
+                  "urlbar-container"
+                  "downloads-button"
+                  "sync-button"
+                  "ublock0_raymondhill_net-browser-action"
+                  "firefox_ghostery_com-browser-action"
+                  "_${getId addons.bitwarden.addonId}_-browser-action" # bitwarden
+                  "reset-pbm-toolbar-button"
+                  "unified-extensions-button"
                 ];
                 toolbar-menubar = ["menubar-items"];
                 widget-overflow-fixed-list = [];
                 vertical-tabs = ["tabbrowser-tabs"];
                 };
                 seen = [
-                "developer-button"
-                "ublock0_raymondhill_net-browser-action"
-                "_testpilot-containers-browser-action"
-                "addon_darkreader_org-browser-action"
-                "_${getId addons.bitwarden.addonId}_-browser-action"
-                "firefox_ghostery_com-browser-action"
-                "screenshot-button"
-                "_${getId addons.user-agent-string-switcher.addonId}_-browser-action"
-                "firefoxpwa_filips_si-browser-action"
+                  "developer-button"
+                  "ublock0_raymondhill_net-browser-action"
+                  "_testpilot-containers-browser-action"
+                  "addon_darkreader_org-browser-action"
+                  "_${getId addons.bitwarden.addonId}_-browser-action"
+                  "firefox_ghostery_com-browser-action"
+                  "screenshot-button"
+                  "_${getId addons.user-agent-string-switcher.addonId}_-browser-action"
+                  "firefoxpwa_filips_si-browser-action"
                 ];
             };
 
@@ -245,6 +245,8 @@ in
             "trailhead.firstrun.didSeeAboutWelcome" = true;
             "widget.use-xdg-desktop-portal.file-picker" = 1;
 
+            "browser.ml.chat.enabled" = true;
+            "browser.ml.chat.provider" = "localhost:8080";
             "browser.uiCustomization.navBarWhenVerticalTabs" = builtins.toJSON [
                 "sidebar-button"
                 "back-button"
