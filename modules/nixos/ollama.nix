@@ -33,7 +33,7 @@ in
 
     services.ollama = {
       enable = true;
-      loadModels = [ "qwen3:8b" ];
+      loadModels = [ "gemma3:4b" ];
       acceleration = config.winter.ollama.acceleration; # use cuda if nvidia, rocm if amd, and cpu only otherwise
     };
   };
