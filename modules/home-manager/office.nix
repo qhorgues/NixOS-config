@@ -5,7 +5,7 @@
     texliveFull
     texstudio
     onlyoffice-bin
-    libreoffice-fresh
+    libreoffice
     thunderbird-latest-bin
   ];
 }
