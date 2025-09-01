@@ -2,8 +2,8 @@
 {
   imports = [
     ../../modules/home-manager/firefox
+    ../../modules/home-manager/gnome
     ../../modules/home-manager/kdrive.nix
-    ../../modules/home-manager/gnome.nix
     ../../modules/home-manager/zed.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/dev.nix
