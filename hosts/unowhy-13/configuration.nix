@@ -17,7 +17,7 @@
         ../../modules/nixos/disable-bluetooth.nix
         ../../modules/nixos/powersave.nix
         ../../modules/nixos/ios-connect.nix
-        ../../modules/nixos/mariadb.nix
+        # ../../modules/nixos/mariadb.nix
     ];
 
     networking.hostName = "uw-laptop-quentin";
