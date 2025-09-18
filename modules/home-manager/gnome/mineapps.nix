@@ -18,7 +18,9 @@
         image/png=org.gnome.Loupe.desktop;
         image/gif=org.gnome.Loupe.desktop;
         image/webp=org.gnome.Loupe.desktop;
+        image/svg+xml=org.inkscape.Inkscape.desktop;
         inode/directory=org.gnome.Nautilus.desktop;
-        application/pdf=org.gnome.Evince.desktop;
+        application/pdf=org.gnome.Papers.desktop;
+        text/plain=org.gnome.TextEditor.desktop;
       '';
 }
