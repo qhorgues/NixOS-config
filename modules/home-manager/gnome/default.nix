@@ -12,7 +12,7 @@
         gnome-calculator
         gnome-music
         showtime
-        evince
+        papers
         file-roller
         nautilus
         loupe
