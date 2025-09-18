@@ -37,7 +37,10 @@
     fastfetch
     htop
     dconf-editor
+    easyeffects
   ];
+
+  home.file.".config/BOE_CQ_______NE160QDM_NZ6.icm".source = ./home-manager/BOE_CQ_______NE160QDM_NZ6.icm;
 
   home.stateVersion = system-version;
 }
