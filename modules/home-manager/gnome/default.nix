@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, lib,... }:
+{ pkgs, lib,... }:
 {
     imports = [
         ./mineapps.nix
@@ -29,7 +29,8 @@
         gnomeExtensions.quick-settings-audio-panel
         # gnomeExtensions.tiling-shell
         # Icons
-        pkgs-unstable.papirus-icon-theme
+        papirus-icon-theme
+        # (import ../../../pkgs/winteros-icons.nix {inherit pkgs;})
     ];
     dconf = {
         enable = true;
@@ -56,7 +57,7 @@
             ];
         };
         "org/gnome/desktop/interface" = {
-            icon-theme = "Papirus";
+            icon-theme = "Papirus"; # "WinterOS-icons";
             show-battery-percentage = true;
             toolbar-style = "text";
             gtk-theme = "Adwaita";
