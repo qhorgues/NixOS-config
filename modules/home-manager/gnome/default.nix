@@ -24,7 +24,6 @@
         gnomeExtensions.appindicator
         gnomeExtensions.removable-drive-menu
         gnomeExtensions.caffeine
-        gnomeExtensions.user-themes
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
         # gnomeExtensions.tiling-shell
@@ -43,7 +42,6 @@
               appindicator.extensionUuid
               removable-drive-menu.extensionUuid
               caffeine.extensionUuid
-              user-themes.extensionUuid
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
               # tiling-shell.extensionUuid
