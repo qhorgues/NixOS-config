@@ -14,6 +14,57 @@ in
         ];
         nativeMessagingHosts = [ pkgs-unstable.firefoxpwa ];
         profiles = {
+        "youtube" = {
+          id = 1;
+          name = "YouTube";
+          extensions.packages = with addons; [
+            ublock-origin
+            ghostery
+            user-agent-string-switcher
+            multi-account-containers
+            sponsorblock
+          ];
+
+          search = {
+              default = "youtube";
+              force = true;
+              engines = {
+                  youtube = {
+                      name = "YouTube";
+                      urls = [{
+                          template = "https://www.youtube.com/results";
+                          params = [
+                          { name = "search_query"; value = "{searchTerms}"; }
+                          ];
+                      }];
+                      iconMapObj."16" = "file://${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
+                      definedAliases = [ "@yt" ];
+                  };
+
+                  bing.metaData.hidden = true;
+                  google.metaData.hidden = true;
+                  # ebay.metaData.hidden = true;
+              };
+              order = [
+                  "ddg"
+                  "qwant"
+                  "youtube"
+              ];
+              privateDefault = "qwant";
+          };
+          settings = {
+            "browser.startup.homepage" = "https://www.youtube.com";
+            "browser.search.region" = "FR";
+            "browser.search.isUS" = false;
+            "distribution.searchplugins.defaultLocale" = "fr-FR";
+            "general.useragent.locale" = "fr-FR";
+            "browser.bookmarks.showMobileBookmarks" = true;
+            "browser.newtabpage.pinned" = [{
+              title = "youtube";
+              url = "https://www.youtube.com";
+            }];
+          };
+        };
         "default" = {
             id = 0;
             name = "default";
