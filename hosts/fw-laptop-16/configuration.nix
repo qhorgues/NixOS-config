@@ -17,7 +17,7 @@
         ../../modules/nixos/disable-bluetooth.nix
         ../../modules/nixos/vm.nix
         ../../modules/nixos/ollama.nix
-        ../../modules/nixos/powersave.nix
+        # ../../modules/nixos/powersave.nix
         ../../modules/nixos/ios-connect.nix
         ../../modules/nixos/mariadb.nix
         ../../modules/nixos/winapps.nix
@@ -48,22 +48,22 @@
     '';
 
     winter = {
-        hardware.gpu = {
-          vendor = "amdgpu";
-          acceleration = "rocm";
-        };
-        main-user = {
-            enable = true;
-            userName = "quentin";
-            userFullName = "Quentin Horgues";
-        };
-        gnome = {
-            scaling = 2;
-            text-scaling = 0.8;
-        };
-        vm = {
-            users = [ "quentin" ];
-        };
+      hardware.gpu = {
+        vendor = "amdgpu";
+        acceleration = "rocm";
+      };
+      main-user = {
+        enable = true;
+        userName = "quentin";
+        userFullName = "Quentin Horgues";
+      };
+      gnome = {
+        scaling = 2;
+        text-scaling = 0.8;
+      };
+      vm = {
+        users = [ "quentin" ];
+      };
     };
 
     home-manager = {
