@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   open-webui-shortcut = pkgs.makeDesktopItem {
