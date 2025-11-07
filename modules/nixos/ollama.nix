@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, config, lib, ... }:
+{ config, pkgs, pkgs-unstable, lib, ... }:
 
 let
   open-webui-shortcut = pkgs.makeDesktopItem {
@@ -18,6 +18,8 @@ in
   };
 
   config = {
+    winter.hardware.gpu.enable-acceleration = true;
+
     environment.systemPackages = [
       pkgs.ollama
       open-webui-shortcut
@@ -34,7 +36,7 @@ in
     services.ollama = {
       enable = true;
       loadModels = [ "gemma3:4b" ];
-      acceleration = config.winter.ollama.acceleration; # use cuda if nvidia, rocm if amd, and cpu only otherwise
+      acceleration = config.winter.hardware.gpu.acceleration; # use cuda if nvidia, rocm if amd, and cpu only otherwise
     };
   };
 }
