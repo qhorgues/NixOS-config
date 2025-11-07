@@ -12,7 +12,6 @@
     ../../modules/home-manager/office.nix
     ../../modules/home-manager/vm-manager.nix
     ../../modules/home-manager/flake-script.nix
-    ../../modules/home-manager/modeling.nix
     ./home-manager/zed-remote-folder.nix
   ];
 
@@ -36,8 +35,11 @@
 
     fastfetch
     htop
+    lm_sensors
     dconf-editor
     easyeffects
+
+    video-downloader
   ];
 
   home.file.".config/BOE_CQ_______NE160QDM_NZ6.icm".source = ./home-manager/BOE_CQ_______NE160QDM_NZ6.icm;
