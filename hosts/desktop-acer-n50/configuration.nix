@@ -25,6 +25,7 @@ in
         ../../modules/nixos/vm.nix
         ../../modules/nixos/mariadb.nix
         ../../modules/nixos/ios-connect.nix
+        ../../modules/home-manager/modeling.nix
     ];
 
     hardware.nvidia.open = false;
@@ -43,15 +44,22 @@ in
     ];
 
     winter = {
-        nvidia.standby = {
-            enable = true;
-            old-gpu = true;
-        };
-        main-user = {
-            enable = true;
-            userName = "quentin";
-            userFullName = "Quentin Horgues";
-        };
+      hardware.gpu = {
+        vendor = "nvidia";
+        acceleration = "cuda";
+      };
+      nvidia.standby = {
+          enable = true;
+          old-gpu = true;
+      };
+      main-user = {
+          enable = true;
+          userName = "quentin";
+          userFullName = "Quentin Horgues";
+      };
+      vm = {
+          users = [ "quentin" ];
+      };
     };
 
     home-manager = {
@@ -63,12 +71,6 @@ in
         "quentin" = import ./quentin.nix;
         "elise" = import ./elise.nix;
         };
-    };
-
-    winter.vm = {
-        users = [ "quentin" ];
-        # platform = "intel";
-        # vfioIds = [ "10de:1c82" "10de:0fb9" ];
     };
 
     users.users."elise"= {
