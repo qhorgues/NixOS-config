@@ -22,8 +22,9 @@
     config = lib.mkMerge [
         {
             services = {
-                xserver = {
+              xserver = {
                 enable = true;
+                videoDriver = config.winter.hardware.gpu.vendor;
                 displayManager.gdm.enable = true;
                 excludePackages = with pkgs; [
                     xterm
@@ -39,7 +40,7 @@
                     layout = lib.mkDefault "fr";
                     variant = "";
                 };
-                };
+              };
             };
         }
         {
