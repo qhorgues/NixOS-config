@@ -11,6 +11,10 @@
         url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
         inputs.nixpkgs.follows = "nixpkgs";
     };
+    winapps = {
+        url = "github:winapps-org/winapps";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
@@ -28,6 +32,7 @@
       {
         system = system;
         specialArgs = { inherit self inputs;
+            winapps = inputs.winapps.packages.${system};
             pkgs-unstable = import nixpkgs-unstable {
               system = system;
               config = nixpkgsConfig;
@@ -43,6 +48,7 @@
       in nixpkgs.lib.nixosSystem {
         system = system;
         specialArgs = { inherit self inputs;
+            winapps = inputs.winapps.packages.${system};
             pkgs-unstable = import nixpkgs-unstable {
                 system = system;
                 config = nixpkgsConfig;
@@ -58,6 +64,7 @@
       in nixpkgs.lib.nixosSystem {
        	system = system;
        	specialArgs = { inherit self inputs;
+            winapps = inputs.winapps.packages.${system};
             pkgs-unstable = import nixpkgs-unstable {
                 system = system;
                 config = nixpkgsConfig;

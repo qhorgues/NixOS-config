@@ -3,6 +3,7 @@
     imports = [
         inputs.nixos-hardware.nixosModules.framework-16-7040-amd
         ./hardware-configuration.nix
+        ../../modules/options.nix
         ../../modules/nixos/fonts
         ../../modules/nixos/gnome
         ../../modules/nixos/boot.nix
@@ -19,6 +20,8 @@
         ../../modules/nixos/powersave.nix
         ../../modules/nixos/ios-connect.nix
         ../../modules/nixos/mariadb.nix
+        ../../modules/nixos/winapps.nix
+        ../../modules/nixos/modeling.nix
     ];
 
     networking.hostName = "fw-laptop-quentin";
@@ -45,7 +48,10 @@
     '';
 
     winter = {
-        ollama.acceleration = "rocm";
+        hardware.gpu = {
+          vendor = "amdgpu";
+          acceleration = "rocm";
+        };
         main-user = {
             enable = true;
             userName = "quentin";
@@ -59,10 +65,6 @@
             users = [ "quentin" ];
         };
     };
-
-    # environment.systemPackages = [
-    #     inputs.winteros-detect-hardware.packages.${pkgs.system}.default
-    # ];
 
     home-manager = {
         extraSpecialArgs = {
