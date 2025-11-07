@@ -1,9 +1,13 @@
 { config, lib, ... }:
 
 {
+  imports = [
+    ./fix.nix
+  ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = config.system.nixos.release;
+  services.xserver.videoDrivers = [ config.winter.hardware.gpu.vendor ];
 
   time.timeZone = "Europe/Paris";
   i18n.defaultLocale = "fr_FR.UTF-8";
