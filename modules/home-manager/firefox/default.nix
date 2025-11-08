@@ -392,4 +392,17 @@ in
   home.packages = [
     pkgs-unstable.firefoxpwa
   ];
+
+  xdg.desktopEntries = {
+    "youtube" = {
+      name = "Youtube";
+      genericName = "Video player";
+      comment = "Watch vidéo on youtube";
+      exec = "${pkgs.firefox-bin}/bin/firefox -P YouTube --no-remote";
+      icon = "${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
+      categories = [ "Network" "WebBrowser" ];
+      terminal = false;
+    };
+  };
+
 }
