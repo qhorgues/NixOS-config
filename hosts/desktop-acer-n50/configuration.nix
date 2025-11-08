@@ -10,11 +10,10 @@ in
         inputs.nixos-hardware.nixosModules.common-pc-ssd
         inputs.nixos-hardware.nixosModules.common-pc
         ./hardware-configuration.nix
+        ../../modules/nixos
         ../../modules/nixos/nvidia-standby-fix.nix
         ../../modules/nixos/fonts
         ../../modules/nixos/gnome
-        ../../modules/nixos/boot.nix
-        ../../modules/nixos/common.nix
         ../../modules/nixos/main-users.nix
         ../../modules/nixos/sound.nix
         ../../modules/nixos/security.nix
