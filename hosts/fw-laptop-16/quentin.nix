@@ -1,6 +1,7 @@
-{ pkgs, system-version, ... }:
+{ system-version, ... }:
 {
   imports = [
+    ../../modules/home-manager
     ../../modules/home-manager/firefox
     ../../modules/home-manager/gnome
     ../../modules/home-manager/kdrive.nix
@@ -30,17 +31,6 @@
     layout = "fr";
     variant = "fr";
   };
-  home.packages = with pkgs; [
-    discord
-
-    fastfetch
-    htop
-    lm_sensors
-    dconf-editor
-    easyeffects
-
-    video-downloader
-  ];
 
   home.file.".config/BOE_CQ_______NE160QDM_NZ6.icm".source = ./home-manager/BOE_CQ_______NE160QDM_NZ6.icm;
 

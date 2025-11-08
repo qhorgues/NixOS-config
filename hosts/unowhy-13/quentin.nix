@@ -1,6 +1,7 @@
-{ pkgs, system-version, ... }:
+{ system-version, ... }:
 {
   imports = [
+    ../../modules/home-manager
     ../../modules/home-manager/firefox
     ../../modules/home-manager/gnome
     ../../modules/home-manager/kdrive.nix
@@ -28,13 +29,6 @@
     layout = "fr";
     variant = "fr";
   };
-  home.packages = with pkgs; [
-    discord
-
-    fastfetch
-    htop
-    dconf-editor
-  ];
 
   home.stateVersion = system-version;
 }
