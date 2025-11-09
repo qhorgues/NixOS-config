@@ -1,6 +1,6 @@
 { pkgs ? import <nixpkgs> {}, nix-latest-update, flake_path, flake_config }:
 
-pkgs.writeShellScriptBin "flake-update" ''
+pkgs.writeShellScriptBin "nix-update" ''
     if ! ${pkgs.git}/bin/git diff-index --quiet HEAD --; then
       echo "Le dépôt contient des modifications non commités. Abandon."
       exit 1
@@ -17,8 +17,10 @@ pkgs.writeShellScriptBin "flake-update" ''
       git push > /dev/null 2>&1
       echo "✅ Mise à jour avec succès"
       ${nix-latest-update}/bin/nix-latest-update
+      exit 0
     else
       echo "Échec de la mise à jour"
       git reset --hard HEAD~1 > /dev/null 2>&1
+      exit 1
     fi
 ''

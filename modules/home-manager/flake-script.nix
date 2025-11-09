@@ -7,7 +7,7 @@ let
         pkgs = pkgs;
     };
 
-    flake-update = import ../../pkgs/flake-update.nix {
+    nix-update = import ../../pkgs/nix-update.nix {
         pkgs = pkgs;
         nix-latest-update = nix-latest-update;
         flake_path = cfg.flake_path;
@@ -50,7 +50,7 @@ in
     config = lib.mkMerge [
         {
             home.packages = [
-                flake-update
+                nix-update
                 nix-clean-boot
                 nix-clean
                 nix-latest-update
@@ -64,7 +64,7 @@ in
                 };
                 Service = {
                     Type = "exec";
-                    ExecStart = "${flake-update}/bin/flake-update";
+                    ExecStart = "${nix-update}/bin/flake-update";
                 };
                 Install = {
                   WantedBy = [ "multi-user.target" ];
