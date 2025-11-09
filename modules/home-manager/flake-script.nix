@@ -3,8 +3,13 @@
 let
     cfg = config.winter.update;
     cfga = config.winter.auto-update;
+    nix-latest-update = import ../../pkgs/nix-latest-update.nix {
+        pkgs = pkgs;
+    };
+
     flake-update = import ../../pkgs/flake-update.nix {
         pkgs = pkgs;
+        nix-latest-update = nix-latest-update;
         flake_path = cfg.flake_path;
         flake_config = cfg.flake_config;
     };
@@ -19,9 +24,6 @@ let
         pkgs = pkgs;
     };
 
-    nix-latest-update = import ../../pkgs/nix-latest-update.nix {
-        pkgs = pkgs;
-    };
 in
 {
     options.winter = {
