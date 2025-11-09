@@ -64,7 +64,7 @@ in
                 };
                 Service = {
                     Type = "exec";
-                    ExecStart = "${nix-update}/bin/flake-update";
+                    ExecStart = "${nix-update}/bin/nix-update";
                 };
                 Install = {
                   WantedBy = [ "multi-user.target" ];
