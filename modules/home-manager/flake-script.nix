@@ -82,7 +82,7 @@ in
                 Timer = {
                     OnCalendar = "daily";
                     Persistent = true;
-                    Unit = "winter-auto-update-service.service";
+                    Unit = "winter-auto-update.service";
                 };
             };
         })
