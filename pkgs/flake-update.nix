@@ -6,19 +6,19 @@ pkgs.writeShellScriptBin "flake-update" ''
       exit 1
     fi
 
-    ${pkgs.nix}/bin/nix flake update --flake ${flake_path}
+    ${pkgs.nix}/bin/nix flake update --flake ${flake_path} > /dev/null 2>&1
 
     cd ${flake_path}
-    ${pkgs.git}/bin/git add flake.lock
-    ${pkgs.git}/bin/git commit -m "update"
+    ${pkgs.git}/bin/git add flake.lock > /dev/null 2>&1
+    ${pkgs.git}/bin/git commit -m "update" > /dev/null 2>&1
 
 
-    if ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${flake_path}\#${flake_config}; then
-      git push
+    if ${pkgs.sudo}/bin/sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${flake_path}\#${flake_config} > /dev/null 2>&1; then
+      git push > /dev/null 2>&1
       echo "✅ Mise à jour avec succès"
       ${nix-latest-update}/bin/nix-latest-update
     else
       echo "Échec de la mise à jour"
-      git reset --hard HEAD~1
+      git reset --hard HEAD~1 > /dev/null 2>&1
     fi
 ''
