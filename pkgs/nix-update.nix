@@ -14,13 +14,13 @@ pkgs.writeShellScriptBin "nix-update" ''
 
 
     if sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${flake_path}\#${flake_config} > /dev/null 2>&1; then
-      git push > /dev/null 2>&1
+      ${pkgs.git}/bin/git push > /dev/null 2>&1
       echo "✅ Mise à jour avec succès"
       ${nix-latest-update}/bin/nix-latest-update
       exit 0
     else
       echo "Échec de la mise à jour"
-      git reset --hard HEAD~1 > /dev/null 2>&1
+      ${pkgs.git}/bin/git reset --hard HEAD~1 > /dev/null 2>&1
       exit 1
     fi
 ''
