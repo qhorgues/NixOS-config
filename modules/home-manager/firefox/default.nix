@@ -339,13 +339,28 @@ in
                             {
                             template = "https://search.nixos.org/options";
                             params = [
-                                { name = "type"; value = "packages"; }
+                                { name = "type"; value = "options"; }
                                 { name = "query";   value = "{searchTerms}"; }
                             ];
                             }
                         ];
                         icon           = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                         definedAliases = [ "@no" ];
+                    };
+
+                    my-nixos = {
+                      name = "MyNixOS";
+                      urls = [
+                          {
+                          template = "https://mynixos.com/search";
+                          params = [
+                              { name = "type"; value = "packages"; }
+                              { name = "q";   value = "{searchTerms}"; }
+                          ];
+                          }
+                      ];
+                      icon           = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake-white.svg";
+                      definedAliases = [ "@mn" ];
                     };
 
                     nixos-wiki = {
