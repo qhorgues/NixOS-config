@@ -47,7 +47,7 @@
           editor.defaultFormatter = "vscode.json-language-features";
         };
         editor.fontLigatures = true;
-        editor.fontFamily = "'JetBrains Mono',";
+        # editor.fontFamily = "'JetBrains Mono',";
         workbench.tree.indent = 10;
         editor.cursorStyle = "line";
         editor.cursorBlinking = "smooth";
