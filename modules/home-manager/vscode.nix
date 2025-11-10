@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  home.packages = with pkgs; [
+    sqlite
+  ];
+
   programs.vscode = {
     enable = true;
     profiles.default = {
@@ -14,6 +18,7 @@
         rust-lang.rust-analyzer
         visualstudioexptteam.vscodeintellicode
         ms-vsliveshare.vsliveshare
+        yy0931.vscode-sqlite3-editor
       ];
 
       # Fichier settings.json
