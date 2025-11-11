@@ -56,35 +56,35 @@ in
                 nix-latest-update
             ];
         }
-        (lib.mkIf cfga.enable {
-            systemd.user.services.winter-auto-update = {
-                Unit = {
-                  Description = "Auto update services";
-                  After = [ "graphical-session.target" ];
-                };
-                Service = {
-                    Type = "exec";
-                    ExecStart = "${nix-update}/bin/nix-update";
-                };
-                Install = {
-                  WantedBy = [ "multi-user.target" ];
-                };
-            };
+        # (lib.mkIf cfga.enable {
+        #     systemd.user.services.winter-auto-update = {
+        #         Unit = {
+        #           Description = "Auto update services";
+        #           After = [ "graphical-session.target" ];
+        #         };
+        #         Service = {
+        #             Type = "exec";
+        #             ExecStart = "${nix-update}/bin/nix-update";
+        #         };
+        #         Install = {
+        #           WantedBy = [ "multi-user.target" ];
+        #         };
+        #     };
 
-            systemd.user.timers.winter-auto-update = {
-                Install = {
-                    WantedBy = [ "timers.target" ];
-                };
-                Unit = {
-                    Description = "Execute every day";
-                    Wants = [ "winter-auto-update-service.service" ];
-                };
-                Timer = {
-                    OnCalendar = "daily";
-                    Persistent = true;
-                    Unit = "winter-auto-update.service";
-                };
-            };
-        })
+        #     systemd.user.timers.winter-auto-update = {
+        #         Install = {
+        #             WantedBy = [ "timers.target" ];
+        #         };
+        #         Unit = {
+        #             Description = "Execute every day";
+        #             Wants = [ "winter-auto-update-service.service" ];
+        #         };
+        #         Timer = {
+        #             OnCalendar = "daily";
+        #             Persistent = true;
+        #             Unit = "winter-auto-update.service";
+        #         };
+        #     };
+        # })
     ];
 }
