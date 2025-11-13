@@ -5,6 +5,17 @@
     gamescope = {
       enable = true;
       capSysNice = true;
+      args = [
+        "--rt"
+        "--expose-wayland"
+      ];
+      env = {
+        TZ = ":/etc/localtime";
+        XKB_DEFAULT_LAYOUT="fr";
+        XKB_DEFAULT_VARIANT="latin9";
+        XKB_DEFAULT_OPTIONS="grp:alt_shift_toggle";
+      }
+      ;
     };
     gamemode.enable = true;
     steam = {
