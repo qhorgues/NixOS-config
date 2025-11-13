@@ -16,6 +16,9 @@
     rustc
     rust-analyzer
 
+    # Node
+    bun
+
     # Python
     python3
     uv
