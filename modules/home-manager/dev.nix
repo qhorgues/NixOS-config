@@ -28,6 +28,11 @@
     gaphor
     mysql-workbench
     filezilla
+
+    cambalache
+    gnome-builder
+    flatpak
+    flatpak-builder
   ];
 
 }
