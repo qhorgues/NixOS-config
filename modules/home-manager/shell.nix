@@ -12,6 +12,7 @@
         srihash=''function _srihash() {
             nix hash convert --hash-algo sha256 --to sri "$(nix-prefetch-url "$1")"
         }; _srihash'';
+        ng = "~/.bun/bin/ng";
       };
       oh-my-zsh = {
         enable = true;
