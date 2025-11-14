@@ -43,7 +43,8 @@ in
 
                   bing.metaData.hidden = true;
                   google.metaData.hidden = true;
-                  # ebay.metaData.hidden = true;
+                  ebay.metaData.hidden = true;
+                  perplexity.metaData.hidden = true;
               };
               order = [
                   "ddg"
@@ -384,7 +385,8 @@ in
 
                     bing.metaData.hidden = true;
                     google.metaData.hidden = true;
-                    # ebay.metaData.hidden = true;
+                    ebay.metaData.hidden = true;
+                    perplexity.metaData.hidden = true;
                 };
                 order = [
                     "ddg"
