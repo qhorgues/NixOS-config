@@ -1,4 +1,8 @@
 { pkgs, lib,... }:
+
+# let
+#   gnome-ext-hanabi = (pkgs.callPackage ../../../pkgs/gnome-ext-hanabi.nix {});
+# in
 {
     imports = [
         ./mineapps.nix
@@ -26,6 +30,7 @@
         gnomeExtensions.caffeine
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
+        # gnome-ext-hanabi
         # gnomeExtensions.tiling-shell
         # Icons
         papirus-icon-theme
@@ -44,6 +49,7 @@
               caffeine.extensionUuid
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
+              # gnome-ext-hanabi.extensionUuid
               # tiling-shell.extensionUuid
             ];
             favorite-apps = [
