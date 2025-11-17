@@ -36,6 +36,7 @@
     # PHP / Laravel
     php84
     php84Packages.composer
+    laravel
 
     # Gnome app dev suite
     cambalache
