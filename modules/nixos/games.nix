@@ -1,5 +1,10 @@
 { pkgs, pkgs-unstable, lib, ... }:
 
+let
+  lsfg-vk = pkgs.callPackage ../../pkgs/lsfg-vk.nix { };
+  lsfg-vk-ui = pkgs.callPackage ../../pkgs/lsfg-vk-ui.nix { };
+
+in
 {
   programs = {
     gamescope = {
@@ -27,6 +32,9 @@
       remotePlay.openFirewall = false;
       dedicatedServer.openFirewall = false;
       localNetworkGameTransfers.openFirewall = true;
+      extraPackages = [
+        # lsfg-vk
+      ];
       extraCompatPackages = [
         pkgs-unstable.proton-ge-bin
       ];
@@ -34,6 +42,10 @@
         extraEnv = {
           TZ = ":/etc/localtime";
           MANGOHUD = true;
+          # VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";
+          # ENABLE_LFSG=1;
+          # LFSG_MULTIPLIER=4;
+          # LSFG_LEGACY=1;
         };
       };
     };
