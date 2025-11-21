@@ -17,8 +17,8 @@
         ../../modules/nixos/ollama.nix
         ../../modules/nixos/ios-connect.nix
         ../../modules/nixos/mariadb.nix
-        ../../modules/nixos/modeling.nix
-        ../../modules/nixos/docker.nix
+        # ../../modules/nixos/modeling.nix
+        # ../../modules/nixos/docker.nix
         # ../../modules/nixos/vm.nix
         # ../../modules/nixos/winapps.nix
         # ../../modules/nixos/powersave.nix
