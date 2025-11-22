@@ -90,7 +90,7 @@
             dock-position = "BOTTOM";
             extend-height = false;
             height-fraction = 0.9;
-            intellihide = false;
+            intellihide = true;
             intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
             multi-monitor = true;
             preferred-monitor = -2;
