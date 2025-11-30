@@ -1,7 +1,7 @@
 { pkgs, pkgs-unstable, inputs, lib, config, ... }:
 
 let
-    addons = inputs.firefox-addons.packages.${pkgs.system};
+    addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
     getId = str:
         builtins.substring 1 (builtins.stringLength str - 2) str;
 in

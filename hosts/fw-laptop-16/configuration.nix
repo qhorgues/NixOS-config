@@ -75,4 +75,5 @@
         "quentin" = import ./quentin.nix;
       };
     };
+    hardware.fw-fanctrl.enable = true;
 }
