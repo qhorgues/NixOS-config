@@ -2,8 +2,10 @@
 
 {
   boot = {
-    loader.systemd-boot.enable = lib.mkDefault true;
-    loader.systemd-boot.configurationLimit = lib.mkDefault 10;
+    loader.limine.enable = true;
+    loader.limine.maxGenerations = 10;
+    loader.limine.secureBoot.enable = true;
+
     loader.efi.canTouchEfiVariables = lib.mkDefault true;
     tmp.useTmpfs = lib.mkDefault true;
     consoleLogLevel = 0;

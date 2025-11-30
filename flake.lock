@@ -8,11 +8,11 @@
       },
       "locked": {
         "dir": "pkgs/firefox-addons",
-        "lastModified": 1764389080,
-        "narHash": "sha256-BEn1Z9Uv20u2DS6wzLKdzx5kAzynM3wMQ9JnGf3VJvI=",
+        "lastModified": 1764475519,
+        "narHash": "sha256-12TAT2CD+L+wdIHszQnPyu8zGSBxcazoVZmP6UQjk6s=",
         "owner": "rycee",
         "repo": "nur-expressions",
-        "rev": "897437c09bf22ce59efb3370f0783d0c662dba31",
+        "rev": "1172c39fb0e847a7f036e480d94f629edcf2cf46",
         "type": "gitlab"
       },
       "original": {
@@ -61,16 +61,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1763992789,
-        "narHash": "sha256-WHkdBlw6oyxXIra/vQPYLtqY+3G8dUVZM8bEXk0t8x4=",
+        "lastModified": 1764398914,
+        "narHash": "sha256-YPrpwlVQidzQlMh0OnquaJR+58rKe9YNnuRis293Ilo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "44831a7eaba4360fb81f2acc5ea6de5fde90aaa3",
+        "rev": "d0c5fdc48db6f19471b8adc954eca09194e68036",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "release-25.05",
+        "ref": "release-25.11",
         "repo": "home-manager",
         "type": "github"
       }
@@ -92,11 +92,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1764328224,
-        "narHash": "sha256-hFyF1XQd+XrRx7WZCrGJp544dykexD8Q5SrJJZpEQYg=",
+        "lastModified": 1764440730,
+        "narHash": "sha256-ZlJTNLUKQRANlLDomuRWLBCH5792x+6XUJ4YdFRjtO4=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "d62603a997438e19182af69d3ce7be07565ecad4",
+        "rev": "9154f4569b6cdfd3c595851a6ba51bfaa472d9f3",
         "type": "github"
       },
       "original": {
@@ -107,16 +107,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1764373669,
-        "narHash": "sha256-UU0F1QFel5RJFdSOlZR+BtzD/I78o3aU4W+r/VStzVM=",
+        "lastModified": 1764491476,
+        "narHash": "sha256-E4rtgPS7fntINb6fVJ5qQdkhfbZn8pzMYNdmiXqZmCo=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c5eb8fd9929fc4ca77040d76f03f92b1a1131a8d",
+        "rev": "54f09efd2ca0dd5bb9c5fafc89573ab3ac44701d",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "release-25.05",
+        "ref": "release-25.11",
         "repo": "nixpkgs",
         "type": "github"
       }

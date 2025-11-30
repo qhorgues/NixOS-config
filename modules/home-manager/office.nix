@@ -4,7 +4,7 @@
   home.packages = with pkgs; [
     texliveFull
     texstudio
-    onlyoffice-bin
+    onlyoffice-desktopeditors
     libreoffice
     thunderbird-latest-bin
   ];
