@@ -2,9 +2,12 @@
 
 {
   boot = {
-    loader.limine.enable = true;
-    loader.limine.maxGenerations = 10;
-    loader.limine.secureBoot.enable = true;
+    loader.limine = {
+      enable = true;
+      maxGenerations = 10;
+      secureBoot.enable = true;
+      extraConfig = "timeout: 1\nquiet: yes\nremember_last_entry: yes";
+    };
 
     loader.efi.canTouchEfiVariables = lib.mkDefault true;
     tmp.useTmpfs = lib.mkDefault true;
