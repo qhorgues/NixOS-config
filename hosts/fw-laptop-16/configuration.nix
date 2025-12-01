@@ -48,9 +48,12 @@
     '';
 
     winter = {
-      hardware.gpu = {
-        vendor = "amdgpu";
-        acceleration = "rocm";
+      hardware = {
+        framework-fan-ctrl.enable = true;
+        gpu = {
+          vendor = "amdgpu";
+          acceleration = "rocm";
+        };
       };
       main-user = {
         enable = true;
@@ -66,6 +69,9 @@
       # };
     };
 
+    programs.adb.enable = true;
+    users.users."quentin".extraGroups = [ "adbusers" ];
+
     home-manager = {
       extraSpecialArgs = {
           inherit self inputs pkgs pkgs-unstable;
@@ -75,5 +81,4 @@
         "quentin" = import ./quentin.nix;
       };
     };
-    hardware.fw-fanctrl.enable = true;
 }

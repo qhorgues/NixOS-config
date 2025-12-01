@@ -31,4 +31,10 @@ with lib;
       description = "Path to lossless scaling DLL";
     };
   };
+
+  options.winter.hardware.framework-fan-ctrl.enable = mkOption {
+    type = types.bool;
+    default = false;
+    description = "Enable fan control for framework";
+  };
 }
