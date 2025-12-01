@@ -1,4 +1,4 @@
-{ pkgs, lib,... }:
+{ pkgs, lib, config, ... }:
 {
     imports = [
         ./mineapps.nix
@@ -26,11 +26,12 @@
         gnomeExtensions.caffeine
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
+        gnomeExtensions.gsconnect
         # gnomeExtensions.tiling-shell
         # Icons
         papirus-icon-theme
         # (import ../../../pkgs/winteros-icons.nix {inherit pkgs;})
-    ];
+    ]; # ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.fw-fanctrl;
     dconf = {
         enable = true;
         settings = {
@@ -44,8 +45,9 @@
               caffeine.extensionUuid
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
+              gsconnect.extensionUuid
               # tiling-shell.extensionUuid
-            ];
+            ];# ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.fw-fanctrl.extensionUuid;
             favorite-apps = [
               "firefox.desktop"
               "org.gnome.Nautilus.desktop"
