@@ -64,8 +64,8 @@
             enable-hot-corners = false;
         };
         "org/gnome/desktop/background" = {
-            picture-uri =  "file:///run/current-system/sw/share/backgrounds/gnome/amber-l.jxl";
-            picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/amber-d.jxl";
+            picture-uri =  "file://${config.home.homeDirectory}/.local/share/wallpaper/clair-obscur.jpg";
+            picture-uri-dark = "file://${config.home.homeDirectory}/.local/share/wallpaper/clair-obscur.jpg";
         };
         "org/gnome/desktop/wm/preferences" = {
             button-layout = "appmenu:minimize,maximize,close";
@@ -218,4 +218,5 @@
         };
         };
     };
+    home.file.".local/share/wallpaper/clair-obscur.jpg".source = ./clair-obscur.jpg;
 }
