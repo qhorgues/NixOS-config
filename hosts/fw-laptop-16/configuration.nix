@@ -17,8 +17,8 @@
         ../../modules/nixos/ollama.nix
         ../../modules/nixos/ios-connect.nix
         ../../modules/nixos/mariadb.nix
-        ../../modules/nixos/modeling.nix
-        ../../modules/nixos/docker.nix
+        # ../../modules/nixos/modeling.nix
+        # ../../modules/nixos/docker.nix
         # ../../modules/nixos/vm.nix
         # ../../modules/nixos/winapps.nix
         # ../../modules/nixos/powersave.nix
@@ -48,9 +48,12 @@
     '';
 
     winter = {
-      hardware.gpu = {
-        vendor = "amdgpu";
-        acceleration = "rocm";
+      hardware = {
+        framework-fan-ctrl.enable = true;
+        gpu = {
+          vendor = "amdgpu";
+          acceleration = "rocm";
+        };
       };
       main-user = {
         enable = true;
@@ -65,6 +68,9 @@
       #   users = [ "quentin" ];
       # };
     };
+
+    programs.adb.enable = true;
+    users.users."quentin".extraGroups = [ "adbusers" ];
 
     home-manager = {
       extraSpecialArgs = {

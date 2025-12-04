@@ -11,12 +11,6 @@ let
   };
 in
 {
-  options.winter.ollama.acceleration = lib.mkOption {
-    description = "ollama acceleration";
-    type = lib.types.nullOr lib.types.str;
-    default = null;
-  };
-
   config = {
     winter.hardware.gpu.enable-acceleration = true;
 

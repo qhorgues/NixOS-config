@@ -1,4 +1,4 @@
-{ pkgs, lib,... }:
+{ pkgs, lib, config, ... }:
 
 # let
 #   gnome-ext-hanabi = (pkgs.callPackage ../../../pkgs/gnome-ext-hanabi.nix {});
@@ -31,11 +31,12 @@
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
         # gnome-ext-hanabi
+        gnomeExtensions.gsconnect
         # gnomeExtensions.tiling-shell
         # Icons
         papirus-icon-theme
         # (import ../../../pkgs/winteros-icons.nix {inherit pkgs;})
-    ];
+    ]; # ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.fw-fanctrl;
     dconf = {
         enable = true;
         settings = {
@@ -50,8 +51,9 @@
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
               # gnome-ext-hanabi.extensionUuid
+              gsconnect.extensionUuid
               # tiling-shell.extensionUuid
-            ];
+            ];# ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.fw-fanctrl.extensionUuid;
             favorite-apps = [
               "firefox.desktop"
               "org.gnome.Nautilus.desktop"
@@ -68,8 +70,8 @@
             enable-hot-corners = false;
         };
         "org/gnome/desktop/background" = {
-            picture-uri =  "file:///run/current-system/sw/share/backgrounds/gnome/amber-l.jxl";
-            picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/amber-d.jxl";
+            picture-uri =  "file://${config.home.homeDirectory}/.local/share/wallpaper/clair-obscur.jpg";
+            picture-uri-dark = "file://${config.home.homeDirectory}/.local/share/wallpaper/clair-obscur.jpg";
         };
         "org/gnome/desktop/wm/preferences" = {
             button-layout = "appmenu:minimize,maximize,close";
@@ -96,7 +98,7 @@
             dock-position = "BOTTOM";
             extend-height = false;
             height-fraction = 0.9;
-            intellihide = false;
+            intellihide = true;
             intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
             multi-monitor = true;
             preferred-monitor = -2;
@@ -222,4 +224,5 @@
         };
         };
     };
+    home.file.".local/share/wallpaper/clair-obscur.jpg".source = ./clair-obscur.jpg;
 }
