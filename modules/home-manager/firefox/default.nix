@@ -1,7 +1,7 @@
 { pkgs, pkgs-unstable, inputs, lib, config, ... }:
 
 let
-    addons = inputs.firefox-addons.packages.${pkgs.system};
+    addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
     getId = str:
         builtins.substring 1 (builtins.stringLength str - 2) str;
 in
@@ -89,6 +89,7 @@ in
             "browser.discovery.enabled" = false;
             "browser.display.document_color_use" = 0;
             "browser.download.useDownloadDir" = false;
+            "browser.gnome-search-provider.enabled" = true;
             "browser.download.viewableInternally.typeWasRegistered.avif" = true;
             "browser.download.viewableInternally.typeWasRegistered.webp" = true;
             "browser.engagement.sidebar-button.has-used" = true;

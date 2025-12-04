@@ -2,8 +2,13 @@
 
 {
   boot = {
-    loader.systemd-boot.enable = lib.mkDefault true;
-    loader.systemd-boot.configurationLimit = lib.mkDefault 10;
+    loader.limine = {
+      enable = true;
+      maxGenerations = 10;
+      secureBoot.enable = true;
+      extraConfig = "timeout: 1\nquiet: yes\nremember_last_entry: yes";
+    };
+
     loader.efi.canTouchEfiVariables = lib.mkDefault true;
     tmp.useTmpfs = lib.mkDefault true;
     consoleLogLevel = 0;

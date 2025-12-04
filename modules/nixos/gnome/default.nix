@@ -25,21 +25,21 @@
               xserver = {
                 enable = true;
                 videoDriver = config.winter.hardware.gpu.vendor;
-                displayManager.gdm.enable = true;
                 excludePackages = with pkgs; [
                     xterm
                 ];
-                desktopManager.gnome = {
-                    enable = true;
-                    extraGSettingsOverrides = ''
-                      [org.gnome.mutter]
-                      experimental-features=['scale-monitor-framebuffer','xwayland-native-scaling','variable-refresh-rate']
-                    '';
-                };
                 xkb = {
                     layout = lib.mkDefault "fr";
                     variant = "";
                 };
+              };
+              displayManager.gdm.enable = true;
+              desktopManager.gnome = {
+                enable = true;
+                extraGSettingsOverrides = ''
+                  [org.gnome.mutter]
+                  experimental-features=['scale-monitor-framebuffer','xwayland-native-scaling','variable-refresh-rate']
+                '';
               };
             };
         }
@@ -110,7 +110,15 @@
                 cups
                 simple-scan
                 gnome-shell-extensions
+                showtime
+                decibels
             ];
+        }
+        {
+          networking.firewall = rec {
+            allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+            allowedUDPPortRanges = allowedTCPPortRanges;
+          };
         }
         {
             # Is used to fix blank screen on GDM
