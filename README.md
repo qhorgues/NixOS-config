@@ -50,7 +50,7 @@ add in crypt device section
 ```
 
 and execute after rebuild and reboot
-```
+```bash
 # TPM with auto unlock
 sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/<LUKS_PARTITION>
 # OR
