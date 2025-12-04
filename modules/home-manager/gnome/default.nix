@@ -1,8 +1,8 @@
 { pkgs, lib, config, ... }:
 
-# let
-#   gnome-ext-hanabi = (pkgs.callPackage ../../../pkgs/gnome-ext-hanabi.nix {});
-# in
+let
+  gnome-ext-hanabi = (pkgs.callPackage ../../../pkgs/gnome-ext-hanabi.nix {});
+in
 {
     imports = [
         ./mineapps.nix
@@ -30,7 +30,7 @@
         gnomeExtensions.caffeine
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
-        # gnome-ext-hanabi
+        gnome-ext-hanabi
         gnomeExtensions.gsconnect
         # gnomeExtensions.tiling-shell
         # Icons
@@ -50,7 +50,7 @@
               caffeine.extensionUuid
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
-              # gnome-ext-hanabi.extensionUuid
+              gnome-ext-hanabi.extensionUuid
               gsconnect.extensionUuid
               # tiling-shell.extensionUuid
             ];# ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.fw-fanctrl.extensionUuid;
