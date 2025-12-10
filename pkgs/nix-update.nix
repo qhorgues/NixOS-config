@@ -3,7 +3,7 @@
 pkgs.writeShellScriptBin "nix-update" ''
     cd ${flake_path}
     if ! ${pkgs.git}/bin/git diff-index --quiet HEAD --; then
-      echo "Le dépôt contient des modifications non commités. Abandon."
+      ${pkgs.coreutils}/bin/echo "The repository contains uncommitted changes. Cancelled."
       exit 1
     fi
 
@@ -13,13 +13,13 @@ pkgs.writeShellScriptBin "nix-update" ''
     ${pkgs.git}/bin/git commit -m "update" > /dev/null 2>&1
 
 
-    if sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${flake_path}\#${flake_config}; then
+    if ${pkgs.sudo}/bin/sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${flake_path}\#${flake_config}; then
       ${pkgs.git}/bin/git push > /dev/null 2>&1
-      echo "✅ Mise à jour avec succès"
+      ${pkgs.coreutils}/bin/echo "Updated successfully"
       ${nix-latest-update}/bin/nix-latest-update
       exit 0
     else
-      echo "Échec de la mise à jour"
+      ${pkgs.coreutils}/bin/echo "Update failed"
       ${pkgs.git}/bin/git reset --hard HEAD~1 > /dev/null 2>&1
       exit 1
     fi
