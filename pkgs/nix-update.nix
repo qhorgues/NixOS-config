@@ -13,7 +13,7 @@ pkgs.writeShellScriptBin "nix-update" ''
     ${pkgs.git}/bin/git commit -m "update" > /dev/null 2>&1
 
 
-    if ${pkgs.sudo}/bin/sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${flake_path}\#${flake_config}; then
+    if sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild switch --flake ${flake_path}\#${flake_config}; then
       ${pkgs.git}/bin/git push > /dev/null 2>&1
       ${pkgs.coreutils}/bin/echo "Updated successfully"
       ${nix-latest-update}/bin/nix-latest-update
