@@ -7,9 +7,6 @@
     '';
 
   home.packages = with pkgs; [
-
-    discord
-
     fastfetch
     htop
     lm_sensors
