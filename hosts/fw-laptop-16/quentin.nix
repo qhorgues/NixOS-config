@@ -15,6 +15,7 @@
     ../../modules/home-manager/flake-script.nix
     ../../modules/home-manager/vscode.nix
     ../../modules/home-manager/vim.nix
+    ../../modules/home-manager/discord.nix
     ./home-manager/zed-remote-folder.nix
   ];
 
