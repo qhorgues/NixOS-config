@@ -42,7 +42,9 @@ in
           extraEnv = {
             TZ = ":/etc/localtime";
             MANGOHUD = true;
-
+            # PROTON_FSR4_UPGRADE = true;
+            PROTON_FSR4_RDNA3_UPGRADE = true;
+            # PROTON_FSR4_INDICATOR = true;
           } //
           (if config.winter.games.lsfg.enable == true then {
             VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";
