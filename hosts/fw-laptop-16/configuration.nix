@@ -26,6 +26,8 @@
 
     networking.hostName = "fw-laptop-quentin";
 
+    boot.kernelParams = [ "acpi_osi=Linux" ];
+
     fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
     fileSystems."/mnt/Games" =
     { device = "/dev/disk/by-uuid/1b35568b-4447-4c80-9880-4b359d4ecb6c";
@@ -62,7 +64,7 @@
       };
       gnome = {
         scaling = 2;
-        text-scaling = 0.8;
+        text-scaling = 0.7;
       };
       # vm = {
       #   users = [ "quentin" ];
