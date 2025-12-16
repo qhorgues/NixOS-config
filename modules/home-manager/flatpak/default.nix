@@ -1,11 +1,11 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 {
   home.packages = with pkgs; [
     flatpak
   ];
 
   home.sessionVariables = {
-    XDG_DATA_DIRS = "$HOME/.local/share/flatpak/exports/share:$XDG_DATA_DIRS";
+    XDG_DATA_DIRS = "${config.home.homeDirectory}/.local/share/flatpak/exports/share:$XDG_DATA_DIRS";
   };
 
   home.activation.flatpak = lib.hm.dag.entryAfter ["writeBoundary"]
