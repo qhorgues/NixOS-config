@@ -38,8 +38,8 @@
                 enable = true;
                 extraGSettingsOverrides = ''
                   [org.gnome.mutter]
-                  experimental-features=['scale-monitor-framebuffer','xwayland-native-scaling','variable-refresh-rate']
-                '';
+                  experimental-features=['variable-refresh-rate']
+                ''; #'scale-monitor-framebuffer','xwayland-native-scaling'
               };
             };
         }
@@ -62,6 +62,17 @@
                                     (lib.gvariant.mkTuple["xkb" "fr+oss"])
                                 ];
                             };
+                        };
+                    }];
+                    user.databases = [{
+                        settings = {
+                            "org/gnome/settings-daemon/plugins/color" = {
+                                night-light-enabled = true;
+                            };
+                            # "org/gnome/desktop/interface" = {
+                            #     scaling-factor = lib.gvariant.mkUint32 config.winter.gnome.scaling;
+                            #     text-scaling-factor = lib.gvariant.mkDouble config.winter.gnome.text-scaling;
+                            # };
                         };
                     }];
                 };
