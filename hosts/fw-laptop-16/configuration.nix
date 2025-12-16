@@ -17,6 +17,7 @@
         ../../modules/nixos/ollama.nix
         ../../modules/nixos/ios-connect.nix
         ../../modules/nixos/mariadb.nix
+        ../../modules/nixos/unreal-engine-5.nix
         # ../../modules/nixos/modeling.nix
         # ../../modules/nixos/docker.nix
         # ../../modules/nixos/vm.nix
@@ -62,7 +63,7 @@
       };
       gnome = {
         scaling = 2;
-        text-scaling = 0.8;
+        text-scaling = 0.7;
       };
       # vm = {
       #   users = [ "quentin" ];
