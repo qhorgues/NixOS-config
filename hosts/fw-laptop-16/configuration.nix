@@ -22,6 +22,7 @@
         # ../../modules/nixos/vm.nix
         # ../../modules/nixos/winapps.nix
         # ../../modules/nixos/powersave.nix
+        # ../../modules/nixos/team-viewer.nix
     ];
 
     networking.hostName = "fw-laptop-quentin";
