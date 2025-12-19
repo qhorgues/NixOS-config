@@ -77,31 +77,13 @@ in
         };
     };
 
-    nixpkgs.overlays = [
-      (self: super: {
-        linuxPackages = super.linuxPackages // {
-          kernel = super.linuxPackages.kernel.override {
-            structuredExtraConfig = with lib.kernel; {
-              HZ_1000 = yes;
-              HZ = 1000;
-              PREEMPT_FULL = yes;
-              IOSCHED_BFQ = yes;
-              DEFAULT_BFQ = yes;
-              DEFAULT_IOSCHED = "bfq";
-              V4L2_LOOPBACK = module;
-              HID = yes;
-            };
-          };
-        };
-      })
-    ];
-
     services.udev.extraRules = ''
       ACTION=="add|change", SUBSYSTEM=="block", ATTR{queue/scheduler}="bfq"
     '';
 
+    boot.kernelPackages = pkgs.linuxPackages_zen;
     boot.kernel.sysctl = {
-      "kernel.split_lock_mitigate" = 0;
+      # "kernel.split_lock_mitigate" = 0;
       "vm.swappiness" = 10;
       "vm.vfs_cache_pressure" = 50;
       "vm.dirty_bytes" = 268435456;
@@ -114,39 +96,43 @@ in
       "kernel.kptr_restrict" = 2;
       "kernel.kexec_load_disabled" = 1;
     };
+    system.activationScripts.steamConfigInject = {
+      text = ''
+        for user in /home/*; do
+          config_path="$user/.local/share/Steam/config/config.vdf"
+          if [ ! -f "$config_path" ]; then
+            mkdir -p "$(dirname "$config_path")"
+            cat > "$config_path" <<EOF
+        "InstallConfigStore"
+        {
+        "Software"
+        {
+          "Valve"
+          {
+              "Steam"
+              {
+                  "CompatToolMapping"
+                  {
+                      "0"
+                      {
+                          "name"      "GE-Proton"
+                          "config"        ""
+                          "priority"      "75"
+                      }
+                  }
+                  "ShaderCacheManager"
+                  {
+                      "EnableShaderBackgroundProcessing"          "1"
+                  }
+              }
+          }
+        }
+        }
+        EOF
+            chown $(basename "$user"):users "$config_path"
+          fi
+        done
+      '';
+    };
   };
 }
-#  system.activationScripts.steamConfigInject = {
-#      text = ''
-#        for user in /home/*; do
-#          config_path="$user/.local/share/Steam/config/config.vdf"
-#          if [ ! -f "$config_path" ]; then
-#            mkdir -p "$(dirname "$config_path")"
-#            cat > "$config_path" <<EOF
-#  "InstallConfigStore"
-#  {
-#      "Software"
-#      {
-#          "Valve"
-#          {
-#              "Steam"
-#              {
-#                  "CompatToolMapping"
-#                  {
-#                      "0"
-#                      {
-#                          "name"      "GE-Proton"
-#                          "config"        ""
-#                          "priority"      "75"
-#                      }
-#                  }
-#              }
-#          }
-#      }
-#  }
-#  EOF
-#            chown $(basename "$user"):users "$config_path"
-#          fi
-#        done
-#      '';
-#    };
