@@ -13,7 +13,7 @@
     tmp.useTmpfs = lib.mkDefault true;
     consoleLogLevel = 0;
 
-    kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages;
     kernelParams = lib.mkDefault [ "quiet" "udev.log_level=0" ];
 
     initrd.systemd.enable = lib.mkDefault true;

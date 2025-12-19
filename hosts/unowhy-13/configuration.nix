@@ -5,7 +5,7 @@
         inputs.nixos-hardware.nixosModules.common-pc-laptop
         inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
         ./hardware-configuration.nix
-        ../../modules/nixos
+        ../../modules/nixos/core
         ../../modules/nixos/fonts
         ../../modules/nixos/gnome
         ../../modules/nixos/main-users.nix
