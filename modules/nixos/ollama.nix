@@ -1,11 +1,11 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 let
   # open-webui-shortcut = pkgs.makeDesktopItem {
   #   name = "Open WebUI";
   #   desktopName = "IA local";
-  #   exec = "${pkgs.xdg-utils}/bin/xdg-open http://localhost:8080"; # Commande pour exécuter l'application
-  #   icon = "wechat"; # Chemin vers l'icône
+  #   exec = "${pkgs.xdg-utils}/bin/xdg-open http://localhost:8080";
+  #   icon = "wechat";
   #   comment = "Acceder a l'ia locale";
   #   categories = [ "Utility" ];
   # };
