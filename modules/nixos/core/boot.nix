@@ -11,10 +11,11 @@
 
     loader.efi.canTouchEfiVariables = lib.mkDefault true;
     tmp.useTmpfs = lib.mkDefault true;
-    consoleLogLevel = 0;
+    consoleLogLevel = 3;
+    initrd.verbose = false;
 
     kernelPackages = lib.mkDefault pkgs.linuxPackages;
-    kernelParams = lib.mkDefault [ "quiet" "udev.log_level=0" ];
+    kernelParams = lib.mkDefault [ "quiet" "udev.log_level=3" ];
 
     initrd.systemd.enable = lib.mkDefault true;
     plymouth.enable = lib.mkDefault true;
