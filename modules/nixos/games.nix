@@ -42,6 +42,7 @@ in
           extraEnv = {
             TZ = ":/etc/localtime";
             MANGOHUD = true;
+            DRI_PRIME=1;
             # PROTON_FSR4_UPGRADE = true;
             PROTON_FSR4_RDNA3_UPGRADE = true;
             # PROTON_FSR4_INDICATOR = true;
