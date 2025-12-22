@@ -20,8 +20,7 @@ in
           XKB_DEFAULT_LAYOUT="fr";
           XKB_DEFAULT_VARIANT="latin9";
           XKB_DEFAULT_OPTIONS="grp:alt_shift_toggle";
-        }
-        ;
+        };
       };
       gamemode.enable = true;
       steam = {
@@ -29,7 +28,6 @@ in
         gamescopeSession = {
             enable = true;
         };
-        extest.enable = true;
         remotePlay.openFirewall = false;
         dedicatedServer.openFirewall = false;
         localNetworkGameTransfers.openFirewall = true;
@@ -101,10 +99,12 @@ in
     system.activationScripts.steamConfigInject = {
       text = ''
         for user in /home/*; do
-          config_path="$user/.local/share/Steam/config/config.vdf"
-          if [ ! -f "$config_path" ]; then
-            mkdir -p "$(dirname "$config_path")"
-            cat > "$config_path" <<EOF
+          steam_path="$user/.local/share/Steam"
+          config_path="$steam_path/config"
+          config_file="$config_path/config.vdf"
+          mkdir -p "$config_path"
+          if [ ! -f "$config_file" ]; then
+            cat > "$config_file" <<EOF
         "InstallConfigStore"
         {
         "Software"
@@ -131,7 +131,7 @@ in
         }
         }
         EOF
-            chown $(basename "$user"):users "$config_path"
+            chown -R $(basename "$user"):users "$steam_path"
           fi
         done
       '';
