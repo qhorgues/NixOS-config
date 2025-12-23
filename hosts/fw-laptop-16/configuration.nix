@@ -4,7 +4,6 @@
         inputs.nixos-hardware.nixosModules.framework-16-7040-amd
         ./hardware-configuration.nix
         ../../modules/nixos/core
-        ../../modules/options.nix
         ../../modules/nixos/fonts
         ../../modules/nixos/gnome
         ../../modules/nixos/main-users.nix

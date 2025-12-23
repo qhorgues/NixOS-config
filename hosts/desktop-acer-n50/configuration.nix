@@ -24,7 +24,7 @@ in
         ../../modules/nixos/vm.nix
         ../../modules/nixos/mariadb.nix
         ../../modules/nixos/ios-connect.nix
-        ../../modules/home-manager/modeling.nix
+        ../../modules/nixos/modeling.nix
     ];
 
     hardware.nvidia.open = false;
