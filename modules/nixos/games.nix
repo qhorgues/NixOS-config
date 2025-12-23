@@ -40,9 +40,10 @@ in
           extraEnv = {
             TZ = ":/etc/localtime";
             MANGOHUD = true;
-            # PROTON_FSR4_UPGRADE = true;
-            PROTON_FSR4_RDNA3_UPGRADE = true;
-            # PROTON_FSR4_INDICATOR = true;
+            PROTON_FSR4_UPGRADE = config.winter.hardware.gpu.generation == "rdna4" && config.winter.hardware.gpu.frame-generation.enable;
+            PROTON_FSR4_RDNA3_UPGRADE = config.winter.hardware.gpu.generation == "rdna3" && config.winter.hardware.gpu.frame-generation.enable;
+            PROTON_DLSS_UPGRADE = config.winter.hardware.gpu.vendor == "nvidia" && config.winter.hardware.gpu.frame-generation.enable;
+            PROTON_XESS_UPGRADE = config.winter.hardware.gpu.vendor == "intel" && config.winter.hardware.gpu.frame-generation.enable;
           } //
           (if config.winter.games.lsfg.enable == true then {
             VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";

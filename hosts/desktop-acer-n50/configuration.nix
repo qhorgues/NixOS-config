@@ -46,10 +46,12 @@ in
       hardware.gpu = {
         vendor = "nvidia";
         acceleration = "cuda";
+        frame-generation.enable = false;
+        generation = "pascal";
       };
       nvidia.standby = {
-          enable = true;
-          old-gpu = true;
+        enable = true;
+        old-gpu = true;
       };
       main-user = {
           enable = true;
