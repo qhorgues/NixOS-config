@@ -1,7 +1,7 @@
 { pkgs, acceleration }:
 
 if acceleration == "cuda" then
-  pkgs.blender {
+  pkgs.blender.override {
     cudaSupport = true;
   }
 else if acceleration == "rocm" then
