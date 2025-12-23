@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, lib,... }:
+{ pkgs, lib, config, ... }:
 {
     imports = [
         ./mineapps.nix
@@ -12,7 +12,7 @@
         gnome-calculator
         gnome-music
         showtime
-        evince
+        papers
         file-roller
         nautilus
         loupe
@@ -24,13 +24,14 @@
         gnomeExtensions.appindicator
         gnomeExtensions.removable-drive-menu
         gnomeExtensions.caffeine
-        gnomeExtensions.user-themes
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
+        gnomeExtensions.gsconnect
         # gnomeExtensions.tiling-shell
         # Icons
-        pkgs-unstable.papirus-icon-theme
-    ];
+        papirus-icon-theme
+        # (import ../../../pkgs/winteros-icons.nix {inherit pkgs;})
+    ]; # ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.fw-fanctrl;
     dconf = {
         enable = true;
         settings = {
@@ -42,11 +43,11 @@
               appindicator.extensionUuid
               removable-drive-menu.extensionUuid
               caffeine.extensionUuid
-              user-themes.extensionUuid
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
+              gsconnect.extensionUuid
               # tiling-shell.extensionUuid
-            ];
+            ];# ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.fw-fanctrl.extensionUuid;
             favorite-apps = [
               "firefox.desktop"
               "org.gnome.Nautilus.desktop"
@@ -56,15 +57,15 @@
             ];
         };
         "org/gnome/desktop/interface" = {
-            icon-theme = "Papirus";
+            icon-theme = "Papirus"; # "WinterOS-icons";
             show-battery-percentage = true;
             toolbar-style = "text";
             gtk-theme = "Adwaita";
             enable-hot-corners = false;
         };
         "org/gnome/desktop/background" = {
-            picture-uri =  "file:///run/current-system/sw/share/backgrounds/gnome/amber-l.jxl";
-            picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/amber-d.jxl";
+            picture-uri =  "file://${config.home.homeDirectory}/.local/share/wallpaper/clair-obscur.jpg";
+            picture-uri-dark = "file://${config.home.homeDirectory}/.local/share/wallpaper/clair-obscur.jpg";
         };
         "org/gnome/desktop/wm/preferences" = {
             button-layout = "appmenu:minimize,maximize,close";
@@ -91,7 +92,7 @@
             dock-position = "BOTTOM";
             extend-height = false;
             height-fraction = 0.9;
-            intellihide = false;
+            intellihide = true;
             intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
             multi-monitor = true;
             preferred-monitor = -2;
@@ -217,4 +218,5 @@
         };
         };
     };
+    home.file.".local/share/wallpaper/clair-obscur.jpg".source = ./clair-obscur.jpg;
 }

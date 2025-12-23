@@ -3,10 +3,10 @@
     imports = [
         inputs.nixos-hardware.nixosModules.framework-16-7040-amd
         ./hardware-configuration.nix
+        ../../modules/nixos/core
+        ../../modules/options.nix
         ../../modules/nixos/fonts
         ../../modules/nixos/gnome
-        ../../modules/nixos/boot.nix
-        ../../modules/nixos/common.nix
         ../../modules/nixos/main-users.nix
         ../../modules/nixos/sound.nix
         ../../modules/nixos/security.nix
@@ -14,14 +14,20 @@
         ../../modules/nixos/games.nix
         ../../modules/nixos/update.nix
         ../../modules/nixos/disable-bluetooth.nix
-        ../../modules/nixos/vm.nix
         ../../modules/nixos/ollama.nix
-        ../../modules/nixos/powersave.nix
         ../../modules/nixos/ios-connect.nix
         ../../modules/nixos/mariadb.nix
+        # ../../modules/nixos/modeling.nix
+        # ../../modules/nixos/docker.nix
+        # ../../modules/nixos/vm.nix
+        # ../../modules/nixos/winapps.nix
+        # ../../modules/nixos/powersave.nix
+        # ../../modules/nixos/team-viewer.nix
     ];
 
     networking.hostName = "fw-laptop-quentin";
+
+    boot.kernelParams = [ "acpi_osi=Linux" ];
 
     fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
     fileSystems."/mnt/Games" =
@@ -45,32 +51,39 @@
     '';
 
     winter = {
-        hardware.acceleration = "rocm";
-        main-user = {
-            enable = true;
-            userName = "quentin";
-            userFullName = "Quentin Horgues";
+      hardware = {
+        framework-fan-ctrl.enable = true;
+        gpu = {
+          vendor = "amdgpu";
+          acceleration = "rocm";
+          frame-generation.enable = true;
+          generation = "rdna3";
         };
-        gnome = {
-            scaling = 2;
-            text-scaling = 0.8;
-        };
-        vm = {
-            users = [ "quentin" ];
-        };
+      };
+      main-user = {
+        enable = true;
+        userName = "quentin";
+        userFullName = "Quentin Horgues";
+      };
+      gnome = {
+        scaling = 2;
+        text-scaling = 0.7;
+      };
+      # vm = {
+      #   users = [ "quentin" ];
+      # };
     };
 
-    # environment.systemPackages = [
-    #     inputs.winteros-detect-hardware.packages.${pkgs.system}.default
-    # ];
+    programs.adb.enable = true;
+    users.users."quentin".extraGroups = [ "adbusers" ];
 
     home-manager = {
-        extraSpecialArgs = {
-            inherit self inputs pkgs pkgs-unstable;
-            system-version=config.system.nixos.release;
-        };
-        users = {
+      extraSpecialArgs = {
+          inherit self inputs pkgs pkgs-unstable;
+          system-version=config.system.nixos.release;
+      };
+      users = {
         "quentin" = import ./quentin.nix;
-        };
+      };
     };
 }

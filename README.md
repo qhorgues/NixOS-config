@@ -36,3 +36,24 @@ Modular NixOS configuration managed with Flakes. It offers machine and user envi
 2. Apply the configuration:
    `sudo nixos-rebuild switch --flake .#nixos-desktop`
    *(Replace \`nixos-desktop\` with your target host)*
+
+## Crypt with TPM 2.0
+
+add in crypt device section
+
+```diff
+  boot.initrd.luks.devices."<luks device id>" = {
+    device = "/dev/disk/by-uuid/<PARTITION UUID>";
++   preLVM = true;
++   allowDiscards = true;
+  };
+```
+
+and execute after rebuild and reboot
+```bash
+# TPM with auto unlock
+sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/<LUKS_PARTITION>
+# OR
+# TPM unlock with PIN
+sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 --tpm2-with-pin=yes /dev/<LUKS_PARTITION>
+```

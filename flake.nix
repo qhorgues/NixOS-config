@@ -1,14 +1,18 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/release-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-        url = "github:nix-community/home-manager/release-25.05";
+        url = "github:nix-community/home-manager/release-25.11";
         inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     firefox-addons = {
         url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
+    winapps = {
+        url = "github:winapps-org/winapps";
         inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -28,6 +32,7 @@
       {
         system = system;
         specialArgs = { inherit self inputs;
+            winapps = inputs.winapps.packages.${system};
             pkgs-unstable = import nixpkgs-unstable {
               system = system;
               config = nixpkgsConfig;
@@ -43,6 +48,7 @@
       in nixpkgs.lib.nixosSystem {
         system = system;
         specialArgs = { inherit self inputs;
+            winapps = inputs.winapps.packages.${system};
             pkgs-unstable = import nixpkgs-unstable {
                 system = system;
                 config = nixpkgsConfig;
@@ -58,6 +64,7 @@
       in nixpkgs.lib.nixosSystem {
        	system = system;
        	specialArgs = { inherit self inputs;
+            winapps = inputs.winapps.packages.${system};
             pkgs-unstable = import nixpkgs-unstable {
                 system = system;
                 config = nixpkgsConfig;

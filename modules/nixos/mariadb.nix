@@ -6,13 +6,13 @@ in
 {
   services.httpd.enable = true;
   services.httpd.adminAddr = "webmaster@local.org";
-  services.httpd.enablePHP = true; # oof... not a great idea in my opinion
+  services.httpd.enablePHP = true;
 
   services.httpd.virtualHosts."local" = {
-    documentRoot = "/var/www/";
+    documentRoot = "/var/www/html/";
     extraConfig = ''
         DirectoryIndex index.php index.html
-        <Directory "/var/www/">
+        <Directory "/var/www/html/">
           Options Indexes FollowSymLinks
           AllowOverride All
           Require all granted
@@ -31,9 +31,9 @@ in
 
   # hacky way to create our directory structure and index page... don't actually use this
   systemd.tmpfiles.rules = [
-    "d /var/www/"
-    "f /var/www/index.php - - - - <?php phpinfo();?>"
-    "L /var/www/phpmyadmin - - - - ${phpmyadmin}/share/phpmyadmin"
+    "d /var/www/html/"
+    "f /var/www/html/index.php - - - - <?php phpinfo();?>"
+    "L /var/www/html/phpmyadmin - - - - ${phpmyadmin}/share/phpmyadmin"
   ];
 
 }

@@ -1,12 +1,12 @@
 { pkgs, ... }:
 let
   pname = "kDrive";
-  version = "3.7.5.20250812";
+  version = "3.8.1.4";
 
   # Téléchargement de l'AppImage de kDrive
   src = pkgs.fetchurl {
     url = "https://download.storage.infomaniak.com/drive/desktopclient/${pname}-${version}-amd64.AppImage";
-    sha256 = "sha256-ylsRMRyRjsr8a2CvqAEh9iRybuZpE/z+aCmR+B9QpNA=";
+    sha256 = "sha256-KzJ0aRh2YFgtYZ5Aw1e4v7pQ63ODeS51gpozi3LfYEw=";
   };
 
   # Code source de l'icône au format SVG

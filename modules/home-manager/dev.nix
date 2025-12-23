@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, pkgs-unstable, config, ... }:
 {
   home.packages = with pkgs; [
     pkgs-unstable.zed-editor
@@ -16,6 +16,10 @@
     rustc
     rust-analyzer
 
+    # Node
+    bun
+    nodejs
+
     # Python
     python3
     uv
@@ -28,6 +32,21 @@
     gaphor
     mysql-workbench
     filezilla
+
+    # PHP / Laravel
+    php84
+    php84Packages.composer
+    laravel
+
+    # Gnome app dev suite
+    cambalache
+    gnome-builder
+    flatpak
+    flatpak-builder
+  ];
+
+  home.sessionPath = [
+    "${config.home.homeDirectory}/.bun/bin"
   ];
 
 }

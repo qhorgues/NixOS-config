@@ -1,6 +1,7 @@
-{ pkgs, system-version, winter, ... }:
+{ system-version, ... }:
 {
   imports = [
+    ../../modules/home-manager
     ../../modules/home-manager/firefox
     ../../modules/home-manager/kdrive.nix
     ../../modules/home-manager/graphism.nix
@@ -12,7 +13,6 @@
     ../../modules/home-manager/office.nix
     ../../modules/home-manager/vm-manager.nix
     ../../modules/home-manager/flake-script.nix
-    ../../modules/home-manager/modeling.nix {inherit winter;}
     ./home-manager/zed-remote-folder.nix
   ];
 
@@ -32,13 +32,6 @@
     layout = "fr";
     variant = "fr";
   };
-  home.packages = with pkgs; [
-    discord
-
-    fastfetch
-    htop
-    dconf-editor
-  ];
 
   home.stateVersion = system-version;
 }

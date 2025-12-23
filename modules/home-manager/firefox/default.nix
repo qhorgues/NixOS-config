@@ -1,7 +1,7 @@
 { pkgs, pkgs-unstable, inputs, lib, config, ... }:
 
 let
-    addons = inputs.firefox-addons.packages.${pkgs.system};
+    addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
     getId = str:
         builtins.substring 1 (builtins.stringLength str - 2) str;
 in
@@ -14,6 +14,58 @@ in
         ];
         nativeMessagingHosts = [ pkgs-unstable.firefoxpwa ];
         profiles = {
+        "youtube" = {
+          id = 1;
+          name = "YouTube";
+          extensions.packages = with addons; [
+            ublock-origin
+            ghostery
+            user-agent-string-switcher
+            multi-account-containers
+            sponsorblock
+          ];
+
+          search = {
+              default = "youtube";
+              force = true;
+              engines = {
+                  youtube = {
+                      name = "YouTube";
+                      urls = [{
+                          template = "https://www.youtube.com/results";
+                          params = [
+                          { name = "search_query"; value = "{searchTerms}"; }
+                          ];
+                      }];
+                      iconMapObj."16" = "file://${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
+                      definedAliases = [ "@yt" ];
+                  };
+
+                  bing.metaData.hidden = true;
+                  google.metaData.hidden = true;
+                  ebay.metaData.hidden = true;
+                  perplexity.metaData.hidden = true;
+              };
+              order = [
+                  "ddg"
+                  "qwant"
+                  "youtube"
+              ];
+              privateDefault = "qwant";
+          };
+          settings = {
+            "browser.startup.homepage" = "https://www.youtube.com";
+            "browser.search.region" = "FR";
+            "browser.search.isUS" = false;
+            "distribution.searchplugins.defaultLocale" = "fr-FR";
+            "general.useragent.locale" = "fr-FR";
+            "browser.bookmarks.showMobileBookmarks" = true;
+            "browser.newtabpage.pinned" = [{
+              title = "youtube";
+              url = "https://www.youtube.com";
+            }];
+          };
+        };
         "default" = {
             id = 0;
             name = "default";
@@ -37,6 +89,7 @@ in
             "browser.discovery.enabled" = false;
             "browser.display.document_color_use" = 0;
             "browser.download.useDownloadDir" = false;
+            "browser.gnome-search-provider.enabled" = true;
             "browser.download.viewableInternally.typeWasRegistered.avif" = true;
             "browser.download.viewableInternally.typeWasRegistered.webp" = true;
             "browser.engagement.sidebar-button.has-used" = true;
@@ -288,13 +341,28 @@ in
                             {
                             template = "https://search.nixos.org/options";
                             params = [
-                                { name = "type"; value = "packages"; }
+                                { name = "type"; value = "options"; }
                                 { name = "query";   value = "{searchTerms}"; }
                             ];
                             }
                         ];
                         icon           = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                         definedAliases = [ "@no" ];
+                    };
+
+                    my-nixos = {
+                      name = "MyNixOS";
+                      urls = [
+                          {
+                          template = "https://mynixos.com/search";
+                          params = [
+                              { name = "type"; value = "packages"; }
+                              { name = "q";   value = "{searchTerms}"; }
+                          ];
+                          }
+                      ];
+                      icon           = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake-white.svg";
+                      definedAliases = [ "@mn" ];
                     };
 
                     nixos-wiki = {
@@ -318,7 +386,8 @@ in
 
                     bing.metaData.hidden = true;
                     google.metaData.hidden = true;
-                    # ebay.metaData.hidden = true;
+                    ebay.metaData.hidden = true;
+                    perplexity.metaData.hidden = true;
                 };
                 order = [
                     "ddg"
@@ -341,4 +410,17 @@ in
   home.packages = [
     pkgs-unstable.firefoxpwa
   ];
+
+  xdg.desktopEntries = {
+    "youtube" = {
+      name = "Youtube";
+      genericName = "Video player";
+      comment = "Watch vidéo on youtube";
+      exec = "${pkgs.firefox-bin}/bin/firefox -P YouTube --no-remote";
+      icon = "${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
+      categories = [ "Network" "WebBrowser" ];
+      terminal = false;
+    };
+  };
+
 }
