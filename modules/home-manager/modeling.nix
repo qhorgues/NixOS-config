@@ -1,7 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, winter, ... }:
 {
   home.packages = with pkgs; [
-    blender
+    (import ../../pkgs/blender {
+      acceleration = config.winter.hardware.acceleration;})
     bambu-studio
   ];
 }
