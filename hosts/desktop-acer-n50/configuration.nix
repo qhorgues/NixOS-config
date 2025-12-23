@@ -22,9 +22,9 @@ in
         ../../modules/nixos/update.nix
         ../../modules/nixos/disable-bluetooth.nix
         ../../modules/nixos/vm.nix
-        ../../modules/nixos/mariadb.nix
-        ../../modules/nixos/ios-connect.nix
-        ../../modules/nixos/modeling.nix
+        # ../../modules/nixos/mariadb.nix
+        # ../../modules/nixos/ios-connect.nix
+        # ../../modules/nixos/modeling.nix
     ];
 
     hardware.nvidia.open = false;
