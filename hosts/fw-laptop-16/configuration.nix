@@ -56,6 +56,8 @@
         gpu = {
           vendor = "amdgpu";
           acceleration = "rocm";
+          frame-generation.enable = true;
+          generation = "rdna3";
         };
       };
       main-user = {
