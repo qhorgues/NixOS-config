@@ -3,8 +3,13 @@
 let
     cfg = config.winter.update;
     cfga = config.winter.auto-update;
-    flake-update = import ../../pkgs/flake-update.nix {
+    nix-latest-update = import ../../pkgs/nix-latest-update.nix {
         pkgs = pkgs;
+    };
+
+    nix-update = import ../../pkgs/nix-update.nix {
+        pkgs = pkgs;
+        nix-latest-update = nix-latest-update;
         flake_path = cfg.flake_path;
         flake_config = cfg.flake_config;
     };
@@ -19,9 +24,6 @@ let
         pkgs = pkgs;
     };
 
-    nix-latest-update = import ../../pkgs/nix-latest-update.nix {
-        pkgs = pkgs;
-    };
 in
 {
     options.winter = {
@@ -48,41 +50,41 @@ in
     config = lib.mkMerge [
         {
             home.packages = [
-                flake-update
+                nix-update
                 nix-clean-boot
                 nix-clean
                 nix-latest-update
             ];
         }
-        (lib.mkIf cfga.enable {
-            systemd.user.services.winter-auto-update = {
-                Unit = {
-                  Description = "Auto update services";
-                  After = [ "graphical-session.target" ];
-                };
-                Service = {
-                    Type = "exec";
-                    ExecStart = "${flake-update}/bin/flake-update";
-                };
-                Install = {
-                  WantedBy = [ "multi-user.target" ];
-                };
-            };
+        # (lib.mkIf cfga.enable {
+        #     systemd.user.services.winter-auto-update = {
+        #         Unit = {
+        #           Description = "Auto update services";
+        #           After = [ "graphical-session.target" ];
+        #         };
+        #         Service = {
+        #             Type = "exec";
+        #             ExecStart = "${nix-update}/bin/nix-update";
+        #         };
+        #         Install = {
+        #           WantedBy = [ "multi-user.target" ];
+        #         };
+        #     };
 
-            systemd.user.timers.winter-auto-update = {
-                Install = {
-                    WantedBy = [ "timers.target" ];
-                };
-                Unit = {
-                    Description = "Execute every day";
-                    Wants = [ "winter-auto-update-service.service" ];
-                };
-                Timer = {
-                    OnCalendar = "daily";
-                    Persistent = true;
-                    Unit = "winter-auto-update-service.service";
-                };
-            };
-        })
+        #     systemd.user.timers.winter-auto-update = {
+        #         Install = {
+        #             WantedBy = [ "timers.target" ];
+        #         };
+        #         Unit = {
+        #             Description = "Execute every day";
+        #             Wants = [ "winter-auto-update-service.service" ];
+        #         };
+        #         Timer = {
+        #             OnCalendar = "daily";
+        #             Persistent = true;
+        #             Unit = "winter-auto-update.service";
+        #         };
+        #     };
+        # })
     ];
 }

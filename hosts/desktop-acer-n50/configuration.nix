@@ -10,12 +10,10 @@ in
         inputs.nixos-hardware.nixosModules.common-pc-ssd
         inputs.nixos-hardware.nixosModules.common-pc
         ./hardware-configuration.nix
-        ../../modules/options.nix
+        ../../modules/nixos/core
+        ../../modules/nixos/nvidia-standby-fix.nix
         ../../modules/nixos/fonts
         ../../modules/nixos/gnome
-        ../../modules/nixos/common.nix
-        ../../modules/nixos/boot.nix
-        ../../modules/nixos/nvidia-standby-fix.nix
         ../../modules/nixos/main-users.nix
         ../../modules/nixos/sound.nix
         ../../modules/nixos/security.nix
@@ -26,6 +24,7 @@ in
         ../../modules/nixos/vm.nix
         ../../modules/nixos/mariadb.nix
         ../../modules/nixos/ios-connect.nix
+        ../../modules/home-manager/modeling.nix
     ];
 
     hardware.nvidia.open = false;
@@ -44,19 +43,24 @@ in
     ];
 
     winter = {
-        hardware.acceleration = "cuda";
-        nvidia.standby = {
-            enable = true;
-            old-gpu = true;
-        };
-        vm = {
-            users = [ "quentin" ];
-        };
-        main-user = {
-            enable = true;
-            userName = "quentin";
-            userFullName = "Quentin Horgues";
-        };
+      hardware.gpu = {
+        vendor = "nvidia";
+        acceleration = "cuda";
+        frame-generation.enable = false;
+        generation = "pascal";
+      };
+      nvidia.standby = {
+        enable = true;
+        old-gpu = true;
+      };
+      main-user = {
+          enable = true;
+          userName = "quentin";
+          userFullName = "Quentin Horgues";
+      };
+      vm = {
+          users = [ "quentin" ];
+      };
     };
     users.users."elise"= {
       isNormalUser = true;
@@ -77,4 +81,10 @@ in
         };
     };
 
+    users.users."elise"= {
+      isNormalUser = true;
+      initialPassword = "1234";
+      description = "Elise Horgues";
+      extraGroups = [ "networkmanager" ];
+    };
 }

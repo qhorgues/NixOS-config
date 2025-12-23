@@ -1,9 +1,14 @@
 { config, lib, ... }:
 
 {
+  imports = [
+    ./boot.nix
+    ./fix.nix
+  ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = config.system.nixos.release;
+  services.xserver.videoDrivers = [ config.winter.hardware.gpu.vendor ];
 
   time.timeZone = "Europe/Paris";
   i18n.defaultLocale = "fr_FR.UTF-8";
@@ -37,4 +42,6 @@
   ];
 
   documentation.nixos.enable = false;
+
+  hardware.fw-fanctrl.enable = config.winter.hardware.framework-fan-ctrl.enable;
 }

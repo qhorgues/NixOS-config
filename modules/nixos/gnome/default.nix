@@ -22,24 +22,25 @@
     config = lib.mkMerge [
         {
             services = {
-                xserver = {
+              xserver = {
                 enable = true;
-                displayManager.gdm.enable = true;
+                videoDriver = config.winter.hardware.gpu.vendor;
                 excludePackages = with pkgs; [
                     xterm
                 ];
-                desktopManager.gnome = {
-                    enable = true;
-                    extraGSettingsOverrides = ''
-                      [org.gnome.mutter]
-                      experimental-features=['scale-monitor-framebuffer','xwayland-native-scaling','variable-refresh-rate']
-                    '';
-                };
                 xkb = {
                     layout = lib.mkDefault "fr";
                     variant = "";
                 };
-                };
+              };
+              displayManager.gdm.enable = true;
+              desktopManager.gnome = {
+                enable = true;
+                extraGSettingsOverrides = ''
+                  [org.gnome.mutter]
+                  experimental-features=['variable-refresh-rate']
+                ''; #'scale-monitor-framebuffer','xwayland-native-scaling'
+              };
             };
         }
         {
@@ -61,6 +62,17 @@
                                     (lib.gvariant.mkTuple["xkb" "fr+oss"])
                                 ];
                             };
+                        };
+                    }];
+                    user.databases = [{
+                        settings = {
+                            "org/gnome/settings-daemon/plugins/color" = {
+                                night-light-enabled = true;
+                            };
+                            # "org/gnome/desktop/interface" = {
+                            #     scaling-factor = lib.gvariant.mkUint32 config.winter.gnome.scaling;
+                            #     text-scaling-factor = lib.gvariant.mkDouble config.winter.gnome.text-scaling;
+                            # };
                         };
                     }];
                 };
@@ -109,7 +121,15 @@
                 cups
                 simple-scan
                 gnome-shell-extensions
+                showtime
+                decibels
             ];
+        }
+        {
+          networking.firewall = rec {
+            allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+            allowedUDPPortRanges = allowedTCPPortRanges;
+          };
         }
         {
             # Is used to fix blank screen on GDM
