@@ -4,6 +4,7 @@
   imports = [
     ./boot.nix
     ./fix.nix
+    ./options.nix
   ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
