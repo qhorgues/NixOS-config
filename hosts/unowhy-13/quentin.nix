@@ -11,6 +11,7 @@
     ../../modules/home-manager/shell.nix
     ../../modules/home-manager/office.nix
     ../../modules/home-manager/flake-script.nix
+    ../../modules/home-manager/discord.nix
   ];
 
   winter = {

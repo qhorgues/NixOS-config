@@ -4,7 +4,7 @@
     ../../modules/home-manager
     ../../modules/home-manager/firefox
     ../../modules/home-manager/kdrive.nix
-    ../../modules/home-manager/graphism.nix
+    # ../../modules/home-manager/graphism.nix
     ../../modules/home-manager/gnome
     ../../modules/home-manager/zed.nix
     ../../modules/home-manager/git.nix
@@ -13,6 +13,7 @@
     ../../modules/home-manager/office.nix
     ../../modules/home-manager/vm-manager.nix
     ../../modules/home-manager/flake-script.nix
+    ../../modules/home-manager/discord.nix
     ./home-manager/zed-remote-folder.nix
   ];
 
