@@ -80,11 +80,4 @@ in
         "elise" = import ./elise.nix;
         };
     };
-
-    users.users."elise"= {
-      isNormalUser = true;
-      initialPassword = "1234";
-      description = "Elise Horgues";
-      extraGroups = [ "networkmanager" ];
-    };
 }
