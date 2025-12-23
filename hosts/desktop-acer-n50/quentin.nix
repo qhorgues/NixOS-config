@@ -1,10 +1,10 @@
-{ pkgs, system-version, ... }:
+{ pkgs, system-version, winter, ... }:
 {
   imports = [
     ../../modules/home-manager/firefox
     ../../modules/home-manager/kdrive.nix
     ../../modules/home-manager/graphism.nix
-    ../../modules/home-manager/gnome.nix
+    ../../modules/home-manager/gnome
     ../../modules/home-manager/zed.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/dev.nix
@@ -12,7 +12,7 @@
     ../../modules/home-manager/office.nix
     ../../modules/home-manager/vm-manager.nix
     ../../modules/home-manager/flake-script.nix
-    ../../modules/home-manager/modeling.nix
+    ../../modules/home-manager/modeling.nix {inherit winter;}
     ./home-manager/zed-remote-folder.nix
   ];
 

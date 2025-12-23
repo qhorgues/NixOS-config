@@ -45,7 +45,7 @@
     '';
 
     winter = {
-        ollama.acceleration = "rocm";
+        hardware.acceleration = "rocm";
         main-user = {
             enable = true;
             userName = "quentin";
