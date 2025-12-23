@@ -2,7 +2,7 @@
 {
   imports = [
     ../../modules/home-manager/firefox
-    ../../modules/home-manager/gnome.nix
+    ../../modules/home-manager/gnome
     ../../modules/home-manager/office.nix
   ];
 

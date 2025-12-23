@@ -10,11 +10,12 @@ in
         inputs.nixos-hardware.nixosModules.common-pc-ssd
         inputs.nixos-hardware.nixosModules.common-pc
         ./hardware-configuration.nix
-        ../../modules/nixos/nvidia-standby-fix.nix
+        ../../modules/options.nix
         ../../modules/nixos/fonts
         ../../modules/nixos/gnome
-        ../../modules/nixos/boot.nix
         ../../modules/nixos/common.nix
+        ../../modules/nixos/boot.nix
+        ../../modules/nixos/nvidia-standby-fix.nix
         ../../modules/nixos/main-users.nix
         ../../modules/nixos/sound.nix
         ../../modules/nixos/security.nix
@@ -43,9 +44,13 @@ in
     ];
 
     winter = {
+        hardware.acceleration = "cuda";
         nvidia.standby = {
             enable = true;
             old-gpu = true;
+        };
+        vm = {
+            users = [ "quentin" ];
         };
         main-user = {
             enable = true;
@@ -53,11 +58,18 @@ in
             userFullName = "Quentin Horgues";
         };
     };
+    users.users."elise"= {
+      isNormalUser = true;
+      initialPassword = "1234";
+      description = "Elise Horgues";
+      extraGroups = [ "networkmanager" ];
+    };
 
     home-manager = {
         extraSpecialArgs = {
             inherit self inputs pkgs pkgs-unstable;
             system-version = config.system.nixos.release;
+            winter = config.winter;
         };
         users = {
         "quentin" = import ./quentin.nix;
@@ -65,16 +77,4 @@ in
         };
     };
 
-    winter.vm = {
-        users = [ "quentin" ];
-        # platform = "intel";
-        # vfioIds = [ "10de:1c82" "10de:0fb9" ];
-    };
-
-    users.users."elise"= {
-      isNormalUser = true;
-      initialPassword = "1234";
-      description = "Elise Horgues";
-      extraGroups = [ "networkmanager" ];
-    };
 }
