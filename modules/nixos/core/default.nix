@@ -5,6 +5,10 @@
     ./boot.nix
     ./fix.nix
     ./options.nix
+    ./security.nix
+    ./sound.nix
+    ./update.nix
+    ./zram.nix
   ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

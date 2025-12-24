@@ -9,10 +9,6 @@
         ../../modules/nixos/fonts
         ../../modules/nixos/gnome
         ../../modules/nixos/main-users.nix
-        ../../modules/nixos/sound.nix
-        ../../modules/nixos/security.nix
-        ../../modules/nixos/zram.nix
-        ../../modules/nixos/update.nix
         ../../modules/nixos/disable-bluetooth.nix
         # ../../modules/nixos/powersave.nix
         #../../modules/nixos/ios-connect.nix
