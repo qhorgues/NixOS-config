@@ -39,6 +39,7 @@
     laravel
 
     # Gnome app dev suite
+    dconf-editor
     cambalache
     gnome-builder
     flatpak

@@ -72,8 +72,6 @@ in
     home-manager = {
         extraSpecialArgs = {
             inherit self inputs pkgs pkgs-unstable;
-            system-version = config.system.nixos.release;
-            winter = config.winter;
         };
         users = {
         "quentin" = import ./quentin.nix;

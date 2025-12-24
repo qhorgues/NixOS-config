@@ -1,7 +1,9 @@
-{ system-version, ... }:
+{ ... }:
 {
   imports = [
     ../../modules/home-manager
+    ../../modules/home-manager/linux-base-app.nix
+    ../../modules/home-manager/common-app.nix
     ../../modules/home-manager/firefox
     ../../modules/home-manager/kdrive.nix
     # ../../modules/home-manager/graphism.nix
@@ -33,6 +35,4 @@
     layout = "fr";
     variant = "fr";
   };
-
-  home.stateVersion = system-version;
 }
