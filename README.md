@@ -44,14 +44,14 @@ After installation reboot imediatly in bios setup
 
 ### 4. Clone the repository:
   ```bash
-  git clone https://github.com/qhorgues/NixOS-config
-  cd NixOS-config
+  cd ~
+  git clone https://github.com/qhorgues/NixOS-config config
+  cd config
   ```
 
 ### 5. Setup the configuration:
   ```bash
-  mkdir ~/config
-  mkdir ~/config/hosts/<computer_name>
+  mkdir ./hosts/<computer_name>
   cp /etc/nixos/configuration.nix ~/config/hosts/<computer_name>/configuration.nix
   cp /etc/nixos/hardware-configuration.nix ~/config/hosts/<computer_name>/hardware-configuration.nix
   ```
