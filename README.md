@@ -26,16 +26,153 @@ Modular NixOS configuration managed with Flakes. It offers machine and user envi
 
 ## Installation
 
+### 1. Install NixOS ISO
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/qhorgues/NixOS-config
-   cd NixOS-config
+Download the NixOS ISO from the [official website](https://nixos.org/download) and create a bootable USB drive using the `dd` command or software like [Ventoy](https://www.ventoy.net/en/index.html) or [BalenaEtcher](https://www.balena.io/etcher/).
+
+After installation reboot imediatly in bios setup
+
+### 2. Pass secure boot in edit mode
+
+### 3. Create secure boot key
+  Boot in your newest installation of NixOS
+
+  ```bash
+  sudo nix --extra-experimental-features "nix-command flakes" run nixpkgs#sbctl -- create-keys
+  sudo nix --extra-experimental-features "nix-command flakes"run nixpkgs#sbctl -- enroll-keys --microsoft --firmware-builtin
+  ```
+
+### 4. Clone the repository:
+  ```bash
+  git clone https://github.com/qhorgues/NixOS-config
+  cd NixOS-config
+  ```
+
+### 5. Setup the configuration:
+  ```bash
+  mkdir ~/config
+  mkdir ~/config/hosts/<computer_name>
+  cp /etc/nixos/configuration.nix ~/config/hosts/<computer_name>/configuration.nix
+  cp /etc/nixos/hardware-configuration.nix ~/config/hosts/<computer_name>/hardware-configuration.nix
+  ```
+  Erase all content in `~/config/hosts/<computer_name>/configuration.nix` content and replace by this template
+
+  ```nix
+  {
+    imports = [
+      # List kardware modules (eg: inputs.nixos-hardware.nixosModules.<module_name>)
+    
+      ../../modules/nixos/core # Core module
+      ../../modules/nixos/fonts # Extra font module
+      ../../modules/nixos/gnome # Import gnome module
+      ../../modules/nixos/home-manager # Import home-manager module
+  
+      # Import other system module (eg: ../../module/nixos/<module_name>.nix) 
+    ];
+  
+    networking.hostName = "<host name>";
+  
+    winter = {
+      hardware = {
+        framework-fan-ctrl.enable = true; # true ONLY if you use a framework laptop, otherise you can juste remove this line
+        gpu = {
+          vendor = "amdgpu"; # null, nvidia, amdgpu or intel 
+          acceleration = "rocm"; # null, rocm ou cuda
+          frame-generation.enable = true; # If you have modern GPU with frame generation support
+          generation = "rdna3"; 
+          # Generation of the GPU 
+          # for AMD: gcn-5-gen, rdna, rdna2, rdna3, rdna4, ...
+          # for NVIDIA: pascal, turing, ada-lovelace, blackwell, ...
+        };
+      };
+      main-user = {
+        enable = true; # Enable main user with full admin access
+        userName = "<user_name>"; # Username of the main user
+        userFullName = "<Full Name>"; # Full name of the main user
+      };
+      gnome = {
+        # This is apply in gdm only  
+        scaling = 2; # Scaling factor for the display
+        text-scaling = 0.7; # Scaling factor for text
+      };
+      # Optional if you use VM list users trusted to use the VM
+      vm = {
+        users = [ "<user_name>" ];
+      };
+    };
+  }
+  
+  # Add settings for home manager
+  home-manager = {
+    extraSpecialArgs = {
+        inherit self inputs pkgs pkgs-unstable;
+        system-version=config.system.nixos.release;
+    };
+    users = {
+        "<user_name>" = import ./<user_name>.nix; # Replace by your user name
+    };
+  };
+  ```
+
+  All hardware module available can be found in the [nixos-hardware](https://github.com/NixOS/nixos-hardware) repository and for system module, in folder `modules/nixos`
+
+### 6. Setup home manager
+
+  Create file `~/config/hosts/<computer_name>/<user_name>.nix`
+  And copy this template
+
+  ```nix
+  { system-version, ... }:
+  {
+    imports = [
+      ../../modules/home-manager
+      # Import other modules here like ../../modules/home-manager/firefox
+    ];
+  
+    winter = {
+      update = {
+          flake_path = "<full path to your config>";
+          flake_config = "<config_name>";
+      };
+      auto-update.enable = true; # Actually broken
+    };
+  
+    home.username = "<user_name>";
+    home.homeDirectory = "<full path to your home directory>";
+    nixpkgs.config.allowUnfree = true;
+    home.keyboard = {
+      layout = "fr";
+      variant = "fr";
+    };
+ 
+    home.stateVersion = system-version;
+  }
+  ```
+
+### 7. Add your host in flake
+In flake.nix add in section nixosConfigurations this
+  ```nix
+  "<config_name>" = let
+    system = "<architecture>"; # eg x86_64-linux
+  in nixpkgs.lib.nixosSystem {
+    system = system;
+    specialArgs = { inherit self inputs;
+        pkgs-unstable = import nixpkgs-unstable {
+            system = system;
+            config = nixpkgsConfig;
+        };
+    };
+    modules = [
+        ./hosts/<computer_name>/configuration.nix
+        inputs.home-manager.nixosModules.default
+    ];
+  };
+  ```
+
+### 8. Apply the configuration:
+  ```bash
+  sudo nixos-rebuild switch --flake ~/config#<config_name>`
    ```
-
-2. Apply the configuration:
-   `sudo nixos-rebuild switch --flake .#nixos-desktop`
-   *(Replace \`nixos-desktop\` with your target host)*
 
 ## Crypt with TPM 2.0
 
