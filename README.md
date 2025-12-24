@@ -39,7 +39,7 @@ After installation reboot imediatly in bios setup
 
   ```bash
   sudo nix --extra-experimental-features "nix-command flakes" run nixpkgs#sbctl -- create-keys
-  sudo nix --extra-experimental-features "nix-command flakes"run nixpkgs#sbctl -- enroll-keys --microsoft --firmware-builtin
+  sudo nix --extra-experimental-features "nix-command flakes" run nixpkgs#sbctl -- enroll-keys --microsoft --firmware-builtin
   ```
 
 ### 4. Clone the repository:
@@ -172,7 +172,7 @@ In flake.nix add in section nixosConfigurations this
 
 ### 8. Apply the configuration:
   ```bash
-  sudo nixos-rebuild switch --flake ~/config#<config_name>`
+  sudo nixos-rebuild switch --flake ~/config#<config_name>
    ```
 
 ## Crypt with TPM 2.0
