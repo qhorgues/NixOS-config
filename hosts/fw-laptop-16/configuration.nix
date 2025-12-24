@@ -1,4 +1,4 @@
-{ self, config, inputs, pkgs, pkgs-unstable, ... }:
+{ self, inputs, pkgs, pkgs-unstable, ... }:
 {
     imports = [
         inputs.nixos-hardware.nixosModules.framework-16-7040-amd

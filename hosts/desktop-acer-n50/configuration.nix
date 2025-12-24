@@ -1,4 +1,4 @@
-{ self, config, pkgs, inputs, pkgs-unstable, ... }:
+{ self, pkgs, inputs, pkgs-unstable, ... }:
 
 let
     monitorsXmlContent = builtins.readFile ./monitors.xml;
