@@ -39,7 +39,7 @@ in
     };
 
     systemd.tmpfiles.rules = [
-        "L+ /run/gdm/seat0/config/monitors.xml - - - - ${monitorsConfig}"
+        "L+ /var/lib/gdm/seat0/config/monitors.xml - gdm gdm - ${monitorsConfig}"
     ];
 
     winter = {
