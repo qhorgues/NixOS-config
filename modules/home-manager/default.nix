@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, osConfig, pkgs, lib, ... }:
 {
   home.file.".local/share/icons/hicolor/256x256/apps/steam_icon_1903340.png".source = ./icons/steam_icon_1903340.png;
 
@@ -6,13 +6,5 @@
     ${pkgs.gtk3}/bin/gtk-update-icon-cache -f -t "${config.home.homeDirectory}/.local/share/icons/hicolor"
     '';
 
-  home.packages = with pkgs; [
-    fastfetch
-    htop
-    lm_sensors
-    dconf-editor
-    easyeffects
-
-    video-downloader
-  ];
+  home.stateVersion = osConfig.system.nixos.release;
 }

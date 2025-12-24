@@ -1,7 +1,9 @@
-{ system-version, ... }:
+{ ... }:
 {
   imports = [
     ../../modules/home-manager
+    ../../modules/home-manager/linux-base-app.nix
+    ../../modules/home-manager/common-app.nix
     ../../modules/home-manager/firefox
     ../../modules/home-manager/gnome
     ../../modules/home-manager/kdrive.nix
@@ -36,6 +38,4 @@
   };
 
   home.file.".config/BOE_CQ_______NE160QDM_NZ6.icm".source = ./home-manager/BOE_CQ_______NE160QDM_NZ6.icm;
-
-  home.stateVersion = system-version;
 }

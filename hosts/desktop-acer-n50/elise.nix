@@ -1,6 +1,7 @@
-{ pkgs, system-version, ... }:
+{ ... }:
 {
   imports = [
+    ../../modules/home-manager
     ../../modules/home-manager/firefox
     ../../modules/home-manager/gnome
     ../../modules/home-manager/office.nix
@@ -14,8 +15,4 @@
     layout = "fr";
     variant = "fr";
   };
-  home.packages = with pkgs; [
-  ];
-
-  home.stateVersion = system-version;
 }
