@@ -58,49 +58,49 @@ After installation reboot imediatly in bios setup
   Erase all content in `~/config/hosts/<computer_name>/configuration.nix` content and replace by this template
 
   ```nix
-  {
-    imports = [
-      # List kardware modules (eg: inputs.nixos-hardware.nixosModules.<module_name>)
-    
-      ../../modules/nixos/core # Core module
-      ../../modules/nixos/fonts # Extra font module
-      ../../modules/nixos/gnome # Import gnome module
-      ../../modules/nixos/home-manager # Import home-manager module
+{ self, config, pkgs, inputs, pkgs-unstable, ... }:
+{
+  imports = [
+    # List kardware modules (eg: inputs.nixos-hardware.nixosModules.<module_name>)
   
-      # Import other system module (eg: ../../module/nixos/<module_name>.nix) 
-    ];
-  
-    networking.hostName = "<host name>";
-  
-    winter = {
-      hardware = {
-        framework-fan-ctrl.enable = true; # true ONLY if you use a framework laptop, otherise you can juste remove this line
-        gpu = {
-          vendor = "amdgpu"; # null, nvidia, amdgpu or intel 
-          acceleration = "rocm"; # null, rocm ou cuda
-          frame-generation.enable = true; # If you have modern GPU with frame generation support
-          generation = "rdna3"; 
-          # Generation of the GPU 
-          # for AMD: gcn-5-gen, rdna, rdna2, rdna3, rdna4, ...
-          # for NVIDIA: pascal, turing, ada-lovelace, blackwell, ...
-        };
-      };
-      main-user = {
-        enable = true; # Enable main user with full admin access
-        userName = "<user_name>"; # Username of the main user
-        userFullName = "<Full Name>"; # Full name of the main user
-      };
-      gnome = {
-        # This is apply in gdm only  
-        scaling = 2; # Scaling factor for the display
-        text-scaling = 0.7; # Scaling factor for text
-      };
-      # Optional if you use VM list users trusted to use the VM
-      vm = {
-        users = [ "<user_name>" ];
+    ../../modules/nixos/core # Core module
+    ../../modules/nixos/fonts # Extra font module
+    ../../modules/nixos/gnome # Import gnome module
+    ../../modules/nixos/home-manager # Import home-manager module
+
+    # Import other system module (eg: ../../module/nixos/<module_name>.nix) 
+  ];
+
+  networking.hostName = "<host name>";
+
+  winter = {
+    hardware = {
+      framework-fan-ctrl.enable = true; # true ONLY if you use a framework laptop, otherise you can juste remove this line
+      gpu = {
+        vendor = "amdgpu"; # null, nvidia, amdgpu or intel 
+        acceleration = "rocm"; # null, rocm ou cuda
+        frame-generation.enable = true; # If you have modern GPU with frame generation support
+        generation = "rdna3"; 
+        # Generation of the GPU 
+        # for AMD: gcn-5-gen, rdna, rdna2, rdna3, rdna4, ...
+        # for NVIDIA: pascal, turing, ada-lovelace, blackwell, ...
       };
     };
-  }
+    main-user = {
+      enable = true; # Enable main user with full admin access
+      userName = "<user_name>"; # Username of the main user
+      userFullName = "<Full Name>"; # Full name of the main user
+    };
+    gnome = {
+      # This is apply in gdm only  
+      scaling = 2; # Scaling factor for the display
+      text-scaling = 0.7; # Scaling factor for text
+    };
+    # Optional if you use VM list users trusted to use the VM
+    vm = {
+      users = [ "<user_name>" ];
+    };
+  };
   
   # Add settings for home manager
   home-manager = {
@@ -112,6 +112,7 @@ After installation reboot imediatly in bios setup
         "<user_name>" = import ./<user_name>.nix; # Replace by your user name
     };
   };
+}
   ```
 
   All hardware module available can be found in the [nixos-hardware](https://github.com/NixOS/nixos-hardware) repository and for system module, in folder `modules/nixos`
