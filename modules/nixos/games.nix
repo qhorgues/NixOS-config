@@ -40,6 +40,7 @@ in
           extraEnv = {
             TZ = ":/etc/localtime";
             MANGOHUD = true;
+            PROTON_ENABLE_WAYLAND=true;
             PROTON_FSR4_UPGRADE = config.winter.hardware.gpu.generation == "rdna4" && config.winter.hardware.gpu.frame-generation.enable;
             PROTON_FSR4_RDNA3_UPGRADE = config.winter.hardware.gpu.generation == "rdna3" && config.winter.hardware.gpu.frame-generation.enable;
             PROTON_DLSS_UPGRADE = config.winter.hardware.gpu.vendor == "nvidia" && config.winter.hardware.gpu.frame-generation.enable;
@@ -69,6 +70,11 @@ in
       adwsteamgtk
     ];
     hardware = {
+        opengl= {
+          enable = true;
+          driSupport = true;
+          driSupport32Bit = true;
+        };
         graphics = {
           enable = true;
           enable32Bit = true;
