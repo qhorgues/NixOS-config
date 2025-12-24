@@ -70,11 +70,6 @@ in
       adwsteamgtk
     ];
     hardware = {
-        opengl= {
-          enable = true;
-          driSupport = true;
-          driSupport32Bit = true;
-        };
         graphics = {
           enable = true;
           enable32Bit = true;
