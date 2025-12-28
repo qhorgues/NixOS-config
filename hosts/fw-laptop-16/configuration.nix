@@ -64,9 +64,9 @@
         scaling = 2;
         text-scaling = 0.7;
       };
-      # vm = {
-      #   users = [ "quentin" ];
-      # };
+      vm = {
+        users = [ "quentin" ];
+      };
     };
 
     programs.adb.enable = true;
