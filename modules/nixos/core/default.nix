@@ -4,7 +4,7 @@
   imports = [
     ./boot.nix
     ./fix.nix
-    ./options.nix
+    ./options
     ./security.nix
     ./sound.nix
     ./update.nix
