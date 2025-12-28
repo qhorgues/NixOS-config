@@ -49,4 +49,6 @@
   documentation.nixos.enable = false;
 
   hardware.fw-fanctrl.enable = config.winter.hardware.framework-fan-ctrl.enable;
+  hardware.enableRedistributableFirmware = true;
+  hardware.enableAllFirmware = true;
 }
