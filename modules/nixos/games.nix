@@ -14,6 +14,9 @@ in
         args = [
           "--rt"
           "--expose-wayland"
+          "--force-grab-cursor"
+          "--mangoapp"
+          "--adaptative-sync"
         ];
         env = {
           TZ = ":/etc/localtime";
