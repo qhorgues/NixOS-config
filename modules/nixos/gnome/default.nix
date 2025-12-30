@@ -38,7 +38,7 @@
                 enable = true;
                 extraGSettingsOverrides = ''
                   [org.gnome.mutter]
-                  experimental-features=['variable-refresh-rate']
+                  experimental-features=['variable-refresh-rate','scale-monitor-framebuffer','xwayland-native-scaling']
                 ''; #'scale-monitor-framebuffer','xwayland-native-scaling'
               };
             };
