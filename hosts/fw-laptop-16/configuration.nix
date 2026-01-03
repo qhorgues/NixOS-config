@@ -10,6 +10,7 @@
         ../../modules/nixos/games.nix
         ../../modules/nixos/disable-bluetooth.nix
         ../../modules/nixos/ollama.nix
+        ../../modules/nixos/sunshine.nix
         # ../../modules/nixos/ios-connect.nix
         # ../../modules/nixos/mariadb.nix
         # ../../modules/nixos/modeling.nix
