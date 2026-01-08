@@ -10,9 +10,9 @@
         ../../modules/nixos/games.nix
         ../../modules/nixos/disable-bluetooth.nix
         ../../modules/nixos/ollama.nix
-        ../../modules/nixos/sunshine.nix
+        ../../modules/nixos/sunshine-virtual-display.nix
         # ../../modules/nixos/ios-connect.nix
-        # ../../modules/nixos/mariadb.nix
+        ../../modules/nixos/mariadb.nix
         # ../../modules/nixos/modeling.nix
         # ../../modules/nixos/docker.nix
         # ../../modules/nixos/vm.nix
@@ -68,6 +68,26 @@
       vm = {
         users = [ "quentin" ];
       };
+    };
+
+    services.sunshine-virtual-display = {
+      enable = true;
+      displays = [
+        {
+          videoOutput = "DP-8";
+          width = 2560;
+          height = 1440;
+          refreshRate = 144;
+          displayName = "1440p";
+        }
+        {
+          videoOutput = "DP-9";
+          width = 1920;
+          height = 1080;
+          refreshRate = 60;
+          displayName = "1080p";
+        }
+      ];
     };
 
     programs.adb.enable = true;
