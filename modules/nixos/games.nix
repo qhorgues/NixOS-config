@@ -2,7 +2,7 @@
 
 let
   lsfg-vk = pkgs.callPackage ../../pkgs/lsfg-vk.nix { };
-  lsfg-vk-ui = pkgs.callPackage ../../pkgs/lsfg-vk-ui.nix { };
+  # lsfg-vk-ui = pkgs.callPackage ../../pkgs/lsfg-vk-ui.nix { };
 in
 {
 
