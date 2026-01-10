@@ -70,26 +70,6 @@
       };
     };
 
-    services.sunshine-virtual-display = {
-      enable = true;
-      displays = [
-        {
-          videoOutput = "DP-8";
-          width = 2560;
-          height = 1440;
-          refreshRate = 144;
-          displayName = "1440p";
-        }
-        {
-          videoOutput = "DP-9";
-          width = 1920;
-          height = 1080;
-          refreshRate = 60;
-          displayName = "1080p";
-        }
-      ];
-    };
-
     programs.adb.enable = true;
     users.users."quentin".extraGroups = [ "adbusers" ];
 
