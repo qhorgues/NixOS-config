@@ -9,10 +9,10 @@
         ../../modules/nixos/main-users.nix
         ../../modules/nixos/games.nix
         ../../modules/nixos/disable-bluetooth.nix
-        ../../modules/nixos/ollama.nix
-        ../../modules/nixos/sunshine-virtual-display.nix
+        # ../../modules/nixos/ollama.nix
+        # ../../modules/nixos/sunshine-virtual-display.nix
         # ../../modules/nixos/ios-connect.nix
-        ../../modules/nixos/mariadb.nix
+        # ../../modules/nixos/mariadb.nix
         # ../../modules/nixos/modeling.nix
         # ../../modules/nixos/docker.nix
         # ../../modules/nixos/vm.nix
