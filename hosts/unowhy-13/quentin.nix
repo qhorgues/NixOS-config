@@ -12,6 +12,7 @@
     ../../modules/home-manager/dev.nix
     ../../modules/home-manager/shell.nix
     ../../modules/home-manager/office.nix
+    ../../modules/home-manager/thunderbird.nix
     ../../modules/home-manager/flake-script.nix
     ../../modules/home-manager/discord.nix
   ];
