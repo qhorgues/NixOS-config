@@ -14,6 +14,5 @@
     gsettings-desktop-schemas
     onlyoffice-desktopeditors
     libreoffice
-    thunderbird-latest-bin
   ];
 }
