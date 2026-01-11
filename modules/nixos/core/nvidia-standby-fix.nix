@@ -1,28 +1,21 @@
 { pkgs, lib, config, ... }:
 
 {
-  options.winter.nvidia.standby.enable = lib.mkOption {
-    description = "Enable Standby fix";
-    type = lib.types.bool;
-    default = false;
+  options.winter.hardware.nvidia.standby = {
+    enable = lib.mkEnableOption "Enable Standby fix";
+    old-gpu = lib.mkEnableOption "if use gpu before 16 series";
   };
 
-  options.winter.nvidia.standby.old-gpu = lib.mkOption {
-    description = "if use gpu before 16 series";
-    type = lib.types.bool;
-    default = false;
-  };
+  config = lib.mkMerge [
+    (
+      lib.mkIf (config.winter.hardware.nvidia.standby.enable && config.winter.hardware.nvidia.standby.old-gpu) {
+        hardware.nvidia.powerManagement.enable = true;
+        boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+      }
+    )
+    (
+      lib.mkIf config.winter.hardware.nvidia.standby.enable {
 
-  config = lib.mkIf config.winter.nvidia.standby.enable
-  (
-    lib.mkMerge [
-      (
-        lib.mkIf config.winter.nvidia.standby.old-gpu {
-          hardware.nvidia.powerManagement.enable = true;
-          boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
-        }
-      )
-      {
         boot.kernelParams = [
           "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
           "NVreg_TemporaryFilePath=/var/tmp"
@@ -64,6 +57,6 @@
           };
         };
       }
-    ]
-  );
+    )
+  ];
 }

@@ -1,19 +1,24 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
+
+let
+  cfg = config.winter.lxqt;
+in
 {
-    services = {
-        xserver = {
-            enable = true;
-            # displayManager.lightdm.enable = true;
-            excludePackages = with pkgs; [
-                xterm
-            ];
-            desktopManager.lxqt.enable = true;
-            windowManager.openbox.enable = false;
-            xkb = {
-                layout = lib.mkDefault "fr";
-                variant = "";
-            };
-        };
+  options.winter.lxqt.enable = lib.mkEnableOption "Enable LXQT desktop environment";
+
+  config = lib.mkIf cfg.enable {
+    services.xserver = {
+      enable = true;
+      # displayManager.lightdm.enable = true;
+      excludePackages = with pkgs; [
+          xterm
+      ];
+      desktopManager.lxqt.enable = true;
+      windowManager.openbox.enable = false;
+      xkb = {
+          layout = lib.mkDefault "fr";
+          variant = "";
+      };
     };
 
 
@@ -65,4 +70,5 @@
     environment.sessionVariables = {
         LXQT_WINDOW_MANAGER = "xfwm4";
     };
+  };
 }

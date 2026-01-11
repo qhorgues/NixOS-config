@@ -10,17 +10,6 @@ in
         inputs.nixos-hardware.nixosModules.common-pc-ssd
         inputs.nixos-hardware.nixosModules.common-pc
         ./hardware-configuration.nix
-        ../../modules/nixos/core
-        ../../modules/nixos/nvidia-standby-fix.nix
-        ../../modules/nixos/fonts
-        ../../modules/nixos/gnome
-        ../../modules/nixos/main-users.nix
-        ../../modules/nixos/games.nix
-        ../../modules/nixos/disable-bluetooth.nix
-        ../../modules/nixos/vm.nix
-        # ../../modules/nixos/mariadb.nix
-        # ../../modules/nixos/ios-connect.nix
-        # ../../modules/nixos/modeling.nix
     ];
 
     hardware.nvidia.open = false;
@@ -44,20 +33,29 @@ in
         acceleration = "cuda";
         frame-generation.enable = false;
         generation = "pascal";
+        nvidia.standby = {
+          enable = true;
+          old-gpu = true;
+        };
+        bluetooth.enable = false;
       };
-      nvidia.standby = {
-        enable = true;
-        old-gpu = true;
-      };
+      gnome.enable = true;
       main-user = {
           enable = true;
           userName = "quentin";
           userFullName = "Quentin Horgues";
       };
-      vm = {
-          users = [ "quentin" ];
+      services = {
+        vm = {
+            enable = true
+            users = [ "quentin" ];
+        };
       };
+      programs = {
+        games.enable = true;
+      }
     };
+
     users.users."elise"= {
       isNormalUser = true;
       initialPassword = "1234";

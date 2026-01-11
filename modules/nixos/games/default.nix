@@ -1,12 +1,27 @@
 { config, pkgs, pkgs-unstable, lib, ... }:
 
 let
-  lsfg-vk = pkgs.callPackage ../../pkgs/lsfg-vk.nix { };
-  # lsfg-vk-ui = pkgs.callPackage ../../pkgs/lsfg-vk-ui.nix { };
+  cfg = config.winter.programs.games;
+  lsfg-vk = pkgs.callPackage ../../../pkgs/lsfg-vk.nix { };
+  # lsfg-vk-ui = pkgs.callPackage ../../../pkgs/lsfg-vk-ui.nix { };
 in
 {
 
-  config = {
+  options.winter.programs.games = {
+    enable = lib.mkEnableOption "Enable Game config";
+
+    lsfg = {
+      enable = lib.mkEnableOption "Enable Losseless Scaling (required Lossless scaling app on Steam)";
+
+      steam_library_for_lossless_scaling = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "Path to lossless scaling DLL";
+      };
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
     programs = {
       gamescope = {
         enable = true;
@@ -32,7 +47,7 @@ in
         dedicatedServer.openFirewall = false;
         localNetworkGameTransfers.openFirewall = true;
         extraPackages = []
-        ++ lib.optional config.winter.games.lsfg.enable lsfg-vk;
+        ++ lib.optional config.winter.programs.games.lsfg.enable lsfg-vk;
         extraCompatPackages = [
           pkgs-unstable.proton-ge-bin
         ];
@@ -47,15 +62,15 @@ in
             PROTON_DLSS_UPGRADE = config.winter.hardware.gpu.vendor == "nvidia" && config.winter.hardware.gpu.frame-generation.enable;
             PROTON_XESS_UPGRADE = config.winter.hardware.gpu.vendor == "intel" && config.winter.hardware.gpu.frame-generation.enable;
           } //
-          (if config.winter.games.lsfg.enable == true then {
+          (if config.winter.programs.games.lsfg.enable == true then {
             VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";
             ENABLE_LFSG=1;
             LSFG_LEGACY=1;
             LFSG_MULTIPLIER=2;
           } else {})
-          // (if config.winter.games.lsfg.enable == true
-            && config.winter.games.lsfg.steam_library_for_lossless_scaling != null then {
-            LSFG_DLL_PATH="${config.winter.games.lsfg.steam_library_for_lossless_scaling}/steamapps/common/Lossless Scaling/Lossless.dll";
+          // (if config.winter.programs.games.lsfg.enable == true
+            && config.winter.programs.games.lsfg.steam_library_for_lossless_scaling != null then {
+            LSFG_DLL_PATH="${config.winter.programs.games.lsfg.steam_library_for_lossless_scaling}/steamapps/common/Lossless Scaling/Lossless.dll";
           } else {});
         };
       };

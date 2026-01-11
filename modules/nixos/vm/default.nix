@@ -3,21 +3,17 @@
 with lib;
 
 let
-  cfg = config.winter.vm;
+  cfg = config.winter.services.vm;
 in {
-   config = {
-    # boot = {
-    #   kernelModules = [
-    #     "vfio_pci"
-    #     "vfio_iommu_type1"
-    #     "vfio"
-    #   ];
-    #   kernelParams = [
-    #     "${cfg.platform}_iommu=on"
-    #     ("vfio-pci.ids=" + lib.concatStringsSep "," cfg.vfioIds)
-    #   ];
-    # };
-
+  options.winter.services.vm = {
+    enable = lib.mkEnableOption "Enable Virtual Machine service";
+    users = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "Users for whom virtualization permissions should be enabled.";
+    };
+  };
+  config = lib.mkIf cfg.enable {
     services.qemuGuest.enable = true;
     services.spice-vdagentd.enable = true;
     virtualisation.spiceUSBRedirection.enable = true;

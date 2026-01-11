@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 let
+  cfg = config.winter.services.llm;
   # open-webui-shortcut = pkgs.makeDesktopItem {
   #   name = "Open WebUI";
   #   desktopName = "IA local";
@@ -11,7 +12,10 @@ let
   # };
 in
 {
-  config = {
+  options.winter.services.llm = {
+    enable = lib.mkEnableOption "Enable local LLM service";
+  };
+  config = lib.mkIf cgf.enable {
     winter.hardware.gpu.enable-acceleration = true;
 
     environment.systemPackages = [
