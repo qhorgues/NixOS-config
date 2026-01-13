@@ -25,6 +25,7 @@
     auto-update.enable = true;
     programs = {
       firefox.enable = true;
+      thunderbird.enable = true;
       office.enable = false;
       discord.enable = true;
       zed-editor.enable = true;
