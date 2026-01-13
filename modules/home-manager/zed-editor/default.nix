@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, config, osConfig, ... }:
+{ pkgs, lib, config, osConfig, ... }:
 
 let
   cfg = config.winter.programs.zed-editor;
@@ -8,20 +8,10 @@ in
     enable = lib.mkEnableOption "Use Zed Editor";
   };
   config = lib.mkIf cfg.enable {
-    nix.settings = {
-      extra-substituters = [
-        "https://zed.cachix.org"
-        "https://cache.garnix.io"
-      ];
-      extra-trusted-public-keys = [
-        "zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU="
-        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-      ];
-    };
     programs.zed-editor = {
       enable = true;
       installRemoteServer = true;
-      package = inputs.zed-editor.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      package = pkgs.zed-editor;
       extensions = ["html" "toml" "make" "neocmake"];
 
       userSettings = {
