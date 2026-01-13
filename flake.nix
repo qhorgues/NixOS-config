@@ -15,6 +15,10 @@
       url = "github:qhorgues/CO-E33-Save-Editor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zed-editor = {
+      url = "github:zed-industries/zed";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
