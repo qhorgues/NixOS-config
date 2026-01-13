@@ -1,15 +1,22 @@
-{ pkgs, pkgs-unstable, lib, ... }:
+{ pkgs,  lib, config, osConfig, ... }:
 
+let
+  cfg = config.winter.programs.zed-editor;
+in
 {
+  options.winter.programs.zed-editor = {
+    enable = lib.mkEnableOption "Use Zed Editor";
+  };
+  config = lib.mkIf cfg.enable {
     programs.zed-editor = {
-        enable = true;
-        installRemoteServer = true;
-        package = pkgs-unstable.zed-editor;
-        extensions = ["html" "toml" "make" "neocmake"];
+      enable = true;
+      installRemoteServer = true;
+      package = pkgs.zed-editor;
+      extensions = ["html" "toml" "make" "neocmake"];
 
-        userSettings = {
+      userSettings = {
         language_models = {
-            ollama = {
+            ollama = lib.mkIf osConfig.winter.services.llm.enable {
                 api_url = "http://localhost:11434";
                 available_models = [
                     {
@@ -58,53 +65,53 @@
         working_directory = "current_project_directory";
         };
         languages = {
-            "C++" = {
-                format_on_save = "on";
-                tab_size = 4;
-            };
-            "Python" = {
-                language_servers = [ "ruff" "pyright" ];
-                format_on_save = "on";
-                formatter = [
+          "C++" = {
+              format_on_save = "on";
+              tab_size = 4;
+          };
+          "Python" = {
+              language_servers = [ "ruff" "pyright" ];
+              format_on_save = "on";
+              formatter = [
 
-                ];
-            };
-            "Nix" = {
-                language_servers = [ "nixd" ];
-                formatter = [
-                    "prettier"
-                ];
-                format_on_save = "on";
-            };
+              ];
+          };
+          "Nix" = {
+              language_servers = [ "nixd" ];
+              formatter = [
+                  "prettier"
+              ];
+              format_on_save = "on";
+          };
         };
         lsp = {
-            clangd = {
-                binary = {
-                    path = "${pkgs.clang-tools}/bin/clangd";
-                    arguments = [
-                        "--compile-commands-dir=build"
-                    ];
-                };
-            };
-            pyright = {
-                settings = {
-                python.analysis = {
-                    diagnosticMode = "workspace";
-                    typeCheckingMode = "strict";
-                };
-                python = {
-                    pythonPath = ".venv/bin/python";
-                };
-                };
-            };
-            rust-analyzer = {
-                binary = {
-                    path = lib.getExe pkgs.rust-analyzer;
-                };
-            };
-            nix = {
-                enable_lsp_tasks = true;
-            };
+          clangd = {
+              binary = {
+                  path = "${pkgs.clang-tools}/bin/clangd";
+                  arguments = [
+                      "--compile-commands-dir=build"
+                  ];
+              };
+          };
+          pyright = {
+              settings = {
+              python.analysis = {
+                  diagnosticMode = "workspace";
+                  typeCheckingMode = "strict";
+              };
+              python = {
+                  pythonPath = ".venv/bin/python";
+              };
+              };
+          };
+          rust-analyzer = {
+              binary = {
+                  path = lib.getExe pkgs.rust-analyzer;
+              };
+          };
+          nix = {
+              enable_lsp_tasks = true;
+          };
         };
 
 
@@ -133,6 +140,7 @@
           mute_on_join = true;
           share_on_join = true;
         };
+      };
     };
   };
 }

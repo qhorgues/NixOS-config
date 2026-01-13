@@ -3,24 +3,24 @@
 let
     cfg = config.winter.update;
     cfga = config.winter.auto-update;
-    nix-latest-update = import ../../pkgs/nix-latest-update.nix {
+    nix-latest-update = import ../../../pkgs/nix-latest-update.nix {
         pkgs = pkgs;
     };
 
-    nix-update = import ../../pkgs/nix-update.nix {
+    nix-update = import ../../../pkgs/nix-update.nix {
         pkgs = pkgs;
         nix-latest-update = nix-latest-update;
         flake_path = cfg.flake_path;
         flake_config = cfg.flake_config;
     };
 
-    nix-clean-boot = import ../../pkgs/nix-clean-boot.nix {
+    nix-clean-boot = import ../../../pkgs/nix-clean-boot.nix {
         pkgs = pkgs;
         flake_path = cfg.flake_path;
         flake_config = cfg.flake_config;
     };
 
-    nix-clean = import ../../pkgs/nix-clean.nix {
+    nix-clean = import ../../../pkgs/nix-clean.nix {
         pkgs = pkgs;
     };
 

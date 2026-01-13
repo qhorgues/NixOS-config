@@ -1,5 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, config, lib, ... }:
 let
+  cfg = config.winter.programs.kdrive;
   pname = "kDrive";
   version = "3.8.1.4";
 
@@ -89,22 +90,28 @@ echo "- SHA256 SRI : $SRI_HASH"
     '';
 in
 {
-  home.packages = [ kdriveApp kdrive_update ];
+  options.winter.programs.kdrive = {
+    enable = lib.mkEnableOption "Enable kDrive client";
+  };
 
-  systemd.user.services.kdrive = {
-    Unit = {
-      Description = "Lancement de kDrive AppImage";
-      After = [ "graphical-session.target" ];
-    };
+  config = lib.mkIf cfg.enable {
+    home.packages = [ kdriveApp kdrive_update ];
 
-    Service = {
-      Type = "exec";
-      ExecStart = "${kdriveApp}/bin/kdrive";
-      Restart = "on-failure";
-    };
+    systemd.user.services.kdrive = {
+      Unit = {
+        Description = "Lancement de kDrive AppImage";
+        After = [ "graphical-session.target" ];
+      };
 
-    Install = {
-      WantedBy = [ "default.target" ];
+      Service = {
+        Type = "exec";
+        ExecStart = "${kdriveApp}/bin/kdrive";
+        Restart = "on-failure";
+      };
+
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
     };
   };
 }

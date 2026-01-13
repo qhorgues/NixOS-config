@@ -1,5 +1,6 @@
-{ ... }:
+{ osConfig, lib, ... }:
 {
+  config = lib.mkIf osConfig.winter.gnome.enable {
     home.file.".config/mimeapps.list".text = ''
         [Default Applications]
         video/mp4=org.gnome.Showtime.desktop;
@@ -23,4 +24,5 @@
         application/pdf=org.gnome.Papers.desktop;
         text/plain=org.gnome.TextEditor.desktop;
       '';
+  };
 }
