@@ -53,7 +53,7 @@
               "firefox.desktop"
               "org.gnome.Nautilus.desktop"
               "org.gnome.Console.desktop"
-              "dev.zed.Zed-Nightly.desktop"
+              "dev.zed.Zed.desktop"
               "org.gnome.TextEditor.desktop"
             ];
         };
