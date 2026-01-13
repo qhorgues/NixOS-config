@@ -74,6 +74,8 @@
     users.users."quentin".extraGroups = [ "adbusers" ];
 
     home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
       extraSpecialArgs = {
           inherit self inputs pkgs pkgs-unstable;
       };

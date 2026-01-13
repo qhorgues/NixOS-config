@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   cfg = config.winter.services.llm;
@@ -15,7 +15,7 @@ in
   options.winter.services.llm = {
     enable = lib.mkEnableOption "Enable local LLM service";
   };
-  config = lib.mkIf cgf.enable {
+  config = lib.mkIf cfg.enable {
     winter.hardware.gpu.enable-acceleration = true;
 
     environment.systemPackages = [

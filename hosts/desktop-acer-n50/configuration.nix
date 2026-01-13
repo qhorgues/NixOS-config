@@ -39,21 +39,29 @@ in
         };
         bluetooth.enable = false;
       };
-      gnome.enable = true;
       main-user = {
-          enable = true;
-          userName = "quentin";
-          userFullName = "Quentin Horgues";
+        enable = true;
+        userName = "quentin";
+        userFullName = "Quentin Horgues";
+      };
+      gnome = {
+        enable = true;
       };
       services = {
         vm = {
-            enable = true
-            users = [ "quentin" ];
+          enable = true;
+          users = [ "quentin" ];
         };
+        docker = {
+          enable = false;
+          users = [ "quentin" ];
+        };
+        mariadb.enable = false;
+        postgresql.enable = false;
       };
       programs = {
         games.enable = true;
-      }
+      };
     };
 
     users.users."elise"= {
@@ -64,12 +72,14 @@ in
     };
 
     home-manager = {
-        extraSpecialArgs = {
-            inherit self inputs pkgs pkgs-unstable;
-        };
-        users = {
-        "quentin" = import ./quentin.nix;
-        "elise" = import ./elise.nix;
-        };
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      extraSpecialArgs = {
+          inherit self inputs pkgs pkgs-unstable;
+      };
+      users = {
+      "quentin" = import ./quentin.nix;
+      "elise" = import ./elise.nix;
+      };
     };
 }

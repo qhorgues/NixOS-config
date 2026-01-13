@@ -1,5 +1,24 @@
 { config, osConfig, pkgs, lib, ... }:
 {
+  imports = [
+    ./core
+    ./flatpak
+    ./discord
+    ./gnome
+    ./firefox
+    ./thunderbird
+    ./office
+    ./dev
+    ./graphism
+    ./kdrive
+    ./zed-editor
+    ./video-downloader
+    ./vm-manager
+    ./vim
+    ./vscode
+    ./linux-base-tools
+  ];
+
   home.file.".local/share/icons/hicolor/256x256/apps/steam_icon_1903340.png".source = ./icons/steam_icon_1903340.png;
 
   home.activation.updateIconCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
