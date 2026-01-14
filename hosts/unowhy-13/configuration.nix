@@ -5,14 +5,6 @@
         inputs.nixos-hardware.nixosModules.common-pc-laptop
         inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
         ./hardware-configuration.nix
-        ../../modules/nixos/core
-        ../../modules/nixos/fonts
-        ../../modules/nixos/gnome
-        ../../modules/nixos/main-users.nix
-        ../../modules/nixos/disable-bluetooth.nix
-        # ../../modules/nixos/powersave.nix
-        #../../modules/nixos/ios-connect.nix
-        # ../../modules/nixos/mariadb.nix
     ];
 
     networking.hostName = "uw-laptop-quentin";
@@ -21,18 +13,22 @@
     fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
 
     winter = {
-        main-user = {
-            enable = true;
-            userName = "quentin";
-            userFullName = "Quentin Horgues";
-        };
-        gnome = {
-            text-scaling = 1.2;
-            numlock = false;
-        };
+      hardware.bluetooth.enable = false;
+      main-user = {
+        enable = true;
+        userName = "quentin";
+        userFullName = "Quentin Horgues";
+      };
+      gnome = {
+        enable = true;
+        scaling = 2;
+        text-scaling = 0.7;
+      };
     };
 
     home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
       extraSpecialArgs = {
           inherit self inputs pkgs pkgs-unstable;
       };

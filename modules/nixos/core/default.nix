@@ -9,6 +9,10 @@
     ./sound.nix
     ./update.nix
     ./zram.nix
+    ./nvidia-standby-fix.nix
+    ./powersave.nix
+    ./bluetooth.nix
+    ./ios-connect.nix
   ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
