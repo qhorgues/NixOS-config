@@ -101,7 +101,6 @@ in
     boot.kernelPackages = pkgs.linuxPackages_zen;
     boot.kernel.sysctl = {
       # "kernel.split_lock_mitigate" = 0;
-      "vm.swappiness" = 10;
       "vm.vfs_cache_pressure" = 50;
       "vm.dirty_bytes" = 268435456;
       "vm.max_map_count" = 16777216;
