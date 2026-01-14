@@ -8,6 +8,6 @@
     enable = lib.mkDefault true;
     algorithm = "zstd";
     memoryPercent = lib.mkDefault 100;
-    priority = 5;
+    priority = 100;
   };
 }
