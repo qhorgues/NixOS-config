@@ -19,6 +19,21 @@
               port = 22;
               username = "quentin";
         }
+        {
+          host = "57.128.4.193";
+          projects = [
+            {
+              paths = [
+                "~/app-backend"
+              ];
+            }
+          ];
+          args = [
+              "-i"
+              "~/.ssh/id_ed25519"
+          ];
+          username = "quentin";
+        }
       ];
     };
 }

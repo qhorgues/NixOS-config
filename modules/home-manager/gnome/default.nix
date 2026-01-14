@@ -1,9 +1,10 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, osConfig, ... }:
 {
-    imports = [
-        ./mineapps.nix
-    ];
+  imports = [
+      ./mineapps.nix
+  ];
 
+  config = lib.mkIf osConfig.winter.gnome.enable {
     home.packages = with pkgs; [
         # Base gnome app
         gnome-tweaks
@@ -219,4 +220,5 @@
         };
     };
     home.file.".local/share/wallpaper/clair-obscur.jpg".source = ./clair-obscur.jpg;
+  };
 }

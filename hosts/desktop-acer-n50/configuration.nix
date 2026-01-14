@@ -10,17 +10,6 @@ in
         inputs.nixos-hardware.nixosModules.common-pc-ssd
         inputs.nixos-hardware.nixosModules.common-pc
         ./hardware-configuration.nix
-        ../../modules/nixos/core
-        ../../modules/nixos/nvidia-standby-fix.nix
-        ../../modules/nixos/fonts
-        ../../modules/nixos/gnome
-        ../../modules/nixos/main-users.nix
-        ../../modules/nixos/games.nix
-        ../../modules/nixos/disable-bluetooth.nix
-        ../../modules/nixos/vm.nix
-        # ../../modules/nixos/mariadb.nix
-        # ../../modules/nixos/ios-connect.nix
-        # ../../modules/nixos/modeling.nix
     ];
 
     hardware.nvidia.open = false;
@@ -44,20 +33,37 @@ in
         acceleration = "cuda";
         frame-generation.enable = false;
         generation = "pascal";
-      };
-      nvidia.standby = {
-        enable = true;
-        old-gpu = true;
+        nvidia.standby = {
+          enable = true;
+          old-gpu = true;
+        };
+        bluetooth.enable = false;
       };
       main-user = {
-          enable = true;
-          userName = "quentin";
-          userFullName = "Quentin Horgues";
+        enable = true;
+        userName = "quentin";
+        userFullName = "Quentin Horgues";
       };
-      vm = {
+      gnome = {
+        enable = true;
+      };
+      services = {
+        vm = {
+          enable = true;
           users = [ "quentin" ];
+        };
+        docker = {
+          enable = false;
+          users = [ "quentin" ];
+        };
+        mariadb.enable = false;
+        postgresql.enable = false;
+      };
+      programs = {
+        games.enable = true;
       };
     };
+
     users.users."elise"= {
       isNormalUser = true;
       initialPassword = "1234";
@@ -66,12 +72,14 @@ in
     };
 
     home-manager = {
-        extraSpecialArgs = {
-            inherit self inputs pkgs pkgs-unstable;
-        };
-        users = {
-        "quentin" = import ./quentin.nix;
-        "elise" = import ./elise.nix;
-        };
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      extraSpecialArgs = {
+          inherit self inputs pkgs pkgs-unstable;
+      };
+      users = {
+      "quentin" = import ./quentin.nix;
+      "elise" = import ./elise.nix;
+      };
     };
 }

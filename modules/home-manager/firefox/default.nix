@@ -1,11 +1,17 @@
 { pkgs, pkgs-unstable, inputs, lib, config, ... }:
 
 let
-    addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
-    getId = str:
-        builtins.substring 1 (builtins.stringLength str - 2) str;
+  cfg = config.winter.programs.firefox;
+  addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+  getId = str:
+      builtins.substring 1 (builtins.stringLength str - 2) str;
 in
 {
+  options.winter.programs.firefox = {
+    enable = lib.mkEnableOption "Use firefox with custom config";
+  };
+
+  config = lib.mkIf cfg.enable {
     programs.firefox = {
         enable = true;
         package = pkgs.firefox-bin;
@@ -316,111 +322,111 @@ in
                 "reset-pbm-toolbar-button"
                 "unified-extensions-button"
             ];
-            };
-            search = {
-                default = "ddg";
-                force = true;
-                engines = {
-                    nix-packages = {
-                        name = "Nix Packages";
-                        urls = [{
-                            template = "https://search.nixos.org/packages";
-                            params = [
-                                { name = "type"; value = "packages"; }
-                                { name = "query"; value = "{searchTerms}"; }
-                            ];
-                        }];
-
-                        icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-                        definedAliases = [ "@np" ];
-                    };
-
-                    nix-options = {
-                        name = "NixOS Options";
-                        urls = [
-                            {
-                            template = "https://search.nixos.org/options";
-                            params = [
-                                { name = "type"; value = "options"; }
-                                { name = "query";   value = "{searchTerms}"; }
-                            ];
-                            }
-                        ];
-                        icon           = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-                        definedAliases = [ "@no" ];
-                    };
-
-                    my-nixos = {
-                      name = "MyNixOS";
-                      urls = [
-                          {
-                          template = "https://mynixos.com/search";
+          };
+          search = {
+              default = "ddg";
+              force = true;
+              engines = {
+                  nix-packages = {
+                      name = "Nix Packages";
+                      urls = [{
+                          template = "https://search.nixos.org/packages";
                           params = [
                               { name = "type"; value = "packages"; }
-                              { name = "q";   value = "{searchTerms}"; }
+                              { name = "query"; value = "{searchTerms}"; }
+                          ];
+                      }];
+
+                      icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                      definedAliases = [ "@np" ];
+                  };
+
+                  nix-options = {
+                      name = "NixOS Options";
+                      urls = [
+                          {
+                          template = "https://search.nixos.org/options";
+                          params = [
+                              { name = "type"; value = "options"; }
+                              { name = "query";   value = "{searchTerms}"; }
                           ];
                           }
                       ];
-                      icon           = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake-white.svg";
-                      definedAliases = [ "@mn" ];
-                    };
+                      icon           = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                      definedAliases = [ "@no" ];
+                  };
 
-                    nixos-wiki = {
-                        name = "NixOS Wiki";
-                        urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
-                        iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
-                        definedAliases = [ "@nw" ];
-                    };
+                  my-nixos = {
+                    name = "MyNixOS";
+                    urls = [
+                        {
+                        template = "https://mynixos.com/search";
+                        params = [
+                            { name = "type"; value = "packages"; }
+                            { name = "q";   value = "{searchTerms}"; }
+                        ];
+                        }
+                    ];
+                    icon           = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake-white.svg";
+                    definedAliases = [ "@mn" ];
+                  };
 
-                    youtube = {
-                        name = "YouTube";
-                        urls = [{
-                            template = "https://www.youtube.com/results";
-                            params = [
-                            { name = "search_query"; value = "{searchTerms}"; }
-                            ];
-                        }];
-                        iconMapObj."16" = "file://${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
-                        definedAliases = [ "@yt" ];
-                    };
+                  nixos-wiki = {
+                      name = "NixOS Wiki";
+                      urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
+                      iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
+                      definedAliases = [ "@nw" ];
+                  };
 
-                    bing.metaData.hidden = true;
-                    google.metaData.hidden = true;
-                    ebay.metaData.hidden = true;
-                    perplexity.metaData.hidden = true;
-                };
-                order = [
-                    "ddg"
-                    "qwant"
-                    "Nix Packages"
-                    "NixOS Options"
-                    "NixOS Wiki"
-                    "youtube"
-                ];
-                privateDefault = "qwant";
-            };
+                  youtube = {
+                      name = "YouTube";
+                      urls = [{
+                          template = "https://www.youtube.com/results";
+                          params = [
+                          { name = "search_query"; value = "{searchTerms}"; }
+                          ];
+                      }];
+                      iconMapObj."16" = "file://${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
+                      definedAliases = [ "@yt" ];
+                  };
+
+                  bing.metaData.hidden = true;
+                  google.metaData.hidden = true;
+                  ebay.metaData.hidden = true;
+                  perplexity.metaData.hidden = true;
+              };
+              order = [
+                  "ddg"
+                  "qwant"
+                  "Nix Packages"
+                  "NixOS Options"
+                  "NixOS Wiki"
+                  "youtube"
+              ];
+              privateDefault = "qwant";
+          };
         };
+      };
+    };
+    home.file.".mozilla/firefox/default/permissions.sqlite".source = ./permissions.sqlite;
+    home.file.".mozilla/firefox/default/youtube-icon.svg".source = ./youtube-icon.svg;
+    home.sessionVariables = {
+      MOZ_USE_XINPUT2 = "1";
+    };
+    home.packages = [
+      pkgs-unstable.firefoxpwa
+    ];
+
+    xdg.desktopEntries = {
+      "youtube" = {
+        name = "Youtube";
+        genericName = "Video player";
+        comment = "Watch vidéo on youtube";
+        exec = "${pkgs.firefox-bin}/bin/firefox -P YouTube --no-remote";
+        icon = "${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
+        categories = [ "Network" "WebBrowser" ];
+        terminal = false;
+      };
     };
   };
-  home.file.".mozilla/firefox/default/permissions.sqlite".source = ./permissions.sqlite;
-  home.file.".mozilla/firefox/default/youtube-icon.svg".source = ./youtube-icon.svg;
-  home.sessionVariables = {
-    MOZ_USE_XINPUT2 = "1";
-  };
-  home.packages = [
-    pkgs-unstable.firefoxpwa
-  ];
-
-  xdg.desktopEntries = {
-    "youtube" = {
-      name = "Youtube";
-      genericName = "Video player";
-      comment = "Watch vidéo on youtube";
-      exec = "${pkgs.firefox-bin}/bin/firefox -P YouTube --no-remote";
-      icon = "${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
-      categories = [ "Network" "WebBrowser" ];
-      terminal = false;
-    };
-  };
-
 }
