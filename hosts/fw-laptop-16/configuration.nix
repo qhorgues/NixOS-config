@@ -32,7 +32,7 @@
           users = [ "quentin" ];
         };
         docker = {
-          enable = false;
+          enable = true;
           users = [ "quentin" ];
         };
         mariadb.enable = true;

@@ -17,6 +17,7 @@
     ./vim
     ./vscode
     ./linux-base-tools
+    ./winboat
   ];
 
   home.file.".local/share/icons/hicolor/256x256/apps/steam_icon_1903340.png".source = ./icons/steam_icon_1903340.png;
