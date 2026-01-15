@@ -41,6 +41,15 @@
       programs = {
         games.enable = true;
       };
+      virtual-display.displays = [
+        {
+          videoOutput = "DP-8";
+          displayName = "1440p";
+          width = 2560;
+          height = 1440;
+          refreshRate = 144;
+        }
+      ];
     };
 
     networking.hostName = "fw-laptop-quentin";
