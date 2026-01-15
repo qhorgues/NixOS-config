@@ -126,18 +126,15 @@ let
   '';
 
   activateVirtualDisplay = pkgs.writeShellScriptBin "activate-virtual-display" ''
-      #!/usr/bin/env bash
-
+      #!${pkgs.bash}/bin/bash
       set -e
 
-      # Valeurs par défaut depuis la configuration
       DEFAULT_DISPLAYS=(
         ${lib.concatMapStringsSep "\n      " (vd:
           ''"${vd.output}:${toString vd.config.width}x${toString vd.config.height}@${toString vd.config.refreshRate}"''
         ) virtualDisplays}
       )
 
-      # Fonction d'aide
       show_usage() {
         echo "Usage: $0 <output> [width] [height] [refresh_rate]"
         echo ""
@@ -159,7 +156,6 @@ let
         exit 1
       }
 
-      # Vérifier les arguments
       if [ $# -lt 1 ]; then
         show_usage
       fi
@@ -169,10 +165,8 @@ let
       HEIGHT=""
       REFRESH=""
 
-      # Chercher les valeurs par défaut pour cet output
       for disp in "''${DEFAULT_DISPLAYS[@]}"; do
         if [[ "$disp" == "$OUTPUT:"* ]]; then
-          # Extraire les valeurs par défaut
           defaults="''${disp#*:}"
           WIDTH=$(echo "$defaults" | cut -d'x' -f1)
           HEIGHT=$(echo "$defaults" | cut -d'x' -f2 | cut -d'@' -f1)
@@ -181,12 +175,10 @@ let
         fi
       done
 
-      # Utiliser les arguments fournis ou les valeurs par défaut
       WIDTH=''${2:-$WIDTH}
       HEIGHT=''${3:-$HEIGHT}
       REFRESH=''${4:-$REFRESH}
 
-      # Vérifier que nous avons toutes les valeurs
       if [ -z "$WIDTH" ] || [ -z "$HEIGHT" ] || [ -z "$REFRESH" ]; then
         echo "Error: Output '$OUTPUT' not found in virtual displays configuration"
         echo "Please provide width, height, and refresh rate manually."
@@ -194,34 +186,18 @@ let
         show_usage
       fi
 
-      echo "=== Activating Virtual Display ==="
-      echo "Output:       $OUTPUT"
-      echo "Resolution:   ''${WIDTH}x''${HEIGHT}"
-      echo "Refresh Rate: ''${REFRESH}Hz"
-      echo ""
-
-      # Vérifier que gdbus est disponible
       if ! command -v gdbus &> /dev/null; then
         echo "Error: gdbus command not found"
         exit 1
       fi
 
-      # Obtenir la configuration actuelle et extraire les informations
-      echo "Getting current display configuration..."
       STATE=$(gdbus call --session \
         --dest org.gnome.Mutter.DisplayConfig \
         --object-path /org/gnome/Mutter/DisplayConfig \
         --method org.gnome.Mutter.DisplayConfig.GetCurrentState)
 
       CURRENT_SERIAL=$(echo "$STATE" | grep -oP 'uint32 \K[0-9]+' | head -1)
-      echo "Current configuration serial: $CURRENT_SERIAL"
 
-      # Chercher le mode_id correspondant à la résolution demandée
-      echo "Finding matching mode for ''${WIDTH}x''${HEIGHT}@''${REFRESH}Hz..."
-
-      # Extraire la partie monitors du STATE pour trouver notre OUTPUT
-      # Le format est complexe, on va chercher le mode_id qui correspond
-      # Pour simplifier, on va utiliser le premier mode qui correspond à nos dimensions
       MODE_ID=$(echo "$STATE" | grep -oP "'\K[^']*?''${WIDTH}x''${HEIGHT}[^']*" | head -1)
 
       if [ -z "$MODE_ID" ]; then
@@ -237,16 +213,8 @@ let
         exit 1
       fi
 
-      echo "Using mode: $MODE_ID"
-      echo ""
-
-      # Sauvegarder la configuration actuelle complète pour la restaurer
-      echo "Saving current configuration for restoration..."
-      SAVED_CONFIG="/tmp/mutter-display-config-$.txt"
+      SAVED_CONFIG="/tmp/mx-mutter-display-config-$.txt"
       echo "$STATE" > "$SAVED_CONFIG"
-
-      # Appliquer la nouvelle configuration (seulement l'écran virtuel)
-      echo "Applying virtual display configuration..."
 
       gdbus call --session \
         --dest org.gnome.Mutter.DisplayConfig \
@@ -264,34 +232,6 @@ let
         rm -f "$SAVED_CONFIG"
         exit 1
       fi
-
-      echo "Virtual display activated successfully!"
-      echo ""
-      echo "Waiting 5 seconds before reverting..."
-      sleep 5
-
-      # Réinitialiser la configuration en récupérant le serial actuel et en réappliquant method=0 (revert)
-      echo ""
-      echo "Reverting to previous configuration..."
-
-      NEW_SERIAL=$(gdbus call --session \
-        --dest org.gnome.Mutter.DisplayConfig \
-        --object-path /org/gnome/Mutter/DisplayConfig \
-        --method org.gnome.Mutter.DisplayConfig.GetCurrentState \
-        | grep -oP 'uint32 \K[0-9]+' | head -1)
-
-      # Appeler ApplyMonitorsConfig avec method=0 pour revenir à la config persistante
-      gdbus call --session \
-        --dest org.gnome.Mutter.DisplayConfig \
-        --object-path /org/gnome/Mutter/DisplayConfig \
-        --method org.gnome.Mutter.DisplayConfig.ApplyMonitorsConfig \
-        "$NEW_SERIAL" \
-        0 \
-        "[]" \
-        {}
-
-      rm -f "$SAVED_CONFIG"
-      echo "Configuration reverted successfully!"
     '';
 
 in
