@@ -4,7 +4,7 @@
 let
   cfg = config.winter.virtual-display;
 
-  edidGenerator = pkgs.callPackage ../../lib/edid.nix {};
+  edidGenerator = pkgs.callPackage ./edid.nix {};
 
   # Fonction pour créer une configuration d'écran virtuel
   mkVirtualDisplay = idx: displayCfg: let
@@ -24,6 +24,7 @@ let
 
   # Créer toutes les configurations d'écrans virtuels
   virtualDisplays = lib.imap0 mkVirtualDisplay cfg.displays;
+  videoOutputs = lib.map (display: display.videoOutput) cfg.displays;
 
   # Type pour un écran virtuel
   displayType = lib.types.submodule {
@@ -74,11 +75,228 @@ let
     };
   };
 
+  listVirtualDisplays = pkgs.writeShellScriptBin "winter-list-virtual-displays" ''
+      #!${pkgs.bash}/bin/bash
+
+      ${lib.concatMapStringsSep "\n" (vd: let
+        idx = lib.findFirst (i: (lib.elemAt virtualDisplays i).output == vd.output) 0 (lib.range 0 ((lib.length virtualDisplays) - 1));
+      in ''
+        echo "Display #${toString (idx + 1)}"
+        echo "  Name:         ${vd.config.displayName}"
+        echo "  Output:       ${vd.output}"
+        echo "  Resolution:   ${toString vd.config.width}x${toString vd.config.height}"
+        echo "  Refresh Rate: ${toString vd.config.refreshRate}Hz"
+        echo "  HDR:          ${if vd.config.enableHdr then "Enabled" else "Disabled"}"
+        echo "  EDID File:    ${vd.edidName}"
+        echo ""
+      '') virtualDisplays}
+
+    '';
+
+  list-available-display-interface = pkgs.writeShellScriptBin "winter-list-available-display-interface" ''
+    #!${pkgs.bash}/bin/bash
+
+    VIRTUAL_OUTPUTS=(${lib.concatStringsSep " " (map (o: ''"${o}"'') videoOutputs)})
+
+    for p in /sys/class/drm/*/status; do
+        con=''${p%/status}
+        name=''${con#*/card?-}
+        status=$(cat $p)
+
+        # Vérifier si l'output est dans la liste des virtuels
+        is_virtual=false
+        for vo in "''${VIRTUAL_OUTPUTS[@]}"; do
+        if [ "$name" = "$vo" ]; then
+            is_virtual=true
+            break
+        fi
+        done
+
+        # Afficher avec le bon symbole
+        if [ "$status" = "connected" ] && [ "$is_virtual" = true ]; then
+        echo "$name (connected + virtual)"
+        elif [ "$status" = "connected" ]; then
+        echo "$name (connected)"
+        elif [ "$is_virtual" = true ]; then
+        echo "$name (virtual, not connected)"
+        else
+        echo -e "$name (disconnected) \e[1;32mAvailable\e[0m"
+        fi
+    done
+  '';
+
+  activateVirtualDisplay = pkgs.writeShellScriptBin "activate-virtual-display" ''
+      #!/usr/bin/env bash
+
+      set -e
+
+      # Valeurs par défaut depuis la configuration
+      DEFAULT_DISPLAYS=(
+        ${lib.concatMapStringsSep "\n      " (vd:
+          ''"${vd.output}:${toString vd.config.width}x${toString vd.config.height}@${toString vd.config.refreshRate}"''
+        ) virtualDisplays}
+      )
+
+      # Fonction d'aide
+      show_usage() {
+        echo "Usage: $0 <output> [width] [height] [refresh_rate]"
+        echo ""
+        echo "Arguments:"
+        echo "  output        Output name (e.g., HDMI-A-1)"
+        echo "  width         Width in pixels (optional)"
+        echo "  height        Height in pixels (optional)"
+        echo "  refresh_rate  Refresh rate in Hz (optional)"
+        echo ""
+        echo "Available virtual displays with defaults:"
+        for disp in "''${DEFAULT_DISPLAYS[@]}"; do
+          echo "  $disp"
+        done
+        echo ""
+        echo "Example:"
+        echo "  $0 HDMI-A-1              # Use default resolution and refresh rate"
+        echo "  $0 HDMI-A-1 1920 1080    # Use 1920x1080 with default refresh rate"
+        echo "  $0 HDMI-A-1 1920 1080 60 # Use 1920x1080@60Hz"
+        exit 1
+      }
+
+      # Vérifier les arguments
+      if [ $# -lt 1 ]; then
+        show_usage
+      fi
+
+      OUTPUT="$1"
+      WIDTH=""
+      HEIGHT=""
+      REFRESH=""
+
+      # Chercher les valeurs par défaut pour cet output
+      for disp in "''${DEFAULT_DISPLAYS[@]}"; do
+        if [[ "$disp" == "$OUTPUT:"* ]]; then
+          # Extraire les valeurs par défaut
+          defaults="''${disp#*:}"
+          WIDTH=$(echo "$defaults" | cut -d'x' -f1)
+          HEIGHT=$(echo "$defaults" | cut -d'x' -f2 | cut -d'@' -f1)
+          REFRESH=$(echo "$defaults" | cut -d'@' -f2)
+          break
+        fi
+      done
+
+      # Utiliser les arguments fournis ou les valeurs par défaut
+      WIDTH=''${2:-$WIDTH}
+      HEIGHT=''${3:-$HEIGHT}
+      REFRESH=''${4:-$REFRESH}
+
+      # Vérifier que nous avons toutes les valeurs
+      if [ -z "$WIDTH" ] || [ -z "$HEIGHT" ] || [ -z "$REFRESH" ]; then
+        echo "Error: Output '$OUTPUT' not found in virtual displays configuration"
+        echo "Please provide width, height, and refresh rate manually."
+        echo ""
+        show_usage
+      fi
+
+      echo "=== Activating Virtual Display ==="
+      echo "Output:       $OUTPUT"
+      echo "Resolution:   ''${WIDTH}x''${HEIGHT}"
+      echo "Refresh Rate: ''${REFRESH}Hz"
+      echo ""
+
+      # Vérifier que gdbus est disponible
+      if ! command -v gdbus &> /dev/null; then
+        echo "Error: gdbus command not found"
+        exit 1
+      fi
+
+      # Obtenir la configuration actuelle et extraire les informations
+      echo "Getting current display configuration..."
+      STATE=$(gdbus call --session \
+        --dest org.gnome.Mutter.DisplayConfig \
+        --object-path /org/gnome/Mutter/DisplayConfig \
+        --method org.gnome.Mutter.DisplayConfig.GetCurrentState)
+
+      CURRENT_SERIAL=$(echo "$STATE" | grep -oP 'uint32 \K[0-9]+' | head -1)
+      echo "Current configuration serial: $CURRENT_SERIAL"
+
+      # Chercher le mode_id correspondant à la résolution demandée
+      echo "Finding matching mode for ''${WIDTH}x''${HEIGHT}@''${REFRESH}Hz..."
+
+      # Extraire la partie monitors du STATE pour trouver notre OUTPUT
+      # Le format est complexe, on va chercher le mode_id qui correspond
+      # Pour simplifier, on va utiliser le premier mode qui correspond à nos dimensions
+      MODE_ID=$(echo "$STATE" | grep -oP "'\K[^']*?''${WIDTH}x''${HEIGHT}[^']*" | head -1)
+
+      if [ -z "$MODE_ID" ]; then
+        echo "Warning: No exact mode found for ''${WIDTH}x''${HEIGHT}@''${REFRESH}"
+        echo "Trying to find closest match..."
+        MODE_ID=$(echo "$STATE" | grep -oP "'\K[^']*?''${WIDTH}x''${HEIGHT}[^']*" | head -1)
+      fi
+
+      if [ -z "$MODE_ID" ]; then
+        echo "Error: Could not find a valid mode for the specified resolution"
+        echo "Available modes for $OUTPUT:"
+        echo "$STATE" | grep -oP "'[0-9]+x[0-9]+@[^']*" | sort -u
+        exit 1
+      fi
+
+      echo "Using mode: $MODE_ID"
+      echo ""
+
+      # Sauvegarder la configuration actuelle complète pour la restaurer
+      echo "Saving current configuration for restoration..."
+      SAVED_CONFIG="/tmp/mutter-display-config-$.txt"
+      echo "$STATE" > "$SAVED_CONFIG"
+
+      # Appliquer la nouvelle configuration (seulement l'écran virtuel)
+      echo "Applying virtual display configuration..."
+
+      gdbus call --session \
+        --dest org.gnome.Mutter.DisplayConfig \
+        --object-path /org/gnome/Mutter/DisplayConfig \
+        --method org.gnome.Mutter.DisplayConfig.ApplyMonitorsConfig \
+        "$CURRENT_SERIAL" \
+        1 \
+        "[(0, 0, 1.0, 0, true, [(\"$OUTPUT\", \"$MODE_ID\", {})])]" \
+        {}
+
+      APPLY_EXIT=$?
+
+      if [ $APPLY_EXIT -ne 0 ]; then
+        echo "Error: Failed to apply virtual display configuration"
+        rm -f "$SAVED_CONFIG"
+        exit 1
+      fi
+
+      echo "Virtual display activated successfully!"
+      echo ""
+      echo "Waiting 5 seconds before reverting..."
+      sleep 5
+
+      # Réinitialiser la configuration en récupérant le serial actuel et en réappliquant method=0 (revert)
+      echo ""
+      echo "Reverting to previous configuration..."
+
+      NEW_SERIAL=$(gdbus call --session \
+        --dest org.gnome.Mutter.DisplayConfig \
+        --object-path /org/gnome/Mutter/DisplayConfig \
+        --method org.gnome.Mutter.DisplayConfig.GetCurrentState \
+        | grep -oP 'uint32 \K[0-9]+' | head -1)
+
+      # Appeler ApplyMonitorsConfig avec method=0 pour revenir à la config persistante
+      gdbus call --session \
+        --dest org.gnome.Mutter.DisplayConfig \
+        --object-path /org/gnome/Mutter/DisplayConfig \
+        --method org.gnome.Mutter.DisplayConfig.ApplyMonitorsConfig \
+        "$NEW_SERIAL" \
+        0 \
+        "[]" \
+        {}
+
+      rm -f "$SAVED_CONFIG"
+      echo "Configuration reverted successfully!"
+    '';
+
 in
 {
   options.winter.virtual-display = {
-    enable = lib.mkEnableOption "virtual display(s) for Sunshine streaming";
-
     displays = lib.mkOption {
       type = lib.types.listOf displayType;
       default = [];
@@ -106,13 +324,6 @@ in
       '';
     };
 
-    physicalOutputs = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ "DP-1" ];
-      description = "Physical display outputs to manage";
-      example = [ "DP-1" "DP-2" ];
-    };
-
     useWayland = lib.mkOption {
       type = lib.types.bool;
       default = true;
@@ -120,7 +331,7 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = {
 
     # Générer les firmwares EDID pour tous les écrans virtuels
     hardware.firmware = [
@@ -145,5 +356,8 @@ in
     boot.initrd.extraFiles = lib.listToAttrs (map (vd:
       lib.nameValuePair "lib/firmware/edid/${vd.edidName}" vd.edidFile
     ) virtualDisplays);
+
+    environment.systemPackages = [ listVirtualDisplays list-available-display-interface
+      activateVirtualDisplay];
   };
 }
