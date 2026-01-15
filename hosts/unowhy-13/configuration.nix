@@ -8,22 +8,18 @@
     ];
 
     networking.hostName = "uw-laptop-quentin";
-    boot.tmp.useTmpfs = true;
-    boot.kernelPackages = pkgs.linuxPackages;
-    fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
 
     winter = {
-      hardware.bluetooth.enable = false;
+      hardware = {
+        bluetooth.enable = false;
+        ssd.lists = [ "/" ];
+      };
       main-user = {
         enable = true;
         userName = "quentin";
         userFullName = "Quentin Horgues";
       };
-      gnome = {
-        enable = true;
-        scaling = 2;
-        text-scaling = 0.7;
-      };
+      gnome.enable = true;
     };
 
     home-manager = {

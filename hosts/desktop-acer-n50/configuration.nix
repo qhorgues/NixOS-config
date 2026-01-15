@@ -15,12 +15,9 @@ in
     hardware.nvidia.open = false;
     networking.hostName = "desktop-quentin";
 
-    fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
-    fileSystems."/home".options = [ "noatime" "nodiratime" "discard" "defaults" ];
     fileSystems."/mnt/Games" =
     { device = "/dev/disk/by-uuid/6c951fd8-2e7f-41aa-91c6-abb520e39af5";
         fsType = "ext4";
-        options = [ "noatime" "nodiratime" "discard" ];
     };
 
     systemd.tmpfiles.rules = [
@@ -38,6 +35,7 @@ in
           old-gpu = true;
         };
         bluetooth.enable = false;
+        ssd.lists = [ "/" "/mnt/Games" ];
       };
       main-user = {
         enable = true;
