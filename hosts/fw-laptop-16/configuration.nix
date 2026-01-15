@@ -7,6 +7,7 @@
 
     winter = {
       hardware = {
+        ssd.lists = [ "/" "/mnt/Games" ];
         framework-fan-ctrl.enable = true;
         gpu = {
           vendor = "amdgpu";
@@ -45,13 +46,9 @@
 
     networking.hostName = "fw-laptop-quentin";
 
-    boot.kernelParams = [ "acpi_osi=Linux" ];
-
-    fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" "commit=120" ];
     fileSystems."/mnt/Games" =
     { device = "/dev/disk/by-uuid/1b35568b-4447-4c80-9880-4b359d4ecb6c";
         fsType = "ext4";
-        options = [ "noatime" "nodiratime" "discard" ];
     };
 
     services.udev.extraRules = ''
