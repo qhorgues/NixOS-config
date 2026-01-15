@@ -10,7 +10,7 @@
     networking.hostName = "uw-laptop-quentin";
     boot.tmp.useTmpfs = true;
     boot.kernelPackages = pkgs.linuxPackages;
-    fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
+    fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" "commit=120" ];
 
     winter = {
       hardware.bluetooth.enable = false;
