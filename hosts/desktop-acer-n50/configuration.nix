@@ -15,7 +15,7 @@ in
     hardware.nvidia.open = false;
     networking.hostName = "desktop-quentin";
 
-    fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
+    fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" "commit=120" ];
     fileSystems."/home".options = [ "noatime" "nodiratime" "discard" "defaults" ];
     fileSystems."/mnt/Games" =
     { device = "/dev/disk/by-uuid/6c951fd8-2e7f-41aa-91c6-abb520e39af5";
