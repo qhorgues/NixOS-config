@@ -25,14 +25,16 @@ in
     ];
 
     winter = {
-      hardware.gpu = {
-        vendor = "nvidia";
-        acceleration = "cuda";
-        frame-generation.enable = false;
-        generation = "pascal";
-        nvidia.standby = {
-          enable = true;
-          old-gpu = true;
+      hardware = {
+        gpu = {
+          vendor = "nvidia";
+          acceleration = "cuda";
+          frame-generation.enable = false;
+          generation = "pascal";
+          nvidia.standby = {
+            enable = true;
+            old-gpu = true;
+          };
         };
         bluetooth.enable = false;
         ssd.lists = [ "/" "/mnt/Games" ];
