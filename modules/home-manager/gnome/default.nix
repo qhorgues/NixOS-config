@@ -27,12 +27,13 @@
         gnomeExtensions.caffeine
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
-        gnomeExtensions.gsconnect
         # gnomeExtensions.tiling-shell
         # Icons
         papirus-icon-theme
         # (import ../../../pkgs/winteros-icons.nix {inherit pkgs;})
-    ]; # ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.fw-fanctrl;
+    ]
+    ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.framework-fan-control
+    ++ lib.optional osConfig.winter.gnome.gsconnect pkgs.gnomeExtensions.gsconnect;
     dconf = {
         enable = true;
         settings = {
@@ -46,9 +47,10 @@
               caffeine.extensionUuid
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
-              gsconnect.extensionUuid
               # tiling-shell.extensionUuid
-            ];# ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.fw-fanctrl.extensionUuid;
+            ]
+            ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.framework-fan-control.extensionUuid
+            ++ lib.optional osConfig.winter.gnome.gsconnect pkgs.gnomeExtensions.gsconnect.extensionUuid;
             favorite-apps = [
               "firefox.desktop"
               "org.gnome.Nautilus.desktop"
