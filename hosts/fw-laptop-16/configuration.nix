@@ -15,7 +15,7 @@
           frame-generation.enable = true;
           generation = "rdna3";
         };
-        bluetooth.enable = false;
+        bluetooth.enable = true;
       };
       main-user = {
         enable = true;
