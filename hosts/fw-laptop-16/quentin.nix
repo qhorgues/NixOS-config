@@ -19,7 +19,7 @@
       zed-editor.enable = true;
       vscode.enable = false;
       kdrive.enable = true;
-      graphism.enable = false;
+      graphism.enable = true;
       git.enable = true;
       vim.enable = false;
       linux-base-tools.enable = true;
