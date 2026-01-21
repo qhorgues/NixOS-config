@@ -28,6 +28,7 @@
       thunderbird.enable = true;
       office.enable = false;
       discord.enable = true;
+      ssh.enable = true;
       zed-editor.enable = true;
       vscode.enable = false;
       kdrive.enable = true;
