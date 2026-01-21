@@ -17,6 +17,7 @@
       office.enable = false;
       discord.enable = true;
       zed-editor.enable = true;
+      ssh.enable = true;
       vscode.enable = false;
       kdrive.enable = true;
       graphism.enable = true;

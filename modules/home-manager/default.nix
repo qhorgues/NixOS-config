@@ -17,6 +17,7 @@
     ./vim
     ./vscode
     ./linux-base-tools
+    ./ssh
     ./winboat
   ];
 
