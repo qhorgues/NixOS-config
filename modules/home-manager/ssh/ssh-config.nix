@@ -19,12 +19,26 @@ in
           user = "quentin";
           identityFile = "~/.ssh/id_ed25519";
           proxyJump = "repaircafetours";
+          localForwards = [
+            {
+              bind.port = 11080;
+              host.address = "localhost";
+              host.port = 32768;
+            }
+          ];
         };
         "rpi-quentin" = {
           hostname = "91.165.146.203";
           port = 48320;
           user = "quentin";
           identityFile = "~/.ssh/id_ed25519";
+          localForwards = [
+            {
+              bind.port = 10080;
+              host.address = "localhost";
+              host.port = 32768;
+            }
+          ];
         };
         "rpi-horgues" = {
           hostname = "91.168.167.51";
