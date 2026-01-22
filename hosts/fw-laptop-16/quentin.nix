@@ -14,11 +14,11 @@
     programs = {
       firefox.enable = true;
       thunderbird.enable = true;
-      office.enable = false;
+      office.enable = true;
       discord.enable = true;
       zed-editor.enable = true;
       ssh.enable = true;
-      vscode.enable = false;
+      vscode.enable = true;
       kdrive.enable = true;
       graphism.enable = true;
       git.enable = true;
