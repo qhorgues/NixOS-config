@@ -36,7 +36,7 @@
           enable = true;
           users = [ "quentin" ];
         };
-        mariadb.enable = true;
+        mariadb.enable = false;
         postgresql.enable = false;
       };
       programs = {
