@@ -3,6 +3,16 @@
     programs.zed-editor.userSettings = {
       ssh_connections = [
           {
+            hostname = "rpi-quentin-proxy";
+            project = [
+              {
+                paths = [
+                    "~/app-backend"
+                ];
+              }
+            ];
+          }
+          {
               host = "192.168.122.184";
               projects = [
                   {
@@ -18,21 +28,6 @@
               ];
               port = 22;
               username = "quentin";
-        }
-        {
-          host = "57.128.4.193";
-          projects = [
-            {
-              paths = [
-                "~/app-backend"
-              ];
-            }
-          ];
-          args = [
-              "-i"
-              "~/.ssh/id_ed25519"
-          ];
-          username = "quentin";
         }
       ];
     };
