@@ -10,6 +10,7 @@
     networking.hostName = "uw-laptop-quentin";
 
     winter = {
+      core.network.security-mode = true;
       hardware = {
         bluetooth.enable = false;
         ssd.lists = [ "/" ];

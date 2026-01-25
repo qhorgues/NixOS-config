@@ -6,6 +6,7 @@
     ];
 
     winter = {
+      core.network.security-mode = true;
       hardware = {
         ssd.lists = [ "/" "/mnt/Games" ];
         framework-fan-ctrl.enable = true;
