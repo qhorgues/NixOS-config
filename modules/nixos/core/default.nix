@@ -14,6 +14,7 @@
     ./bluetooth.nix
     ./ios-connect.nix
     ./ssd.nix
+    ./network.nix
   ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -33,9 +34,6 @@
     LC_TELEPHONE = "fr_FR.UTF-8";
     LC_TIME = "fr_FR.UTF-8";
   };
-
-  networking.networkmanager.enable = lib.mkDefault true;
-  networking.firewall.enable = lib.mkForce true;
 
   console.keyMap = "fr";
 
