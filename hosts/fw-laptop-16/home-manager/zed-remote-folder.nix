@@ -3,6 +3,7 @@
     programs.zed-editor.userSettings = {
       ssh_connections = [
           {
+            host = "rpi-quentin-proxy";
             hostname = "rpi-quentin-proxy";
             project = [
               {
