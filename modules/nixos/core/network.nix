@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.winter.core.network;
@@ -13,16 +13,19 @@ in
     security-mode = lib.mkEnableOption "Enable advanced networking security settings";
   };
 
-  config = lib.mkMerge [
+  config = lib.mkIf cfg.enable (
+    lib.mkMerge [
+      {
+        networking.networkmanager.enable = lib.mkDefault true;
+        networking.firewall.enable = lib.mkForce true;
+      }
       (
-        lib.mkIf cfg.enable {
-          networking.networkmanager.enable = lib.mkDefault true;
-          networking.firewall.enable = lib.mkForce true;
-        }
-      )
-      (
-        lib.mkIf (cfg.enable && cfg.security-mode) {
-          networking.hostName = lib.mkForce "";
+        lib.mkIf cfg.security-mode {
+          networking.hostName = (
+            if config.winter.services.apache-php-mariadb.enable then
+              lib.mkForce "device"
+            else lib.mkForce ""
+          );
           networking.networkmanager = {
             wifi = {
               macAddress = "random";
@@ -34,5 +37,6 @@ in
           };
         }
       )
-  ];
+    ]
+  );
 }
