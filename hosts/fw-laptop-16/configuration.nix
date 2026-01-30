@@ -37,7 +37,7 @@
           enable = true;
           users = [ "quentin" ];
         };
-        apache-php-mariadb.enable = false;
+        apache-php-mariadb.enable = true;
         postgresql.enable = false;
       };
       programs = {
