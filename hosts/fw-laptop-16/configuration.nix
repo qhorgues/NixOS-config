@@ -13,7 +13,6 @@
         gpu = {
           vendor = "amdgpu";
           acceleration = "rocm";
-          frame-generation.enable = true;
           generation = "rdna3";
         };
         bluetooth.enable = true;
@@ -41,7 +40,10 @@
         postgresql.enable = false;
       };
       programs = {
-        games.enable = true;
+        games = {
+          enable = true;
+          force-fsr3-for-rdna3 = false;
+        };
       };
     };
 

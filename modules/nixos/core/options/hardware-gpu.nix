@@ -25,11 +25,5 @@ with lib;
       default = null;
       description = "GPU génération (blackwell, ada-lovelace, ampere for NVidia; rdna4, rdna3, rdna2 for AMD)";
     };
-
-    frame-generation.enable = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Use to enable frame gen on modern GPU";
-    };
   };
 }

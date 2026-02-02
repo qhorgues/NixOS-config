@@ -10,6 +10,8 @@ in
   options.winter.programs.games = {
     enable = lib.mkEnableOption "Enable Game config";
 
+    force-fsr3-for-rdna3 = lib.mkEnableOption "Force FSR3 on AMD 7000 series";
+
     lsfg = {
       enable = lib.mkEnableOption "Enable Losseless Scaling (required Lossless scaling app on Steam)";
 
@@ -57,10 +59,13 @@ in
             MANGOHUD = true;
             PROTON_ENABLE_WAYLAND=true;
             PROTON_NO_D3D12=true;
-            PROTON_FSR4_UPGRADE = config.winter.hardware.gpu.generation == "rdna4" && config.winter.hardware.gpu.frame-generation.enable;
-            PROTON_FSR4_RDNA3_UPGRADE = config.winter.hardware.gpu.generation == "rdna3" && config.winter.hardware.gpu.frame-generation.enable;
-            PROTON_DLSS_UPGRADE = config.winter.hardware.gpu.vendor == "nvidia" && config.winter.hardware.gpu.frame-generation.enable;
-            PROTON_XESS_UPGRADE = config.winter.hardware.gpu.vendor == "intel" && config.winter.hardware.gpu.frame-generation.enable;
+
+            PROTON_FSR4_UPGRADE = config.winter.hardware.gpu.generation == "rdna4";
+            PROTON_FSR4_RDNA3_UPGRADE = config.winter.hardware.gpu.generation == "rdna3" && (!cfg.force-fsr3-for-rdna3);
+            PROTON_FSR3_UPGRADE = config.winter.hardware.gpu.generation == "rdna3" && cfg.force-fsr3-for-rdna3;
+
+            PROTON_DLSS_UPGRADE = config.winter.hardware.gpu.vendor == "nvidia";
+            PROTON_XESS_UPGRADE = config.winter.hardware.gpu.vendor == "intel";
           } //
           (if config.winter.programs.games.lsfg.enable == true then {
             VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";
