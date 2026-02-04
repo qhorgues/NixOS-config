@@ -4,6 +4,7 @@
     ./core
     ./flatpak
     ./discord
+    ./audio-enhancer
     ./gnome
     ./firefox
     ./thunderbird
