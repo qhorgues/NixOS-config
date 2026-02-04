@@ -16,6 +16,7 @@
       thunderbird.enable = true;
       office.enable = true;
       discord.enable = true;
+      audio-enhancer.enable = true;
       zed-editor.enable = true;
       ssh.enable = true;
       vscode.enable = true;
