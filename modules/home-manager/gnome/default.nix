@@ -11,7 +11,7 @@
         gnome-console
         gnome-text-editor
         gnome-calculator
-        gnome-music
+        amberol
         showtime
         papers
         file-roller
