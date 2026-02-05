@@ -110,6 +110,11 @@
             show-trash = false;
             transparency-mode = "DEFAULT";
         };
+        "org/gnome/shell/extensions/quick-settings-audio-panel" = {
+          create-mpris-controllers = false;
+          mpris-controllers-are-moved = false;
+          panel-type = "merged-panel";
+        };
         # "org/gnome/shell/extensions/tilingshell" = {
         #     enable-autotiling = true;
         #     show-indicator = false;
