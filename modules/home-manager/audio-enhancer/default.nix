@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.winter.programs.audio-enhancer;
@@ -9,6 +9,22 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    systemd.user.services.easyeffects = {
+      Unit = {
+        After = [ "graphical-session.target" "pipewire.service" ];
+        Requires = [ "graphical-session.target" ];
+      };
+      Service = {
+        # Importer les variables d'environnement de la session graphique
+        ImportEnvironment = [ "DISPLAY" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" ];
+        Environment = [
+          "QT_QPA_PLATFORM=wayland;xcb"  # Essaie wayland puis xcb
+        ];
+      };
+      Install = {
+        WantedBy = lib.mkForce [ "graphical-session.target" ];
+      };
+    };
     services.easyeffects = {
       enable = true;
       extraPresets = {
