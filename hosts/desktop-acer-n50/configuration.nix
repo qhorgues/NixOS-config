@@ -60,7 +60,10 @@ in
         postgresql.enable = false;
       };
       programs = {
-        games.enable = true;
+        games = {
+          enable = true;
+          gamemode.users = [ "quentin" ];
+        };
       };
     };
 

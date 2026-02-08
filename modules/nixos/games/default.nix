@@ -21,6 +21,12 @@ in
         description = "Path to lossless scaling DLL";
       };
     };
+
+    gamemode.users = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "Users for gamemode permissions should be enabled.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -80,6 +86,12 @@ in
         };
       };
     };
+
+    users.users = builtins.listToAttrs (map (user: {
+      name = user;
+      value.extraGroups = [ "gamemode" ];
+    }) cfg.gamemode.users);
+
     environment = {
       sessionVariables = {
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
