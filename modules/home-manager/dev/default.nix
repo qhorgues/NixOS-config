@@ -42,6 +42,7 @@ in
           cargo
           rustc
           rust-analyzer
+          clang
         ] ++ lib.optionals cfg.node [
           # Node
           bun
