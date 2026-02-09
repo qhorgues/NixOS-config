@@ -33,7 +33,7 @@
         rust = true;
         python = false;
         node = false;
-        php = false;
+        php = true;
         sql = true;
         gnome-dev = false;
       };
