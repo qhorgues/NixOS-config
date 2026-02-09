@@ -14,26 +14,26 @@
     programs = {
       firefox.enable = true;
       thunderbird.enable = true;
-      office.enable = true;
+      office.enable = false;
       discord.enable = true;
       audio-enhancer.enable = true;
       zed-editor.enable = true;
       ssh.enable = true;
       vscode.enable = true;
       kdrive.enable = true;
-      graphism.enable = true;
+      graphism.enable = false;
       git.enable = true;
       vim.enable = false;
       linux-base-tools.enable = true;
-      winboat.enable = true;
+      winboat.enable = false;
       dev = {
         enable = true;
         nix = true;
-        cpp = true;
+        cpp = false;
         rust = true;
-        python = true;
-        node = true;
-        php = true;
+        python = false;
+        node = false;
+        php = false;
         gnome-dev = false;
       };
     };
