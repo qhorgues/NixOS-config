@@ -34,6 +34,7 @@
         python = false;
         node = false;
         php = false;
+        sql = true;
         gnome-dev = false;
       };
     };

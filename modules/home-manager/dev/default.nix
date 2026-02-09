@@ -12,6 +12,8 @@ in
     python = lib.mkEnableOption "Enable Python dev tools";
     node = lib.mkEnableOption "Enable NodeJS dev tools";
     php = lib.mkEnableOption "Enable PHP/Laravel dev tools";
+    sql = lib.mkEnableOption "Enable SQL dev tools";
+
     gnome-dev = lib.mkEnableOption "Enable GNOME dev tools";
   };
 
@@ -25,9 +27,6 @@ in
         home.packages = with pkgs; [
           zeal
           git
-          gaphor
-          mysql-workbench
-
         ] ++ lib.optionals cfg.nix [
           nil
           nixd # Nix language server for zeditor
@@ -59,8 +58,10 @@ in
           php84Packages.composer
           laravel
           filezilla
-          dbeaver-bin
           bruno
+        ] ++ lib.optionals cfg.sql [
+          mysql-workbench
+          dbeaver-bin
         ] ++ lib.optionals cfg.gnome-dev [
           # Gnome app dev suite
           dconf-editor
