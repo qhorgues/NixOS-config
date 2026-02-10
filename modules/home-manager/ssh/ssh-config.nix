@@ -12,6 +12,13 @@ in
           port = 22;
           user = "quentin";
           identityFile = "~/.ssh/id_ed25519";
+          localForwards = [
+            {
+              bind.port = 7000;
+              host.address = "localhost";
+              host.port = 4321;
+            }
+          ];
         };
         "rpi-quentin-proxy" = {
           hostname = "91.165.146.203";
