@@ -1,37 +1,61 @@
-{ self, config, inputs, pkgs, pkgs-unstable, ... }:
+{ self, inputs, pkgs, pkgs-unstable, ... }:
 {
     imports = [
         inputs.nixos-hardware.nixosModules.framework-16-7040-amd
         ./hardware-configuration.nix
-        ../../modules/nixos
-        ../../modules/options.nix
-        ../../modules/nixos/fonts
-        ../../modules/nixos/gnome
-        ../../modules/nixos/main-users.nix
-        ../../modules/nixos/sound.nix
-        ../../modules/nixos/security.nix
-        ../../modules/nixos/zram.nix
-        ../../modules/nixos/games.nix
-        ../../modules/nixos/update.nix
-        ../../modules/nixos/disable-bluetooth.nix
-        ../../modules/nixos/ollama.nix
-        ../../modules/nixos/ios-connect.nix
-        ../../modules/nixos/mariadb.nix
-        ../../modules/nixos/unreal-engine-5.nix
-        # ../../modules/nixos/modeling.nix
-        # ../../modules/nixos/docker.nix
-        # ../../modules/nixos/vm.nix
-        # ../../modules/nixos/winapps.nix
-        # ../../modules/nixos/powersave.nix
     ];
+
+    winter = {
+      core.network.security-mode = true;
+      hardware = {
+        ssd.lists = [ "/" "/mnt/Games" ];
+        framework-fan-ctrl.enable = true;
+        gpu = {
+          vendor = "amdgpu";
+          acceleration = "rocm";
+          generation = "rdna3";
+        };
+        bluetooth.enable = true;
+      };
+      main-user = {
+        enable = true;
+        userName = "quentin";
+        userFullName = "Quentin Horgues";
+      };
+      gnome = {
+        enable = true;
+        scaling = 2;
+        text-scaling = 0.7;
+      };
+      services = {
+        vm = {
+          enable = false;
+          users = [ "quentin" ];
+        };
+        docker = {
+          enable = false;
+          users = [ "quentin" ];
+        };
+        apache-php-mariadb.enable = true;
+        postgresql.enable = false;
+        llm.enable = false;
+      };
+      programs = {
+        unreal-engine-5.enable = true;
+        modeling.enable = false;
+        games = {
+          enable = true;
+          force-fsr3-for-rdna3 = false;
+          gamemode.users = [ "quentin" ];
+        };
+      };
+    };
 
     networking.hostName = "fw-laptop-quentin";
 
-    fileSystems."/".options = [ "noatime" "nodiratime" "discard" "defaults" ];
     fileSystems."/mnt/Games" =
     { device = "/dev/disk/by-uuid/1b35568b-4447-4c80-9880-4b359d4ecb6c";
         fsType = "ext4";
-        options = [ "noatime" "nodiratime" "discard" ];
     };
 
     services.udev.extraRules = ''
@@ -48,35 +72,16 @@
         ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0018", ATTR{power/wakeup}="disabled"
     '';
 
-    winter = {
-      hardware = {
-        framework-fan-ctrl.enable = true;
-        gpu = {
-          vendor = "amdgpu";
-          acceleration = "rocm";
-        };
-      };
-      main-user = {
-        enable = true;
-        userName = "quentin";
-        userFullName = "Quentin Horgues";
-      };
-      gnome = {
-        scaling = 2;
-        text-scaling = 0.7;
-      };
-      # vm = {
-      #   users = [ "quentin" ];
-      # };
-    };
+
 
     programs.adb.enable = true;
     users.users."quentin".extraGroups = [ "adbusers" ];
 
     home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
       extraSpecialArgs = {
           inherit self inputs pkgs pkgs-unstable;
-          system-version=config.system.nixos.release;
       };
       users = {
         "quentin" = import ./quentin.nix;

@@ -1,16 +1,17 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, osConfig, ... }:
 {
-    imports = [
-        ./mineapps.nix
-    ];
+  imports = [
+      ./mineapps.nix
+  ];
 
+  config = lib.mkIf osConfig.winter.gnome.enable {
     home.packages = with pkgs; [
         # Base gnome app
         gnome-tweaks
         gnome-console
         gnome-text-editor
         gnome-calculator
-        gnome-music
+        amberol
         showtime
         papers
         file-roller
@@ -26,12 +27,13 @@
         gnomeExtensions.caffeine
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
-        gnomeExtensions.gsconnect
         # gnomeExtensions.tiling-shell
         # Icons
         papirus-icon-theme
         # (import ../../../pkgs/winteros-icons.nix {inherit pkgs;})
-    ]; # ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.fw-fanctrl;
+    ]
+    ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.framework-fan-control
+    ++ lib.optional osConfig.winter.gnome.gsconnect pkgs.gnomeExtensions.gsconnect;
     dconf = {
         enable = true;
         settings = {
@@ -45,9 +47,10 @@
               caffeine.extensionUuid
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
-              gsconnect.extensionUuid
               # tiling-shell.extensionUuid
-            ];# ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.fw-fanctrl.extensionUuid;
+            ]
+            ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.framework-fan-control.extensionUuid
+            ++ lib.optional osConfig.winter.gnome.gsconnect pkgs.gnomeExtensions.gsconnect.extensionUuid;
             favorite-apps = [
               "firefox.desktop"
               "org.gnome.Nautilus.desktop"
@@ -106,6 +109,11 @@
             show-show-apps-button = false;
             show-trash = false;
             transparency-mode = "DEFAULT";
+        };
+        "org/gnome/shell/extensions/quick-settings-audio-panel" = {
+          create-mpris-controllers = false;
+          mpris-controllers-are-moved = false;
+          panel-type = "merged-panel";
         };
         # "org/gnome/shell/extensions/tilingshell" = {
         #     enable-autotiling = true;
@@ -193,6 +201,12 @@
             "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
             ];
         };
+        "org/gnome/desktop/wm/keybindings" = {
+          switch-applications = ["<Alt>Tab"];
+          switch-applications-backward = ["<Shift><Alt>Tab"];
+          switch-windows = ["<Super>Tab"];
+          switch-windows-backward = ["<Shift><Super>Tab"];
+        };
         "org/gnome/Console" = {
             theme = "auto";
         };
@@ -219,4 +233,5 @@
         };
     };
     home.file.".local/share/wallpaper/clair-obscur.jpg".source = ./clair-obscur.jpg;
+  };
 }
