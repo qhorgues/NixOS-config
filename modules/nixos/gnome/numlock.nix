@@ -9,7 +9,7 @@
     };
     };
 
-  config = lib.mkIf config.winter.gnome.numlock {
+  config = lib.mkIf (config.winter.gnome.enable && config.winter.gnome.numlock) {
     programs.dconf = {
         enable = true;
         profiles.gdm.databases = [{

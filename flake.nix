@@ -11,9 +11,9 @@
         url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
         inputs.nixpkgs.follows = "nixpkgs";
     };
-    winapps = {
-        url = "github:winapps-org/winapps";
-        inputs.nixpkgs.follows = "nixpkgs";
+    coe33 = {
+      url = "github:qhorgues/CO-E33-Save-Editor";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -40,6 +40,7 @@
         };
         modules = [
           ./hosts/fw-laptop-16/configuration.nix
+          ./modules/nixos
           inputs.home-manager.nixosModules.default
         ];
       };
@@ -56,6 +57,7 @@
         };
         modules = [
             ./hosts/unowhy-13/configuration.nix
+            ./modules/nixos
             inputs.home-manager.nixosModules.default
         ];
       };
@@ -71,8 +73,9 @@
             };
         };
        	modules = [
-            ./hosts/desktop-acer-n50/configuration.nix
-            inputs.home-manager.nixosModules.default
+          ./hosts/desktop-acer-n50/configuration.nix
+          ./modules/nixos
+          inputs.home-manager.nixosModules.default
        	];
       };
     };
