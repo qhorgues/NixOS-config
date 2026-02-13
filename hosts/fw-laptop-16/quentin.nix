@@ -32,7 +32,7 @@
         cpp = false;
         rust = true;
         python = false;
-        node = false;
+        node = true;
         php = true;
         sql = true;
         gnome-dev = false;
