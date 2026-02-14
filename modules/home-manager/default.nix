@@ -4,6 +4,7 @@
     ./core
     ./flatpak
     ./discord
+    ./element
     ./audio-enhancer
     ./gnome
     ./firefox
