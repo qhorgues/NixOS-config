@@ -2,6 +2,7 @@
 
 let
   cfg = config.winter.services.flatpak;
+  flatpakApp = import ../flatpak/app.nix { inherit pkgs lib;};
 in
 {
   options.winter.services.flatpak = {
@@ -22,5 +23,7 @@ in
       ${pkgs.flatpak}/bin/flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       ${pkgs.flatpak}/bin/flatpak update --user -y
     '';
+
+    home.activation.flatseal = flatpakApp "com.github.tchx84.Flatseal";
   };
 }
