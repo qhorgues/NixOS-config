@@ -29,7 +29,6 @@ in
         gpu = {
           vendor = "nvidia";
           acceleration = "cuda";
-          frame-generation.enable = false;
           generation = "pascal";
           nvidia.standby = {
             enable = true;
