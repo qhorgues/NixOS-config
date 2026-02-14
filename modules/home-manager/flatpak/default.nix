@@ -2,7 +2,10 @@
 
 let
   cfg = config.winter.services.flatpak;
-  flatpakApp = import ../flatpak/app.nix { inherit pkgs lib;};
+  flatpakApp = import ../flatpak/app.nix {
+    inherit pkgs lib;
+    enableApp = cfg.enable;
+  };
 in
 {
   options.winter.services.flatpak = {

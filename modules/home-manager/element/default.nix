@@ -2,15 +2,18 @@
 
 let
   cfg = config.winter.programs.element;
-  flatpakApp = import ../flatpak/app.nix { inherit pkgs lib;};
+  flatpakApp = import ../flatpak/app.nix {
+    inherit pkgs lib;
+    enableApp = cfg.enable;
+  };
 in
 {
   options.winter.programs.element = {
-    enable = lib.mkEnableOption "Install Element client";
+    enable = lib.mkEnableOption "Install Client client";
   };
 
-  config = lib.mkIf cfg.enable {
-    winter.services.flatpak.enable = true;
+  config =  {
+    winter.services.flatpak.enable = lib.mkDefault cfg.enable;
     home.activation.element = flatpakApp "im.riot.Riot";
   };
 }
