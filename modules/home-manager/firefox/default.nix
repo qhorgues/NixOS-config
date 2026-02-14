@@ -13,13 +13,13 @@ in
 
   config = lib.mkIf cfg.enable {
     programs.firefox = {
-        enable = true;
-        package = pkgs.firefox-bin;
-        languagePacks = [
+      enable = true;
+      package = pkgs.firefox-bin;
+      languagePacks = [
         "fr"
-        ];
-        nativeMessagingHosts = [ pkgs-unstable.firefoxpwa ];
-        profiles = {
+      ];
+      nativeMessagingHosts = [ pkgs-unstable.firefoxpwa ];
+      profiles = {
         "youtube" = {
           id = 1;
           name = "YouTube";
@@ -32,32 +32,32 @@ in
           ];
 
           search = {
-              default = "youtube";
-              force = true;
-              engines = {
-                  youtube = {
-                      name = "YouTube";
-                      urls = [{
-                          template = "https://www.youtube.com/results";
-                          params = [
-                          { name = "search_query"; value = "{searchTerms}"; }
-                          ];
-                      }];
-                      iconMapObj."16" = "file://${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
-                      definedAliases = [ "@yt" ];
-                  };
-
-                  bing.metaData.hidden = true;
-                  google.metaData.hidden = true;
-                  ebay.metaData.hidden = true;
-                  perplexity.metaData.hidden = true;
+            default = "youtube";
+            force = true;
+            engines = {
+              youtube = {
+                name = "YouTube";
+                urls = [{
+                  template = "https://www.youtube.com/results";
+                  params = [
+                  { name = "search_query"; value = "{searchTerms}"; }
+                  ];
+                }];
+                iconMapObj."16" = "file://${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
+                definedAliases = [ "@yt" ];
               };
-              order = [
-                  "ddg"
-                  "qwant"
-                  "youtube"
-              ];
-              privateDefault = "qwant";
+
+              bing.metaData.hidden = true;
+              google.metaData.hidden = true;
+              ebay.metaData.hidden = true;
+              perplexity.metaData.hidden = true;
+            };
+            order = [
+              "ddg"
+              "qwant"
+              "youtube"
+            ];
+            privateDefault = "qwant";
           };
           settings = {
             "browser.startup.homepage" = "https://www.youtube.com";
@@ -73,21 +73,20 @@ in
           };
         };
         "default" = {
-            id = 0;
-            name = "default";
-            isDefault = true;
-            extensions.packages = with addons; [
+          id = 0;
+          name = "default";
+          isDefault = true;
+          extensions.packages = with addons; [
             bitwarden
             ublock-origin
             ghostery
-            # darkreader
             user-agent-string-switcher
             pwas-for-firefox
             multi-account-containers
             sponsorblock
-            ];
+          ];
 
-            settings = {
+          settings = {
             "app.normandy.first_run" = 0;
             "browser.aboutConfig.showWarning" = false;
             "browser.bookmarks.restore_default_bookmarks" = false;
@@ -142,53 +141,53 @@ in
             "browser.tabs.firefox-view" = false;
 
             "browser.uiCustomization.state" = builtins.toJSON {
-                dirtyAreaCache = [
-                  "vertical-tabs"
-                  "nav-bar"
-                  "PersonalToolbar"
-                  "toolbar-menubar"
-                  "TabsToolbar"
-                  "widget-overflow-fixed-list"
-                  "unified-extensions-area"
-                ];
-                placements = {
-                PersonalToolbar = ["personal-bookmarks"];
-                TabsToolbar = [];
-                unified-extensions-area = [
-                    "_${getId addons.user-agent-string-switcher.addonId}_-browser-action" # user agent switcher
-                    "sponsorblocker_ajay_app-browser-action"
-                ];
-                nav-bar = [
-                  "sidebar-button"
-                  "back-button"
-                  "forward-button"
-                  "stop-reload-button"
-                  "home-button"
-                  "vertical-spacer"
-                  "urlbar-container"
-                  "downloads-button"
-                  "sync-button"
-                  "ublock0_raymondhill_net-browser-action"
-                  "firefox_ghostery_com-browser-action"
-                  "_${getId addons.bitwarden.addonId}_-browser-action" # bitwarden
-                  "reset-pbm-toolbar-button"
-                  "unified-extensions-button"
-                ];
-                toolbar-menubar = ["menubar-items"];
-                widget-overflow-fixed-list = [];
-                vertical-tabs = ["tabbrowser-tabs"];
-                };
-                seen = [
-                  "developer-button"
-                  "ublock0_raymondhill_net-browser-action"
-                  "_testpilot-containers-browser-action"
-                  "addon_darkreader_org-browser-action"
-                  "_${getId addons.bitwarden.addonId}_-browser-action"
-                  "firefox_ghostery_com-browser-action"
-                  "screenshot-button"
-                  "_${getId addons.user-agent-string-switcher.addonId}_-browser-action"
-                  "firefoxpwa_filips_si-browser-action"
-                ];
+              dirtyAreaCache = [
+                "vertical-tabs"
+                "nav-bar"
+                "PersonalToolbar"
+                "toolbar-menubar"
+                "TabsToolbar"
+                "widget-overflow-fixed-list"
+                "unified-extensions-area"
+              ];
+              placements = {
+              PersonalToolbar = ["personal-bookmarks"];
+              TabsToolbar = [];
+              unified-extensions-area = [
+                  "_${getId addons.user-agent-string-switcher.addonId}_-browser-action" # user agent switcher
+                  "sponsorblocker_ajay_app-browser-action"
+              ];
+              nav-bar = [
+                "sidebar-button"
+                "back-button"
+                "forward-button"
+                "stop-reload-button"
+                "home-button"
+                "vertical-spacer"
+                "urlbar-container"
+                "downloads-button"
+                "sync-button"
+                "ublock0_raymondhill_net-browser-action"
+                "firefox_ghostery_com-browser-action"
+                "_${getId addons.bitwarden.addonId}_-browser-action" # bitwarden
+                "reset-pbm-toolbar-button"
+                "unified-extensions-button"
+              ];
+              toolbar-menubar = ["menubar-items"];
+              widget-overflow-fixed-list = [];
+              vertical-tabs = ["tabbrowser-tabs"];
+              };
+              seen = [
+                "developer-button"
+                "ublock0_raymondhill_net-browser-action"
+                "_testpilot-containers-browser-action"
+                "addon_darkreader_org-browser-action"
+                "_${getId addons.bitwarden.addonId}_-browser-action"
+                "firefox_ghostery_com-browser-action"
+                "screenshot-button"
+                "_${getId addons.user-agent-string-switcher.addonId}_-browser-action"
+                "firefoxpwa_filips_si-browser-action"
+              ];
             };
 
             "browser.urlbar.placeholderName" = "DuckDuckGo";
@@ -250,19 +249,19 @@ in
             "privacy.query_stripping.enabled.pbmode" = true;
             "privacy.sanitize.clearOnShutdown.hasMigratedToNewPrefs3" = true;
             "privacy.sanitize.pending" = builtins.toJSON [
-                {
+              {
                 id = "shutdown";
                 itemsToClear = [
                     "cache"
                     "cookiesAndStorage"
                 ];
                 options = {};
-                }
-                {
+              }
+              {
                 id = "newtab-container";
                 itemsToClear = [];
                 options = {};
-                }
+              }
             ];
             "privacy.sanitize.sanitizeOnShutdown" = true;
             "privacy.trackingprotection.consentmanager.skip.pbmode.enabled" = false;
@@ -272,12 +271,12 @@ in
             "privacy.userContext.newTabContainerOnLeftClick.enabled" = false;
 
             "sidebar.backupState" = builtins.toJSON {
-                panelOpen = false;
-                launcherWidth = 55;
-                launcherExpanded = false;
-                launcherVisible = true;
-                pinnedTabsHeight = 0;
-                collapsedPinnedTabsHeight = 0;
+              panelOpen = false;
+              launcherWidth = 55;
+              launcherExpanded = false;
+              launcherVisible = true;
+              pinnedTabsHeight = 0;
+              collapsedPinnedTabsHeight = 0;
             };
 
             "sidebar.new-sidebar.has-used" = true;
@@ -307,103 +306,103 @@ in
             "browser.ml.chat.enabled" = true;
             "browser.ml.chat.provider" = "localhost:8080";
             "browser.uiCustomization.navBarWhenVerticalTabs" = builtins.toJSON [
-                "sidebar-button"
-                "back-button"
-                "forward-button"
-                "stop-reload-button"
-                "home-button"
-                "vertical-spacer"
-                "urlbar-container"
-                "downloads-button"
-                "sync-button"
-                "ublock0_raymondhill_net-browser-action"
-                "firefox_ghostery_com-browser-action"
-                "_${getId addons.bitwarden.addonId}_-browser-action" # bitwarden
-                "reset-pbm-toolbar-button"
-                "unified-extensions-button"
+              "sidebar-button"
+              "back-button"
+              "forward-button"
+              "stop-reload-button"
+              "home-button"
+              "vertical-spacer"
+              "urlbar-container"
+              "downloads-button"
+              "sync-button"
+              "ublock0_raymondhill_net-browser-action"
+              "firefox_ghostery_com-browser-action"
+              "_${getId addons.bitwarden.addonId}_-browser-action" # bitwarden
+              "reset-pbm-toolbar-button"
+              "unified-extensions-button"
             ];
           };
           search = {
-              default = "ddg";
-              force = true;
-              engines = {
-                  nix-packages = {
-                      name = "Nix Packages";
-                      urls = [{
-                          template = "https://search.nixos.org/packages";
-                          params = [
-                              { name = "type"; value = "packages"; }
-                              { name = "query"; value = "{searchTerms}"; }
-                          ];
-                      }];
+            default = "ddg";
+            force = true;
+            engines = {
+              nix-packages = {
+                name = "Nix Packages";
+                urls = [{
+                  template = "https://search.nixos.org/packages";
+                  params = [
+                    { name = "type"; value = "packages"; }
+                    { name = "query"; value = "{searchTerms}"; }
+                  ];
+                }];
 
-                      icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-                      definedAliases = [ "@np" ];
-                  };
-
-                  nix-options = {
-                      name = "NixOS Options";
-                      urls = [
-                          {
-                          template = "https://search.nixos.org/options";
-                          params = [
-                              { name = "type"; value = "options"; }
-                              { name = "query";   value = "{searchTerms}"; }
-                          ];
-                          }
-                      ];
-                      icon           = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-                      definedAliases = [ "@no" ];
-                  };
-
-                  my-nixos = {
-                    name = "MyNixOS";
-                    urls = [
-                        {
-                        template = "https://mynixos.com/search";
-                        params = [
-                            { name = "type"; value = "packages"; }
-                            { name = "q";   value = "{searchTerms}"; }
-                        ];
-                        }
-                    ];
-                    icon           = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake-white.svg";
-                    definedAliases = [ "@mn" ];
-                  };
-
-                  nixos-wiki = {
-                      name = "NixOS Wiki";
-                      urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
-                      iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
-                      definedAliases = [ "@nw" ];
-                  };
-
-                  youtube = {
-                      name = "YouTube";
-                      urls = [{
-                          template = "https://www.youtube.com/results";
-                          params = [
-                          { name = "search_query"; value = "{searchTerms}"; }
-                          ];
-                      }];
-                      iconMapObj."16" = "file://${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
-                      definedAliases = [ "@yt" ];
-                  };
-
-                  bing.metaData.hidden = true;
-                  google.metaData.hidden = true;
-                  ebay.metaData.hidden = true;
-                  perplexity.metaData.hidden = true;
+                icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                definedAliases = [ "@np" ];
               };
-              order = [
-                  "ddg"
-                  "qwant"
-                  "Nix Packages"
-                  "NixOS Options"
-                  "NixOS Wiki"
-                  "youtube"
-              ];
-              privateDefault = "qwant";
+
+              nix-options = {
+                name = "NixOS Options";
+                urls = [
+                  {
+                    template = "https://search.nixos.org/options";
+                    params = [
+                        { name = "type"; value = "options"; }
+                        { name = "query";   value = "{searchTerms}"; }
+                    ];
+                  }
+                ];
+                icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                definedAliases = [ "@no" ];
+              };
+
+              my-nixos = {
+                name = "MyNixOS";
+                urls = [
+                  {
+                    template = "https://mynixos.com/search";
+                    params = [
+                        { name = "type"; value = "packages"; }
+                        { name = "q";   value = "{searchTerms}"; }
+                    ];
+                  }
+                ];
+                icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake-white.svg";
+                definedAliases = [ "@mn" ];
+              };
+
+              nixos-wiki = {
+                name = "NixOS Wiki";
+                urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
+                iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
+                definedAliases = [ "@nw" ];
+              };
+
+              youtube = {
+                name = "YouTube";
+                urls = [{
+                  template = "https://www.youtube.com/results";
+                  params = [
+                    { name = "search_query"; value = "{searchTerms}"; }
+                  ];
+                }];
+                iconMapObj."16" = "file://${config.home.homeDirectory}/.mozilla/firefox/default/youtube-icon.svg";
+                definedAliases = [ "@yt" ];
+              };
+
+              bing.metaData.hidden = true;
+              google.metaData.hidden = true;
+              ebay.metaData.hidden = true;
+              perplexity.metaData.hidden = true;
+            };
+            order = [
+              "ddg"
+              "qwant"
+              "Nix Packages"
+              "NixOS Options"
+              "NixOS Wiki"
+              "youtube"
+            ];
+            privateDefault = "qwant";
           };
         };
       };
