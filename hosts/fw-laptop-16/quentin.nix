@@ -14,7 +14,7 @@
     programs = {
       firefox.enable = true;
       thunderbird.enable = true;
-      office.enable = false;
+      office.enable = true;
       discord.enable = true;
       element.enable = true;
       audio-enhancer.enable = true;
@@ -53,6 +53,7 @@
 
 
   home.packages = [
+    pkgs.sushi
     inputs.coe33.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }

@@ -39,6 +39,7 @@
         apache-php-mariadb.enable = true;
         postgresql.enable = false;
         llm.enable = false;
+        printing.enable = false;
       };
       programs = {
         modeling.enable = false;
