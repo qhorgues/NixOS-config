@@ -15,5 +15,6 @@
     ./remote-desktop
     ./llm
     ./vm
+    ./printing
   ];
 }
