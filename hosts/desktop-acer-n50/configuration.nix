@@ -57,6 +57,7 @@ in
         };
         apache-php-mariadb.enable = false;
         postgresql.enable = false;
+        printing.enable = true;
       };
       programs = {
         games = {
