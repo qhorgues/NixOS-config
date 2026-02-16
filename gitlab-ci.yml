@@ -1,0 +1,163 @@
+stages:
+  - update
+  - merge
+
+variables:
+  GIT_STRATEGY: clone
+  GIT_DEPTH: 0
+
+# Job that updates flake.lock
+update_flake:
+  stage: update
+  image: nixos/nix:latest
+  before_script:
+    - apk add --no-cache git curl jq
+    - git config user.name "GitLab CI"
+    - git config user.email "ci@gitlab.com"
+    - git remote set-url origin "https://oauth2:${CI_PUSH_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+  script:
+    # Update flake.lock
+    - nix flake update --experimental-features 'nix-command flakes'
+
+    # Check if there are changes
+    - |
+      if git diff --quiet flake.lock; then
+        echo "No changes in flake.lock"
+        exit 0
+      fi
+
+    # Create branch with timestamp
+    - BRANCH_NAME="flake-update-$(date +%Y%m%d-%H%M%S)"
+    - git checkout -b "$BRANCH_NAME"
+    - git add flake.lock
+    - git commit -m "chore: update flake.lock"
+    - git push origin "$BRANCH_NAME"
+
+    # Create Merge Request with specific label
+    - |
+      CURRENT_TIME=$(date -u +%s)
+      MR_RESPONSE=$(curl --silent --request POST \
+        --header "PRIVATE-TOKEN: ${CI_PUSH_TOKEN}" \
+        --data "source_branch=${BRANCH_NAME}" \
+        --data "target_branch=master" \
+        --data "title=Automatic flake.lock update" \
+        --data "description=This MR automatically updates flake.lock.%0A%0A⏰ **Auto-merge scheduled in 48h**%0A%0AThis MR will be automatically merged after a 48-hour review period.%0A%0AReview the changes and close this MR if you don't want to apply this update.%0A%0A<!-- CREATED_AT:${CURRENT_TIME} -->" \
+        --data "labels=dependencies,automated" \
+        --data "remove_source_branch=true" \
+        "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests")
+
+      echo "MR created: $(echo $MR_RESPONSE | jq -r '.web_url')"
+  rules:
+    # Run daily at 2 AM UTC via pipeline schedule
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    # Allow manual execution
+    - if: $CI_PIPELINE_SOURCE == "web"
+  tags:
+    - docker
+
+# Job that merges MRs after 48h
+auto_merge:
+  stage: merge
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl jq
+  script:
+    - |
+      echo "Looking for automated MRs to merge..."
+
+      # Current timestamp
+      CURRENT_TIME=$(date -u +%s)
+      CUTOFF_TIME=$((CURRENT_TIME - 86400)) # 48h in seconds
+
+      # Get all open MRs with "automated" label
+      MRS=$(curl --silent --header "PRIVATE-TOKEN: ${CI_PUSH_TOKEN}" \
+        "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests?state=opened&labels=automated")
+
+      # For each MR
+      echo "$MRS" | jq -c '.[]' | while read -r MR; do
+        MR_IID=$(echo "$MR" | jq -r '.iid')
+        MR_TITLE=$(echo "$MR" | jq -r '.title')
+        MR_SOURCE_BRANCH=$(echo "$MR" | jq -r '.source_branch')
+
+        # Safety check 1: Verify title matches our auto-update pattern
+        if [ "$MR_TITLE" != "Automatic flake.lock update" ]; then
+          echo "MR !${MR_IID}: title doesn't match, skipping for safety"
+          continue
+        fi
+
+        # Safety check 2: Verify branch name starts with "flake-update-"
+        if ! echo "$MR_SOURCE_BRANCH" | grep -q "^flake-update-"; then
+          echo "MR !${MR_IID}: branch name doesn't match pattern, skipping for safety"
+          continue
+        fi
+
+        # Get full MR description
+        MR_DESCRIPTION=$(curl --silent --header "PRIVATE-TOKEN: ${CI_PUSH_TOKEN}" \
+          "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests/${MR_IID}" | jq -r '.description')
+
+        # Extract creation timestamp from description
+        CREATED_AT=$(echo "$MR_DESCRIPTION" | grep -oP 'CREATED_AT:\K[0-9]+' || echo "0")
+
+        if [ "$CREATED_AT" -eq "0" ]; then
+          echo "MR !${MR_IID}: timestamp not found, skipping for safety"
+          continue
+        fi
+
+        # Check if 48h have passed
+        if [ "$CREATED_AT" -lt "$CUTOFF_TIME" ]; then
+          echo "MR !${MR_IID} (${MR_TITLE}): older than 48h, performing safety checks..."
+
+          # Safety check 3: Verify only flake.lock was changed
+          CHANGED_FILES=$(curl --silent --header "PRIVATE-TOKEN: ${CI_PUSH_TOKEN}" \
+            "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests/${MR_IID}/changes" | \
+            jq -r '.changes[].new_path' | tr '\n' ' ')
+
+          if [ "$CHANGED_FILES" != "flake.lock " ]; then
+            echo "⚠️  MR !${MR_IID}: unexpected file changes detected, skipping for safety"
+            echo "Changed files: $CHANGED_FILES"
+            continue
+          fi
+
+          # Check if MR is mergeable
+          MERGEABLE=$(curl --silent --header "PRIVATE-TOKEN: ${CI_PUSH_TOKEN}" \
+            "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests/${MR_IID}" | jq -r '.merge_status')
+
+          if [ "$MERGEABLE" = "can_be_merged" ]; then
+            # Merge the MR
+            curl --request PUT \
+              --header "PRIVATE-TOKEN: ${CI_PUSH_TOKEN}" \
+              --data "squash=true" \
+              --data "merge_commit_message=chore: update flake.lock [automated]" \
+              "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests/${MR_IID}/merge"
+
+            echo "✅ MR !${MR_IID} merged successfully (flake.lock auto-update)"
+          else
+            echo "⚠️  MR !${MR_IID} is not mergeable (status: ${MERGEABLE})"
+          fi
+        else
+          AGE_HOURS=$(( (CURRENT_TIME - CREATED_AT) / 3600 ))
+          echo "MR !${MR_IID}: too recent (${AGE_HOURS}h), waiting..."
+        fi
+      done
+  rules:
+    # Run daily (can be on the same schedule)
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    # Allow manual execution
+    - if: $CI_PIPELINE_SOURCE == "web"
+  tags:
+    - docker
+
+# Configuration to add in GitLab:
+# 1. Create a Personal Access Token or Project Access Token with scopes:
+#    - api
+#    - write_repository
+# 2. Add the token in CI/CD Settings > Variables:
+#    - Name: CI_PUSH_TOKEN
+#    - Value: your_token
+#    - Type: Variable
+#    - Protected: yes (if you want)
+#    - Masked: yes
+# 3. Create a Pipeline Schedule in CI/CD > Schedules:
+#    - Description: "Update flake.lock daily"
+#    - Interval: "0 2 * * *" (daily at 2 AM UTC)
+#    - Target branch: master
