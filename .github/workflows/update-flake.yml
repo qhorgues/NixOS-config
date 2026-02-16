@@ -51,6 +51,15 @@ jobs:
           git commit -m "chore: update flake.lock"
           git push origin "$BRANCH_NAME"
 
+      - name: Create or verify labels
+        if: steps.check_changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Create labels if they don't exist (ignore errors if they already exist)
+          gh label create "dependencies" --description "Pull requests that update a dependency file" --color "0366d6" || true
+          gh label create "automated" --description "Automated pull requests" --color "34d058" || true
+
       - name: Create Pull Request
         if: steps.check_changes.outputs.changed == 'true'
         env:
