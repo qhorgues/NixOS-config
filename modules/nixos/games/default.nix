@@ -11,7 +11,7 @@ in
   options.winter.programs.games = {
     enable = lib.mkEnableOption "Enable Game config";
 
-    force-fsr3-for-rdna3 = lib.mkEnableOption "Force FSR3 on AMD 7000 series";
+    force-fsr4-for-rdna3 = lib.mkEnableOption "Force FSR4 on AMD 7000 series";
 
     lsfg = {
       enable = lib.mkEnableOption "Enable Losseless Scaling (required Lossless scaling app on Steam)";
@@ -65,18 +65,18 @@ in
             TZ = ":/etc/localtime";
             MANGOHUD = true;
             # PROTON_ENABLE_WAYLAND=true;
-            PROTON_NO_D3D12=true;
+            # PROTON_NO_D3D12=true;
 
-            PROTON_FSR4_UPGRADE = cgpu.vendor == "amdgpu" 
+            PROTON_FSR4_UPGRADE = cgpu.vendor == "amdgpu"
                                   && cgpu.generation == "rdna4";
-            PROTON_FSR4_RDNA3_UPGRADE = cgpu.vendor == "amdgpu" 
-                                        && cgpu.generation == "rdna3" 
-                                        && (!cfg.force-fsr3-for-rdna3);
-            PROTON_FSR3_UPGRADE = cgpu.generation == "rdna3" 
-                                  && cfg.force-fsr3-for-rdna3;
+            PROTON_FSR4_RDNA3_UPGRADE = cgpu.vendor == "amdgpu"
+                                        && cgpu.generation == "rdna3"
+                                        && cfg.force-fsr4-for-rdna3;
+            PROTON_FSR3_UPGRADE = cgpu.generation == "rdna3"
+                                  && (!cfg.force-fsr4-for-rdna3);
             PROTON_DLSS_UPGRADE = cgpu.vendor == "nvidia";
-            PROTON_XESS_UPGRADE = cgpu.vendor == "intel" 
-                                  || (cgpu.vendor == "amdgpu" 
+            PROTON_XESS_UPGRADE = cgpu.vendor == "intel"
+                                  || (cgpu.vendor == "amdgpu"
                                       && cgpu.generation != "rdna4");
           } //
           (if config.winter.programs.games.lsfg.enable == true then {
@@ -107,6 +107,8 @@ in
     environment.systemPackages = with pkgs; [
       mangohud
       adwsteamgtk
+      vkbasalt
+      pkgs-unstable.goverlay
     ];
     hardware = {
         graphics = {
