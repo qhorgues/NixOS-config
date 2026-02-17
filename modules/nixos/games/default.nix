@@ -2,6 +2,7 @@
 
 let
   cfg = config.winter.programs.games;
+  cgpu = config.winter.hardware.gpu;
   lsfg-vk = pkgs.callPackage ../../../pkgs/lsfg-vk.nix { };
   # lsfg-vk-ui = pkgs.callPackage ../../../pkgs/lsfg-vk-ui.nix { };
 in
@@ -63,15 +64,20 @@ in
           extraEnv = {
             TZ = ":/etc/localtime";
             MANGOHUD = true;
-            PROTON_ENABLE_WAYLAND=true;
+            # PROTON_ENABLE_WAYLAND=true;
             PROTON_NO_D3D12=true;
 
-            PROTON_FSR4_UPGRADE = config.winter.hardware.gpu.generation == "rdna4";
-            PROTON_FSR4_RDNA3_UPGRADE = config.winter.hardware.gpu.generation == "rdna3" && (!cfg.force-fsr3-for-rdna3);
-            PROTON_FSR3_UPGRADE = config.winter.hardware.gpu.generation == "rdna3" && cfg.force-fsr3-for-rdna3;
-
-            PROTON_DLSS_UPGRADE = config.winter.hardware.gpu.vendor == "nvidia";
-            PROTON_XESS_UPGRADE = config.winter.hardware.gpu.vendor == "intel";
+            PROTON_FSR4_UPGRADE = cgpu.vendor == "amdgpu" 
+                                  && cgpu.generation == "rdna4";
+            PROTON_FSR4_RDNA3_UPGRADE = cgpu.vendor == "amdgpu" 
+                                        && cgpu.generation == "rdna3" 
+                                        && (!cfg.force-fsr3-for-rdna3);
+            PROTON_FSR3_UPGRADE = cgpu.generation == "rdna3" 
+                                  && cfg.force-fsr3-for-rdna3;
+            PROTON_DLSS_UPGRADE = cgpu.vendor == "nvidia";
+            PROTON_XESS_UPGRADE = cgpu.vendor == "intel" 
+                                  || (cgpu.vendor == "amdgpu" 
+                                      && cgpu.generation != "rdna4");
           } //
           (if config.winter.programs.games.lsfg.enable == true then {
             VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";
