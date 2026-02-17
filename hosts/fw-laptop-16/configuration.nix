@@ -45,7 +45,7 @@
         modeling.enable = false;
         games = {
           enable = true;
-          force-fsr3-for-rdna3 = false;
+          force-fsr4-for-rdna3 = false;
           gamemode.users = [ "quentin" ];
         };
       };
