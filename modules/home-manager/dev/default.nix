@@ -14,8 +14,7 @@ in
     php = lib.mkEnableOption "Enable PHP/Laravel dev tools";
     sql = lib.mkEnableOption "Enable SQL dev tools";
     ci = lib.mkEnableOption "Enable CI dev tools";
-
-
+    java = lib.mkEnableOption "Enable Java dev tools";
     gnome-dev = lib.mkEnableOption "Enable GNOME dev tools";
   };
 
@@ -76,6 +75,10 @@ in
           flatpak-builder
         ] ++ lib.optionals cfg.ci [
           act
+        ] ++ lib.optionals cfg.java [
+          java-language-server
+          jdk
+          gradle
         ];
       }
     )
