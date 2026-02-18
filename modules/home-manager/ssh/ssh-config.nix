@@ -32,6 +32,11 @@ in
               host.address = "localhost";
               host.port = 32768;
             }
+            {
+              bind.port = 11800;
+              host.address = "localhost";
+              host.port = 8000;
+            }
           ];
         };
         "rpi-quentin" = {
