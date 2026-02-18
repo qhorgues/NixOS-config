@@ -29,7 +29,7 @@
       };
       services = {
         vm = {
-          enable = false;
+          enable = true;
           users = [ "quentin" ];
         };
         docker = {
