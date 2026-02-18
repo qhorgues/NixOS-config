@@ -45,6 +45,7 @@ in
           rust-analyzer
           clang
           pkg-config
+          openssl
         ] ++ lib.optionals cfg.node [
           # Node
           bun
