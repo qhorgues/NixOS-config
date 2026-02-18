@@ -45,6 +45,7 @@ in
           rustc
           rust-analyzer
           clang
+          pkg-config
         ] ++ lib.optionals cfg.node [
           # Node
           bun
