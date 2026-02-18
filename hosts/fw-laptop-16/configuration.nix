@@ -33,7 +33,7 @@
           users = [ "quentin" ];
         };
         docker = {
-          enable = false;
+          enable = true;
           users = [ "quentin" ];
         };
         apache-php-mariadb.enable = true;
