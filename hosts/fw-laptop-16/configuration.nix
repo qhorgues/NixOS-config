@@ -49,7 +49,7 @@
           gamemode.users = [ "quentin" ];
         };
         arduino = {
-          enable = true;
+          enable = false;
           users = [ "quentin" ];
         };
       };
