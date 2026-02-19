@@ -33,7 +33,7 @@
           users = [ "quentin" ];
         };
         docker = {
-          enable = false;
+          enable = true;
           users = [ "quentin" ];
         };
         apache-php-mariadb.enable = true;
@@ -45,7 +45,7 @@
         modeling.enable = false;
         games = {
           enable = true;
-          force-fsr3-for-rdna3 = false;
+          force-fsr4-for-rdna3 = true;
           gamemode.users = [ "quentin" ];
         };
       };
