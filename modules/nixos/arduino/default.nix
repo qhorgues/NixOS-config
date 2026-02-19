@@ -13,7 +13,9 @@ in {
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [
-      pkgs.arduino
+      pkgs.arduino-ide
+      pkgs.arduino-language-server
+      pkgs.arduino-cli
     ];
     users.users = builtins.listToAttrs (map (user: {
       name = user;
