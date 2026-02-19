@@ -16,7 +16,6 @@ in
     ci = lib.mkEnableOption "Enable CI dev tools";
     java = lib.mkEnableOption "Enable Java dev tools";
     gnome-dev = lib.mkEnableOption "Enable GNOME dev tools";
-    arduino = lib.mkEnableOption "Enable Arduino dev tools";
   };
 
   imports = [
@@ -80,8 +79,6 @@ in
           java-language-server
           jdk
           gradle
-        ] ++ lib.optionals cfg.arduino [
-          arduino
         ];
       }
     )
