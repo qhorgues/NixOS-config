@@ -38,7 +38,6 @@
         sql = true;
         gnome-dev = false;
         ci = true;
-        arduino = true;
       };
     };
   };
