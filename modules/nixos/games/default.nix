@@ -64,7 +64,7 @@ in
           extraEnv = {
             TZ = ":/etc/localtime";
             MANGOHUD = true;
-            # PROTON_ENABLE_WAYLAND=true;
+            PROTON_ENABLE_WAYLAND=true;
             # PROTON_NO_D3D12=true;
 
             PROTON_FSR4_UPGRADE = cgpu.vendor == "amdgpu"
