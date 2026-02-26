@@ -24,6 +24,10 @@ let
         pkgs = pkgs;
     };
 
+    clean-dir = import ../../../pkgs/clean-dir.nix {
+      pkgs = pkgs;
+    };
+
 in
 {
     options.winter = {
@@ -54,6 +58,7 @@ in
                 nix-clean-boot
                 nix-clean
                 nix-latest-update
+                clean-dir
             ];
         }
         # (lib.mkIf cfga.enable {
