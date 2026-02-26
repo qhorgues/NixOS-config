@@ -15,7 +15,11 @@
     initrd.verbose = false;
 
     kernelPackages = lib.mkDefault pkgs.linuxPackages;
-    kernelParams = lib.mkDefault [ "quiet" "udev.log_level=3" ];
+    kernelParams = lib.mkDefault [
+      "quiet"
+      "udev.log_level=3"
+      "iommu=pt" # Fix pour certain cpu AMD
+    ];
 
     initrd.systemd.enable = lib.mkDefault true;
     plymouth.enable = lib.mkDefault true;
