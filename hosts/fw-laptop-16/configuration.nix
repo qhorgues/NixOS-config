@@ -33,10 +33,10 @@
           users = [ "quentin" ];
         };
         docker = {
-          enable = true;
+          enable = false;
           users = [ "quentin" ];
         };
-        apache-php-mariadb.enable = true;
+        apache-php-mariadb.enable = false;
         postgresql.enable = false;
         llm.enable = false;
         printing.enable = false;
