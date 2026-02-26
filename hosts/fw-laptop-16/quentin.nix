@@ -26,7 +26,7 @@
       git.enable = true;
       vim.enable = false;
       linux-base-tools.enable = true;
-      winboat.enable = true;
+      winboat.enable = false;
       dev = {
         enable = true;
         nix = true;
@@ -36,6 +36,7 @@
         node = true;
         php = true;
         sql = true;
+        java = false;
         gnome-dev = false;
         ci = true;
       };
