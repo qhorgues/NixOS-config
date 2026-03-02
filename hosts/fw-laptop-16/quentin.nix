@@ -30,7 +30,8 @@
       dev = {
         enable = true;
         nix = true;
-        cpp = false;
+        cpp = true;
+        mpi-lib = true;
         rust = true;
         python = false;
         node = true;

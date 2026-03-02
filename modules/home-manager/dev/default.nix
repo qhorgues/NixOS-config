@@ -8,6 +8,7 @@ in
     enable = lib.mkEnableOption "Enable dev tools";
     nix = lib.mkEnableOption "Enable Nix dev tools";
     cpp = lib.mkEnableOption "Enable C++ dev tools";
+    mpi-lib = lib.mkEnableOption "Enable MPI lib dev tools";
     rust = lib.mkEnableOption "Enable Rust dev tools";
     python = lib.mkEnableOption "Enable Python dev tools";
     node = lib.mkEnableOption "Enable NodeJS dev tools";
@@ -38,6 +39,9 @@ in
           clang
           cmakeWithGui
           gnumake
+        ] ++ lib.optionals cfg.mpi-lib [
+          openmpi
+          openmpi.dev
         ] ++ lib.optionals cfg.rust [
           # Rust
           cargo
