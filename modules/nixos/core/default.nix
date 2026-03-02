@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -37,7 +37,14 @@
 
   console.keyMap = "fr";
 
-  programs.nix-ld.enable = lib.mkDefault true;
+  programs.nix-ld = {
+      enable = lib.mkDefault true;
+      libraries = with pkgs; [
+        stdenv.cc.cc.lib # libstdc++
+        zlib # libz
+        glib # libglib
+      ];
+    };
 
   services.devmon.enable = true;
   services.gvfs.enable = true;
