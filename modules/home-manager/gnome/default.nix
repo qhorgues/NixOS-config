@@ -68,7 +68,7 @@
         };
         "org/gnome/desktop/background" = {
             picture-uri =  "file://${config.home.homeDirectory}/.local/share/wallpaper/clair-obscur.jpg";
-            picture-uri-dark = "file://${config.home.homeDirectory}/.local/share/wallpaper/clair-obscur.jpg";
+            picture-uri-dark = "file://${config.home.homeDirectory}/.local/share/wallpaper/maelle_kill_simon.png";
         };
         "org/gnome/desktop/wm/preferences" = {
             button-layout = "appmenu:minimize,maximize,close";
@@ -84,8 +84,18 @@
         "org/gnome/desktop/privacy".hide-identity = true;
         "org/gnome/SessionManager".logout-prompt = false;
         "org/gnome/shell/extensions/blur-my-shell/panel".blur = false;
-        "org/gnome/shell/extensions/blur-my-shell/dash-to-dock".blur = false;
+        "org/gnome/shell/extensions/blur-my-shell/dash-to-dock" = {
+            blur = true;
+            brightness = 1.0;
+            override-background = true;
+            pipeline = "pipeline_default_rounded";
+            sigma = 10;
+            static-blur = false;
+            style-dash-to-dock = 2;
+            unblur-in-overview = false;
+        };
         "org/gnome/shell/extensions/dash-to-dock" = {
+            apply-custom-theme = true;
             blur = false;
            	autohide = true;
             background-opacity = 0.8;
@@ -233,5 +243,6 @@
         };
     };
     home.file.".local/share/wallpaper/clair-obscur.jpg".source = ./clair-obscur.jpg;
+    home.file.".local/share/wallpaper/maelle_kill_simon.png".source = ./maelle_kill_simon.png;
   };
 }
