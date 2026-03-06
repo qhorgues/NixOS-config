@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, pkgs-unstable, config, lib, ... }:
 
 let
   cfg = config.winter.programs.dev;
@@ -66,7 +66,7 @@ in
           php84Packages.composer
           laravel
           filezilla
-          bruno
+          pkgs-unstable.bruno
         ] ++ lib.optionals cfg.sql [
           mysql-workbench
           dbeaver-bin
