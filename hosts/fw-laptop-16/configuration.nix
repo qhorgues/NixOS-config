@@ -36,7 +36,7 @@
           enable = false;
           users = [ "quentin" ];
         };
-        apache-php-mariadb.enable = false;
+        apache-php-mariadb.enable = true;
         postgresql.enable = false;
         llm.enable = false;
         printing.enable = false;
@@ -61,6 +61,10 @@
     { device = "/dev/disk/by-uuid/1b35568b-4447-4c80-9880-4b359d4ecb6c";
         fsType = "ext4";
     };
+
+    boot.kernelParams = [
+      "amdgpu.runpm=0" "amdgpu.bapm=0" "amdgpu.aspm=0" "pcie_aspm=off"
+    ];
 
     services.udev.extraRules = ''
         # Framework Laptop 16 Keyboard Module - ANSI
