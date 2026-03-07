@@ -22,7 +22,7 @@
       ssh.enable = true;
       vscode.enable = true;
       kdrive.enable = true;
-      graphism.enable = true;
+      graphism.enable = false;
       git.enable = true;
       vim.enable = false;
       linux-base-tools.enable = true;

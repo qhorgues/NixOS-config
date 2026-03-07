@@ -77,7 +77,7 @@ After installation reboot imediatly in bios setup
     hardware = {
       framework-fan-ctrl.enable = true; # true ONLY if you use a framework laptop, otherise you can juste remove this line
       gpu = {
-        vendor = "amdgpu"; # null, nvidia, amdgpu or intel 
+        vendor = "amd"; # null, nvidia, amdgpu or intel 
         acceleration = "rocm"; # null, rocm ou cuda
         frame-generation.enable = true; # If you have modern GPU with frame generation support
         generation = "rdna3"; 
