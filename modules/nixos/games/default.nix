@@ -65,6 +65,7 @@ in
             TZ = ":/etc/localtime";
             MANGOHUD = true;
             PROTON_ENABLE_WAYLAND=true;
+            OBS_VKCAPTURE = config.winter.programs.obs-studio.enable;
             # PROTON_NO_D3D12=true;
 
             PROTON_FSR4_UPGRADE = cgpu.vendor == "amd"
