@@ -67,16 +67,16 @@ in
             PROTON_ENABLE_WAYLAND=true;
             # PROTON_NO_D3D12=true;
 
-            PROTON_FSR4_UPGRADE = cgpu.vendor == "amdgpu"
+            PROTON_FSR4_UPGRADE = cgpu.vendor == "amd"
                                   && cgpu.generation == "rdna4";
-            PROTON_FSR4_RDNA3_UPGRADE = cgpu.vendor == "amdgpu"
+            PROTON_FSR4_RDNA3_UPGRADE = cgpu.vendor == "amd"
                                         && cgpu.generation == "rdna3"
                                         && cfg.force-fsr4-for-rdna3;
             PROTON_FSR3_UPGRADE = cgpu.generation == "rdna3"
                                   && (!cfg.force-fsr4-for-rdna3);
             PROTON_DLSS_UPGRADE = cgpu.vendor == "nvidia";
             PROTON_XESS_UPGRADE = cgpu.vendor == "intel"
-                                  || (cgpu.vendor == "amdgpu"
+                                  || (cgpu.vendor == "amd"
                                       && cgpu.generation != "rdna4");
           } //
           (if config.winter.programs.games.lsfg.enable == true then {

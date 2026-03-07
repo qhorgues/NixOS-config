@@ -11,7 +11,7 @@
         ssd.lists = [ "/" "/mnt/Games" ];
         framework-fan-ctrl.enable = true;
         gpu = {
-          vendor = "amdgpu";
+          vendor = "amd";
           acceleration = "rocm";
           generation = "rdna3";
         };
@@ -38,11 +38,12 @@
         };
         apache-php-mariadb.enable = true;
         postgresql.enable = false;
-        llm.enable = false;
+        llm.enable = true;
         printing.enable = false;
       };
       programs = {
         modeling.enable = false;
+        obs-studio.enable = true;
         games = {
           enable = true;
           force-fsr4-for-rdna3 = true;
@@ -93,6 +94,7 @@
             url = "https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-${version}.tar.xz";
             sha256 = "sha256-wClVG0WhWSbJ16XfGgtUAEQGTxkVfFf8Edkf0Kreg38=";
           };
+          patches = [];
         });
       })
     ];

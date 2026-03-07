@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+let
+  cgpu = config.winter.hardware.gpu;
+in
 {
   imports = [
     ./boot.nix
@@ -15,11 +18,14 @@
     ./ios-connect.nix
     ./ssd.nix
     ./network.nix
+    ./gpu-acceleration.nix
   ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = config.system.nixos.release;
-  services.xserver.videoDrivers = [ config.winter.hardware.gpu.vendor ];
+  services.xserver.videoDrivers = [
+   (if cgpu.vendor == "amd" then "amdgpu"
+     else if cgpu.vendor == "intel" || cgpu.gpu.vendor == "nvidia" then cgpu.vendor else "auto") ];
 
   time.timeZone = "Europe/Paris";
   i18n.defaultLocale = "fr_FR.UTF-8";
