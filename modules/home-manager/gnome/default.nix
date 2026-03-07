@@ -100,7 +100,7 @@
            	autohide = true;
             background-opacity = 0.8;
             custom-theme-shrink = false;
-            dash-max-icon-size = 48;
+            dash-max-icon-size = 64;
             dock-fixed = false;
             dock-position = "BOTTOM";
             extend-height = false;
@@ -125,74 +125,6 @@
           mpris-controllers-are-moved = false;
           panel-type = "merged-panel";
         };
-        # "org/gnome/shell/extensions/tilingshell" = {
-        #     enable-autotiling = true;
-        #     show-indicator = false;
-        #     enable-screen-edges-windows-suggestions = true;
-        #     enable-smart-window-border-radius = true;
-        #     enable-snap-assistant-windows-suggestions = true;
-        #     enable-tiling-system-windows-suggestions = true;
-        #     enable-window-border = false;
-        #     focus-window-down = ["<Control><Super>Down"];
-        #     focus-window-left = ["<Control><Super>Left"];
-        #     focus-window-right = ["<Control><Super>Right"];
-        #     focus-window-up = ["<Control><Super>Up"];
-        #     highlight-current-window = ["''"];
-        #     inner-gaps = lib.hm.gvariant.mkUint32 6;
-        #     snap-assistant-threshold = lib.hm.gvariant.mkInt32 20;
-        #     layouts-json = builtins.toJSON [
-        #         {
-        #             id =  "2 windows";
-        #             tiles = [
-        #                 {
-        #                     x = 0;
-        #                     y = 0;
-        #                     width = 0.5663145539906104;
-        #                     height = 1;
-        #                     groups = [1];
-        #                 }
-        #                 {
-        #                     x = 0.5663145539906104;
-        #                     y = 0;
-        #                     width = 0.4336854460093899;
-        #                     height = 1;
-        #                     groups = [2 1];
-        #                 }
-        #             ];
-        #         }
-        #         {
-        #             id =  "3 windows";
-        #             tiles = [
-        #                 {
-        #                     x = 0;
-        #                     y = 0;
-        #                     width = 0.5663145539906104;
-        #                     height = 1;
-        #                     groups = [1];
-        #                 }
-        #                 {
-        #                     x = 0.5663145539906104;
-        #                     y = 0;
-        #                     width = 0.4336854460093899;
-        #                     height = 0.4995159728944821;
-        #                     groups = [2 1];
-        #                 }
-        #                 {
-        #                     x = 0.5663145539906104;
-        #                     y = 0.4995159728944821;
-        #                     width = 0.4336854460093899;
-        #                     height = 0.500484027105518;
-        #                     groups = [2 1];
-        #                 }
-        #             ];
-        #         }
-        #     ];
-        #     selected-layouts = [["2 windows"] ["2 windows"]];
-        #     outer-gaps = lib.hm.gvariant.mkUint32 6;
-        #     overriden-window-menu = false;
-        #     top-edge-maximise = true;
-        #     untile-window = ["<Super>d"];
-        # };
         "org/gnome/TextEditor" = {
             indent-style = "space";
             restore-session = true;
