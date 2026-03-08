@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, pkgs-unstable,  lib, ... }:
 
 let
   cfg = config.winter.services.llm;
@@ -19,7 +19,6 @@ in
     winter.hardware.gpu.enable-acceleration = true;
 
     environment.systemPackages = [
-      pkgs.ollama
       # open-webui-shortcut
       pkgs.newelle
     ];
@@ -33,7 +32,17 @@ in
 
     services.ollama = {
       enable = true;
-      loadModels = [ "gemma3:4b" ];
+      package =
+      (if config.winter.hardware.gpu.acceleration == "cuda" then
+        pkgs-unstable.ollama-cuda
+      else if config.winter.hardware.gpu.acceleration == "rocm" then
+        pkgs-unstable.ollama-rocm
+      else if config.winter.hardware.gpu.acceleration == "intel" then
+        pkgs-unstable.ollama-vulkan
+      else if config.winter.hardware.gpu.acceleration == "cpu" then pkgs-unstable.ollama-cpu
+      else pkgs-unstable.ollama
+      );
+      loadModels = [ "qwen3.5:9b" ];
       acceleration = config.winter.hardware.gpu.acceleration; # use cuda if nvidia, rocm if amd, and cpu only otherwise
     };
   };

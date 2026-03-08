@@ -65,18 +65,19 @@ in
             TZ = ":/etc/localtime";
             MANGOHUD = true;
             PROTON_ENABLE_WAYLAND=true;
+            OBS_VKCAPTURE = config.winter.programs.obs-studio.enable;
             # PROTON_NO_D3D12=true;
 
-            PROTON_FSR4_UPGRADE = cgpu.vendor == "amdgpu"
+            PROTON_FSR4_UPGRADE = cgpu.vendor == "amd"
                                   && cgpu.generation == "rdna4";
-            PROTON_FSR4_RDNA3_UPGRADE = cgpu.vendor == "amdgpu"
+            PROTON_FSR4_RDNA3_UPGRADE = cgpu.vendor == "amd"
                                         && cgpu.generation == "rdna3"
                                         && cfg.force-fsr4-for-rdna3;
             PROTON_FSR3_UPGRADE = cgpu.generation == "rdna3"
                                   && (!cfg.force-fsr4-for-rdna3);
             PROTON_DLSS_UPGRADE = cgpu.vendor == "nvidia";
             PROTON_XESS_UPGRADE = cgpu.vendor == "intel"
-                                  || (cgpu.vendor == "amdgpu"
+                                  || (cgpu.vendor == "amd"
                                       && cgpu.generation != "rdna4");
           } //
           (if config.winter.programs.games.lsfg.enable == true then {
@@ -142,7 +143,7 @@ in
       })
     ];
     boot = {
-      kernelPackages = pkgs.linuxPackages_6_18;
+      kernelPackages = pkgs.linuxPackages_6_19;
       tmp.cleanOnBoot = true;
       kernel.sysctl = {
         "kernel.split_lock_mitigate" = 0;

@@ -9,13 +9,16 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    nixpkgs.config.blender.acceleration = config.winter.hardware.gpu.acceleration;
-
+    winter.hardware.gpu.enable-acceleration = true;
     environment.systemPackages = with pkgs; [
-      (import ../../../pkgs/blender.nix {
-        inherit pkgs;
-        acceleration = config.winter.hardware.gpu.acceleration;
-      })
+      (if cgpu.vendor == "nvidia" then
+          blender.override {
+            cudaSupport = true;
+          }
+        else if cgpu.vendor == "amd" then
+          blender-hip
+        else
+          blender)
       bambu-studio
     ];
   };

@@ -18,12 +18,26 @@ in
   fonts.packages = with pkgs; [
     cooper-black
     dejavu_fonts
+    merriweather
     freefont_ttf
     gyre-fonts # TrueType substitutes for standard PostScript fonts
     liberation_ttf
     unifont
+    noto-fonts
     noto-fonts-color-emoji
     nerd-fonts._0xproto
     nerd-fonts.droid-sans-mono
+    noto-fonts-cjk-sans
+    fira-code
+    fira-code-symbols
+    dina-font
+    roboto
+    lato
+    league-spartan
+    montserrat
+    source-sans-pro
+    raleway
+    oswald
+    poppins
   ];
 }
