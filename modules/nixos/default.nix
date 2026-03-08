@@ -17,5 +17,6 @@
     ./vm
     ./printing
     ./arduino
+    ./obs-studio
   ];
 }

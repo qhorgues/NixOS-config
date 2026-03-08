@@ -5,7 +5,7 @@ with lib;
     vendor = mkOption {
       type = types.nullOr types.str;
       default = null;
-      description = "GPU constructor (amdgpu, nvidia, intel)";
+      description = "GPU constructor (amd, nvidia, intel)";
     };
 
     enable-acceleration = mkOption {
@@ -17,7 +17,7 @@ with lib;
     acceleration = mkOption {
       type = types.nullOr types.str;
       default = null;
-      description = "Acceleration (cuda, rocm)";
+      description = "Acceleration (cuda, rocm, intel, cpu)";
     };
 
     generation = mkOption {

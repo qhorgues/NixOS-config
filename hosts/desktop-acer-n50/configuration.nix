@@ -82,7 +82,7 @@ in
       };
       users = {
       "quentin" = import ./quentin.nix;
-      "elise" = import ./elise.nix;
       };
     };
+    environment.systemPackages = [ pkgs.home-manager ];
 }
