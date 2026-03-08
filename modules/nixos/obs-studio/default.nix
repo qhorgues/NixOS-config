@@ -21,8 +21,8 @@ in
           pkgs.obs-studio.override { cudaSupport = true; }
       );
       plugins = with pkgs.obs-studio-plugins; [
-        obs-vkcapture obs-move-transition
-      ];
+        obs-move-transition
+      ] ++ lib.optional config.winter.programs.games.enable pkgs.obs-studio-plugins.obs-vkcapture;
     };
   };
 
