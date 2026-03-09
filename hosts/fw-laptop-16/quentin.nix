@@ -22,11 +22,11 @@
       ssh.enable = true;
       vscode.enable = true;
       kdrive.enable = true;
-      graphism.enable = false;
+      graphism.enable = true;
       git.enable = true;
       vim.enable = false;
       linux-base-tools.enable = true;
-      winboat.enable = false;
+      winboat.enable = true;
       dev = {
         enable = true;
         nix = true;
