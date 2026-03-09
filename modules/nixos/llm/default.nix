@@ -14,6 +14,12 @@ in
 {
   options.winter.services.llm = {
     enable = lib.mkEnableOption "Enable local LLM service";
+    enable-open-webui = lib.mkEnableOption "Enable Open Webui service";
+    open-webui-port = lib.mkOption {
+      type = lib.types.port;
+      default = 8080;
+      description = "Port for open webui interface";
+    };
   };
   config = lib.mkIf cfg.enable {
     winter.hardware.gpu.enable-acceleration = true;
@@ -26,8 +32,8 @@ in
 
     services.open-webui = {
       package = pkgs.open-webui;
-      enable = true;
-      port = 8080;
+      enable = cfg.enable-open-webui;
+      port = cfg.open-webui-port;
     };
 
     services.ollama = {
