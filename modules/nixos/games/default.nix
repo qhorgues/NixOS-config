@@ -5,6 +5,22 @@ let
   cgpu = config.winter.hardware.gpu;
   lsfg-vk = pkgs.callPackage ../../../pkgs/lsfg-vk.nix { };
   # lsfg-vk-ui = pkgs.callPackage ../../../pkgs/lsfg-vk-ui.nix { };
+  #
+  conf_service = config.winter.services;
+
+  mx-game = import ../../../pkgs/mx-game.nix {
+    lib = lib;
+    pkgs = pkgs;
+    dockerEnable = conf_service.docker.enable;
+    ollamaEnable = conf_service.llm.enable;
+    open-webuiEnable = conf_service.llm.enable-open-webui;
+    lampEnable = conf_service.lamp.enable;
+    postgresEnable = conf_service.postgresql.enable;
+    printingEnable = conf_service.printing.enable;
+    teamviewerEnable = config.winter.programs.team-viewer.enable;
+    vmEnable = conf_service.vm.enable;
+    fwFanCtrl = config.winter.hardware.framework-fan-ctrl.enable;
+  };
 in
 {
 
@@ -110,6 +126,7 @@ in
       adwsteamgtk
       vkbasalt
       pkgs-unstable.goverlay
+      mx-game
     ];
     hardware = {
         graphics = {
@@ -159,6 +176,35 @@ in
         "kernel.kexec_load_disabled" = 1;
       };
     };
+
+    security.polkit.extraConfig = ''
+      polkit.addRule(function(action, subject) {
+        var allowedUnits = [
+          "docker.service", "docker.socket",
+          "ollama.service",
+          "open-webui.service",
+          "httpd.service", "mysql.service",
+          "postgresql.service",
+          "cups.service", "cups.socket",
+          "teamviewerd.service",
+          "libvirtd.service", "libvirtd.socket",
+          "virtlogd.service", "virtlogd.socket"
+        ];
+
+        if (action.id === "org.freedesktop.systemd1.manage-units" &&
+            subject.isInGroup("wheel") &&
+            allowedUnits.indexOf(action.lookup("unit")) !== -1) {
+          return polkit.Result.YES;
+        }
+
+        if (action.id === "org.freedesktop.UPower.PowerProfiles.switch-profile" &&
+            subject.isInGroup("wheel")) {
+          return polkit.Result.YES;
+        }
+
+        return polkit.Result.NO;
+      });
+    '';
 
     system.activationScripts.steamConfigInject = {
       text = ''
