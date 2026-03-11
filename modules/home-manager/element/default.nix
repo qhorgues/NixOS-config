@@ -13,7 +13,7 @@ in
   };
 
   config =  {
-    winter.services.flatpak.enable = lib.mkDefault cfg.enable;
+    winter.services.flatpak.enable = if cfg.enable then lib.mkForce true else lib.mkDefault false;
     home.activation.element = flatpakApp "im.riot.Riot";
   };
 }

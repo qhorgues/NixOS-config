@@ -20,8 +20,8 @@ in
                 api_url = "http://localhost:11434";
                 available_models = [
                     {
-                        name = "gemma3:4b";
-                        display_name = "gemma3:4b";
+                        name = "qwen3.5:9b";
+                        display_name = "qwen3.5:9b";
                         max_tokens = 32768;
                         supports_tools = true;
                     }

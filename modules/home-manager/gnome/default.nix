@@ -124,6 +124,7 @@
           create-mpris-controllers = false;
           mpris-controllers-are-moved = false;
           panel-type = "merged-panel";
+          merged-panel-position = "top";
         };
         "org/gnome/TextEditor" = {
             indent-style = "space";

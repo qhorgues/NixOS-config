@@ -36,10 +36,10 @@
           enable = true;
           users = [ "quentin" ];
         };
-        apache-php-mariadb.enable = true;
+        lamp.enable = true;
         postgresql.enable = false;
         llm.enable = true;
-        printing.enable = false;
+        printing.enable = true;
       };
       programs = {
         modeling.enable = false;
@@ -49,6 +49,7 @@
           force-fsr4-for-rdna3 = true;
           gamemode.users = [ "quentin" ];
         };
+        team-viewer.enable = false;
         arduino = {
           enable = false;
           users = [ "quentin" ];
@@ -112,4 +113,8 @@
         "quentin" = import ./quentin.nix;
       };
     };
+
+    environment.systemPackages = [
+      pkgs.git
+    ];
 }

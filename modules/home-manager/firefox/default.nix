@@ -203,6 +203,7 @@ in
             "dom.security.https_only_mode" = true;
             "dom.security.https_only_mode_ever_enabled" = true;
             "dom.security.https_only_mode_ever_enabled_pbm" = true;
+            "network.dns.disablePrefetch" = true;
             "extensions.activeThemeID" = "default-theme@mozilla.org";
             "extensions.autoDisableScopes" = 0;
             "extensions.blocklist.pingCountVersion" = 0;

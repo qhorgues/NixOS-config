@@ -8,7 +8,7 @@
     ./docker
     ./games
     ./main-user
-    ./mariadb
+    ./lamp
     ./modeling
     ./postgresql
     ./team-viewer

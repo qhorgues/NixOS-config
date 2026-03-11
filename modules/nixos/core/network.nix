@@ -21,12 +21,17 @@ in
       }
       (
         lib.mkIf cfg.security-mode {
-          networking.hostName = (
-            if config.winter.services.apache-php-mariadb.enable then
-              lib.mkForce "device"
-            else lib.mkForce ""
-          );
           networking.networkmanager = {
+            settings = {
+              main = {
+                hostname-mode = lib.mkForce "none";
+              };
+
+              connection = {
+                "ipv4.dhcp-send-hostname" = lib.mkForce false;
+                "ipv6.dhcp-send-hostname" = lib.mkForce false;
+              };
+            };
             wifi = {
               macAddress = "random";
               scanRandMacAddress = true;
@@ -35,6 +40,15 @@ in
               macAddress = "random";
             };
           };
+          environment.etc."machine-info".text = "";
+
+          # Hostname anonyme pour mDNS/LLMNR
+          services.resolved.extraConfig = ''
+            MulticastDNS=no
+            LLMNR=no
+          '';
+
+          services.avahi.enable = lib.mkForce false;
         }
       )
     ]

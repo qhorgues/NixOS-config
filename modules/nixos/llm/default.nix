@@ -48,7 +48,10 @@ in
       else if config.winter.hardware.gpu.acceleration == "cpu" then pkgs-unstable.ollama-cpu
       else pkgs-unstable.ollama
       );
-      loadModels = [ "qwen3.5:9b" ];
+      loadModels = [
+        "qwen3.5:9b"
+        "qwen3-coder-next"
+      ];
       acceleration = config.winter.hardware.gpu.acceleration; # use cuda if nvidia, rocm if amd, and cpu only otherwise
     };
   };

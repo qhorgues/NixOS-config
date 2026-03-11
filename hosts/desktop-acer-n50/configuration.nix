@@ -55,7 +55,7 @@ in
           enable = false;
           users = [ "quentin" ];
         };
-        apache-php-mariadb.enable = false;
+        lamp.enable = false;
         postgresql.enable = false;
         printing.enable = true;
       };
