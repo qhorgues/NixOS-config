@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, osConfig, ... }:
 
 let
     cfg = config.winter.update;
@@ -26,6 +26,21 @@ let
 
     clean-dir = import ../../../pkgs/clean-dir.nix {
       pkgs = pkgs;
+    };
+
+    conf_service = osConfig.winter.services;
+
+    mx-game = import ../../../pkgs/mx-game.nix {
+      lib = lib;
+      pkgs = pkgs;
+      dockerEnable = conf_service.docker.enable;
+      ollamaEnable = conf_service.llm.enable;
+      open-webuiEnable = conf_service.llm.enable-open-webui;
+      lampEnable = conf_service.lamp.enable;
+      postgresEnable = conf_service.postgresql.enable;
+      printingEnable = conf_service.printing.enable;
+      teamviewerEnable = osConfig.winter.programs.team-viewer.enable;
+      vmEnable = conf_service.vm.enable;
     };
 
 in
@@ -59,6 +74,7 @@ in
                 nix-clean
                 nix-latest-update
                 clean-dir
+                mx-game
             ];
         }
         # (lib.mkIf cfga.enable {

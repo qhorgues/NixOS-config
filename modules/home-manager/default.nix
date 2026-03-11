@@ -3,6 +3,7 @@
   imports = [
     ./core
     ./flatpak
+    ./cryptomator
     ./discord
     ./element
     ./audio-enhancer

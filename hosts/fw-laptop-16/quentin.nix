@@ -14,6 +14,7 @@
     programs = {
       firefox.enable = true;
       thunderbird.enable = true;
+      cryptomator.enable = true;
       office.enable = true;
       discord.enable = true;
       element.enable = true;

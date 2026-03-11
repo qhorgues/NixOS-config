@@ -1,12 +1,12 @@
 { pkgs, lib, config, ... }:
 
 let
-  cfg = config.winter.services.apache-php-mariadb;
+  cfg = config.winter.services.lamp;
   phpmyadmin = import ../../../pkgs/phpmyadmin.nix {inherit lib pkgs;};
 in
 {
-  options.winter.services.apache-php-mariadb = {
-    enable = lib.mkEnableOption "Enable MariaDB database";
+  options.winter.services.lamp = {
+    enable = lib.mkEnableOption "Enable LAMP dev suite";
   };
 
   config = lib.mkIf cfg.enable {
