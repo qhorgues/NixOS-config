@@ -9,6 +9,7 @@
   printingEnable ? false,
   teamviewerEnable ? false,
   vmEnable ? false,
+  fwFanCtrl ? false,
 }:
 let
   serviceMap = {
@@ -32,6 +33,15 @@ let
     (svc: "  ${pkgs.systemd}/bin/systemctl --no-ask-password start ${svc} 2>/dev/null || echo \"Warning: failed to restart ${svc}\"\n")
     servicesToManage;
 
+  fanBeforeCmd  = lib.optionalString fwFanCtrl ''
+      echo "==> Setting fan profile to 'medium'..."
+      ${pkgs.fw-fanctrl}/bin/fw-fanctrl use medium
+    '';
+  fanAfterCmd   = lib.optionalString fwFanCtrl ''
+      echo "==> Restoring fan profile to 'lazy'..."
+      ${pkgs.fw-fanctrl}/bin/fw-fanctrl use lazy
+    '';
+
 in
 pkgs.writeShellScriptBin "mx-games" ''
   set -euo pipefail
@@ -48,12 +58,14 @@ pkgs.writeShellScriptBin "mx-games" ''
     echo "==> Restoring power profile to 'balanced'..."
     ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced
 
+    ${fanAfterCmd}
+
     echo "==> Restarting services..."
     ${startCmds}
     echo "==> Done."
   }
 
-  trap cleanup EXIT INT TERM
+  trap cleanup EXIT
 
   echo "==> Stopping services..."
   ${stopCmds}
@@ -62,10 +74,17 @@ pkgs.writeShellScriptBin "mx-games" ''
   echo "==> Setting power profile to 'performance'..."
   ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance
 
+  ${fanBeforeCmd}
+
   echo "==> Running: $*"
   echo ""
-  exit_code=0
-  "$@" || exit_code=$?
+  "$@" &
+  child_pid=$!
+
+  trap 'kill -TERM "$child_pid" 2>/dev/null' TERM INT
+
+  wait "$child_pid"
+  exit_code=$?
 
   exit $exit_code
 ''
