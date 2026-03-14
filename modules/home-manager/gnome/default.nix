@@ -1,9 +1,5 @@
 { pkgs, lib, config, osConfig, ... }:
 {
-  imports = [
-      ./mineapps.nix
-  ];
-
   config = lib.mkIf osConfig.winter.gnome.enable {
     home.packages = with pkgs; [
         # Base gnome app
