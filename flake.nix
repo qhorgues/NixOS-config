@@ -19,13 +19,13 @@
 
   outputs = { self, nixpkgs, coe33, ... }:
   let
-    systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    systems = [ "x86_64-linux" "aarch64-linux" "i686-linux" "x86_64-darwin" "aarch64-darwin" ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in
   {
-    core = ./modules/nixos/default.nix;
+    nixosModules.modulix-os = ./modules/nixos/default.nix;
 
-    home-manager = {
+    homeModules = {
       quentin = ./modules/home-manager/quentin/default.nix;
     };
 
@@ -36,8 +36,7 @@
       {
         coe33 = coe33.packages.${system}.default;
         clean-dir = import ./pkgs/clean-dir.nix { inherit pkgs; };
-        lsfg-vk = pkgs.callPackage ./pkgs/lsfg-vk.nix;
-        mx-games = import ./pkgs/mx-games.nix { inherit pkgs; };
+        lsfg-vk = pkgs.callPackage ./pkgs/lsfg-vk.nix {};
         nix-clean = import ./pkgs/nix-clean.nix { inherit pkgs; };
         nix-latest-update = import ./pkgs/nix-latest-update.nix { inherit pkgs; };
       }
