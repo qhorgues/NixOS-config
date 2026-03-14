@@ -17,67 +17,30 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
+  outputs = { self, nixpkgs, coe33, ... }:
   let
-    nixpkgsConfig = {
-      allowUnfree = true;
-    };
+    systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
   in
   {
-    nixosConfigurations =
-    {
-      "fw-laptop-16" = let
-        system = "x86_64-linux";
-      in nixpkgs.lib.nixosSystem
-      {
-        system = system;
-        specialArgs = { inherit self inputs;
-            winapps = inputs.winapps.packages.${system};
-            pkgs-unstable = import nixpkgs-unstable {
-              system = system;
-              config = nixpkgsConfig;
-            };
-        };
-        modules = [
-          ./hosts/fw-laptop-16/configuration.nix
-          ./modules/nixos
-          inputs.home-manager.nixosModules.default
-        ];
-      };
-      "unowhy-13" = let
-        system = "x86_64-linux";
-      in nixpkgs.lib.nixosSystem {
-        system = system;
-        specialArgs = { inherit self inputs;
-            winapps = inputs.winapps.packages.${system};
-            pkgs-unstable = import nixpkgs-unstable {
-                system = system;
-                config = nixpkgsConfig;
-            };
-        };
-        modules = [
-            ./hosts/unowhy-13/configuration.nix
-            ./modules/nixos
-            inputs.home-manager.nixosModules.default
-        ];
-      };
-      "desktop-acer-n50" = let
-        system = "x86_64-linux";
-      in nixpkgs.lib.nixosSystem {
-       	system = system;
-       	specialArgs = { inherit self inputs;
-            winapps = inputs.winapps.packages.${system};
-            pkgs-unstable = import nixpkgs-unstable {
-                system = system;
-                config = nixpkgsConfig;
-            };
-        };
-       	modules = [
-          ./hosts/desktop-acer-n50/configuration.nix
-          ./modules/nixos
-          inputs.home-manager.nixosModules.default
-       	];
-      };
+    core = ./modules/nixos/default.nix;
+
+    home-manager = {
+      quentin = ./modules/home-manager/quentin/default.nix;
     };
+
+    packages = forAllSystems (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
+        coe33 = coe33.packages.${system}.default;
+        clean-dir = import ./pkgs/clean-dir.nix { inherit pkgs; };
+        lsfg-vk = pkgs.callPackage ./pkgs/lsfg-vk.nix;
+        mx-games = import ./pkgs/mx-games.nix { inherit pkgs; };
+        nix-clean = import ./pkgs/nix-clean.nix { inherit pkgs; };
+        nix-latest-update = import ./pkgs/nix-latest-update.nix { inherit pkgs; };
+      }
+    );
   };
 }
