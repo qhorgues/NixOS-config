@@ -22,7 +22,7 @@ in
                     {
                         name = "qwen3.5:9b";
                         display_name = "qwen3.5:9b";
-                        max_tokens = 32768;
+                        max_tokens = 50000;
                         supports_tools = true;
                     }
                 ];
