@@ -13,7 +13,7 @@ let
     pkgs = pkgs;
     dockerEnable = conf_service.docker.enable;
     ollamaEnable = conf_service.llm.enable;
-    open-webuiEnable = conf_service.llm.enable-open-webui;
+    open-webuiEnable = conf_service.llm.open-webui.enable;
     lampEnable = conf_service.lamp.enable;
     postgresEnable = conf_service.postgresql.enable;
     printingEnable = conf_service.printing.enable;
@@ -201,8 +201,6 @@ in
             subject.isInGroup("wheel")) {
           return polkit.Result.YES;
         }
-
-        return polkit.Result.NO;
       });
     '';
 

@@ -18,5 +18,6 @@
     ./printing
     ./arduino
     ./obs-studio
+    ./modulix-dev
   ];
 }

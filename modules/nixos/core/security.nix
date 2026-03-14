@@ -17,7 +17,5 @@
     tpm2.enable = true;
   };
 
-
-  # Dans ta configuration NixOS
   security.polkit.enable = true;
 }
