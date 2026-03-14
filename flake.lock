@@ -9,11 +9,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768341988,
-        "narHash": "sha256-LCUdroJ1zsHoH+ai9a4pcicAdm3hnsEaQ1Ut0o8eA+w=",
+        "lastModified": 1773524877,
+        "narHash": "sha256-Dssdh6Z8CJT3WpP1mdkVuzZHLrIly7pRxT6e5YPqiyQ=",
         "owner": "qhorgues",
         "repo": "CO-E33-Save-Editor",
-        "rev": "b798ab741bd60f250bfab13348d65b65af500555",
+        "rev": "1c75a9197c74c9f3b46018de8588a22dc037d751",
         "type": "github"
       },
       "original": {
