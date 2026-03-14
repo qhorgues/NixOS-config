@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.winter.programs.cryptomator;
+  cfg = config.mx.programs.cryptomator;
 in
 {
-  options.winter.programs.cryptomator = {
+  options.mx.programs.cryptomator = {
     enable = lib.mkEnableOption "Install Cryptomator";
   };
 

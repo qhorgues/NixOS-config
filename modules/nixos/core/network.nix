@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.winter.core.network;
+  cfg = config.mx.core.network;
 in
 {
-  options.winter.core.network = {
+  options.mx.core.network = {
     enable = lib.mkOption {
       type = lib.types.bool;
       default = true;

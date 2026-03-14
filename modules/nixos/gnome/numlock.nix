@@ -2,14 +2,14 @@
 
 {
   options = {
-    winter.gnome.numlock = lib.mkOption {
+    mx.gnome.numlock = lib.mkOption {
         type = lib.types.bool;
         default = true;
         description = "disable NumLock auto";
     };
     };
 
-  config = lib.mkIf (config.winter.gnome.enable && config.winter.gnome.numlock) {
+  config = lib.mkIf (config.mx.gnome.enable && config.mx.gnome.numlock) {
     programs.dconf = {
         enable = true;
         profiles.gdm.databases = [{

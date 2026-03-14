@@ -1,7 +1,7 @@
 { lib, ... }:
 with lib;
 {
-  options.winter.hardware.gpu = {
+  options.mx.hardware.gpu = {
     vendor = mkOption {
       type = types.nullOr types.str;
       default = null;

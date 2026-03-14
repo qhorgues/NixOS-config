@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.winter.services.docker;
+  cfg = config.mx.services.docker;
 in
 {
-  options.winter.services.docker = {
+  options.mx.services.docker = {
     enable = lib.mkEnableOption "Enable docker service";
 
     users = lib.mkOption {

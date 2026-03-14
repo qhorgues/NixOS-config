@@ -1,11 +1,11 @@
 { pkgs, lib, config, ... }:
 
 let
-  cfg = config.winter.hardware.bluetooth;
+  cfg = config.mx.hardware.bluetooth;
 in
 {
   options = {
-    winter.hardware.bluetooth.enable = lib.mkOption {
+    mx.hardware.bluetooth.enable = lib.mkOption {
         type = lib.types.bool;
         default = true;
         description = "enable bluetooth support";

@@ -1,10 +1,10 @@
 { pkgs, lib, config, ... }:
 
 let
-  cfg = config.winter.lxqt;
+  cfg = config.mx.lxqt;
 in
 {
-  options.winter.lxqt.enable = lib.mkEnableOption "Enable LXQT desktop environment";
+  options.mx.lxqt.enable = lib.mkEnableOption "Enable LXQT desktop environment";
 
   config = lib.mkIf cfg.enable {
     services.xserver = {

@@ -1,20 +1,20 @@
 { pkgs, lib, config, ... }:
 
 let
-  cfg = config.winter.main-user;
+  cfg = config.mx.main-user;
 in
 {
   options = {
-    winter.main-user.enable = lib.mkEnableOption "enable user module";
+    mx.main-user.enable = lib.mkEnableOption "enable user module";
 
-    winter.main-user.userName = lib.mkOption {
+    mx.main-user.userName = lib.mkOption {
       default = "mainuser";
       description = ''
         username
       '';
     };
 
-    winter.main-user.userFullName = lib.mkOption {
+    mx.main-user.userFullName = lib.mkOption {
       default = ''main user'';
       description = ''
         full username

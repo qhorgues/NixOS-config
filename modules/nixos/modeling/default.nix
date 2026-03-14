@@ -1,15 +1,15 @@
 { pkgs, config, lib, ... }:
 
 let
-  cfg = config.winter.programs.modeling;
+  cfg = config.mx.programs.modeling;
 in
 {
-  options.winter.programs.modeling = {
+  options.mx.programs.modeling = {
     enable = lib.mkEnableOption "Enable modeling software";
   };
 
   config = lib.mkIf cfg.enable {
-    winter.hardware.gpu.enable-acceleration = true;
+    mx.hardware.gpu.enable-acceleration = true;
     environment.systemPackages = with pkgs; [
       (if cgpu.vendor == "nvidia" then
           blender.override {

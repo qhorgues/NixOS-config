@@ -73,7 +73,7 @@ After installation reboot imediatly in bios setup
 
   networking.hostName = "<host name>";
 
-  winter = {
+  mx = {
     hardware = {
       framework-fan-ctrl.enable = true; # true ONLY if you use a framework laptop, otherise you can juste remove this line
       gpu = {
@@ -130,7 +130,7 @@ After installation reboot imediatly in bios setup
       # Import other modules here like ../../modules/home-manager/firefox
     ];
   
-    winter = {
+    mx = {
       update = {
           flake_path = "<full path to your config>";
           flake_config = "<config_name>";

@@ -1,10 +1,10 @@
 { pkgs, config, lib, ... }:
 
 let
-  cfg = config.winter.programs.office;
+  cfg = config.mx.programs.office;
 in
 {
-  options.winter.programs.office = {
+  options.mx.programs.office = {
     enable = lib.mkEnableOption "Install office suite";
   };
 

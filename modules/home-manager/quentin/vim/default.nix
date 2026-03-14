@@ -1,9 +1,9 @@
 { config, pkgs, lib, ... }:
 let
-  cfg = config.winter.programs.vim;
+  cfg = config.mx.programs.vim;
 in
 {
-  options.winter.programs.vim = {
+  options.mx.programs.vim = {
     enable = lib.mkEnableOption "Install Vim";
   };
 

@@ -1,6 +1,6 @@
 { config, pkgs, lib, ...}:
 let
-  cgpu = config.winter.hardware.gpu;
+  cgpu = config.mx.hardware.gpu;
 in
 {
   config = lib.mkMerge [

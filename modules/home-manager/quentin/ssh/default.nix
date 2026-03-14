@@ -1,14 +1,14 @@
 { config, lib, ... }:
 
 let
-  cfg = config.winter.programs.ssh;
+  cfg = config.mx.programs.ssh;
 in
 {
   imports = [
     ./ssh-config.nix
   ];
 
-  options.winter.programs.ssh = {
+  options.mx.programs.ssh = {
     enable = lib.mkEnableOption "Enable ssh client";
   };
 

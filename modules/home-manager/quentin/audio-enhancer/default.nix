@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.winter.programs.audio-enhancer;
+  cfg = config.mx.programs.audio-enhancer;
 in
 {
-  options.winter.programs.audio-enhancer = {
+  options.mx.programs.audio-enhancer = {
     enable = lib.mkEnableOption "Enable audio enhacer";
   };
 

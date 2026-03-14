@@ -1,10 +1,10 @@
 { pkgs, config, lib, ... }:
 
 let
-  cfg = config.winter.services.ios-connect;
+  cfg = config.mx.services.ios-connect;
 in
 {
-  options.winter.services.ios-connect = {
+  options.mx.services.ios-connect = {
     enable = lib.mkEnableOption "Enbale ios connection tools";
   };
 

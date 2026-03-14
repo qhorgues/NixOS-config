@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  cgpu = config.winter.hardware.gpu;
+  cgpu = config.mx.hardware.gpu;
 in
 {
   imports = [
@@ -64,7 +64,7 @@ in
 
   documentation.nixos.enable = false;
 
-  hardware.fw-fanctrl.enable = config.winter.hardware.framework-fan-ctrl.enable;
+  hardware.fw-fanctrl.enable = config.mx.hardware.framework-fan-ctrl.enable;
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
 }

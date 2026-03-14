@@ -1,10 +1,10 @@
 { pkgs, config, lib, ... }:
 
 let
-  cfg = config.winter.programs.vscode;
+  cfg = config.mx.programs.vscode;
 in
 {
-  options.winter.programs.vscode = {
+  options.mx.programs.vscode = {
     enable = lib.mkEnableOption "Install Visual Studio Code";
   };
   config = lib.mkIf cfg.enable {

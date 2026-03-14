@@ -6,12 +6,12 @@
 }:
 
 let
-  cfg = config.winter.services.printing;
+  cfg = config.mx.services.printing;
   all_users = builtins.attrNames config.users.users;
   normal_users = builtins.filter (user: config.users.users.${user}.isNormalUser) all_users;
 in
 {
-  options.winter.services.printing = {
+  options.mx.services.printing = {
     enable = lib.mkEnableOption "Enable printer services";
   };
 

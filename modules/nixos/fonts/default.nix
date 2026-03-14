@@ -2,7 +2,7 @@
 
 let
   cooper-black = import ./cooper-black.nix { inherit pkgs; };
-  winter-use-system-font = pkgs.writeShellScriptBin "winter-use-system-font" ''
+  mx-use-system-font = pkgs.writeShellScriptBin "mx-use-system-font" ''
     mkdir -p ~/.local/share/fonts
     for dir in /nix/store/*/share/fonts/*; do
       [ -d "$dir" ] || continue
@@ -13,7 +13,7 @@ let
 in
 {
   environment.systemPackages = [
-    winter-use-system-font
+    mx-use-system-font
   ];
   fonts.packages = with pkgs; [
     cooper-black
