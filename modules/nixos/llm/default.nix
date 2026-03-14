@@ -14,11 +14,13 @@ in
 {
   options.winter.services.llm = {
     enable = lib.mkEnableOption "Enable local LLM service";
-    enable-open-webui = lib.mkEnableOption "Enable Open Webui service";
-    open-webui-port = lib.mkOption {
-      type = lib.types.port;
-      default = 8080;
-      description = "Port for open webui interface";
+    open-webui = {
+      enable = lib.mkEnableOption "Enable Open Webui service";
+      port = lib.mkOption {
+        type = lib.types.port;
+        default = 8080;
+        description = "Port for open webui interface";
+      };
     };
   };
   config = lib.mkIf cfg.enable {
@@ -32,8 +34,8 @@ in
 
     services.open-webui = {
       package = pkgs.open-webui;
-      enable = cfg.enable-open-webui;
-      port = cfg.open-webui-port;
+      enable = cfg.open-webui.enable;
+      port = cfg.open-webui.port;
     };
 
     services.ollama = {

@@ -38,7 +38,10 @@
         };
         lamp.enable = true;
         postgresql.enable = false;
-        llm.enable = true;
+        llm = {
+          enable = true;
+          open-webui.enable = true;
+        };
         printing.enable = true;
       };
       programs = {
@@ -114,7 +117,12 @@
       };
     };
 
-    environment.systemPackages = [
-      pkgs.git
-    ];
+    # winter.services.modulix-daemon = {
+    #   enable = true;
+    #  package = inputs.modulix-daemon.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    # };
+
+    # environment.systemPackages = [
+    #   pkgs.git
+    # ];
 }
