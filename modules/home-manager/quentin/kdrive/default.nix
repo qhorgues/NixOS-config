@@ -1,6 +1,6 @@
 { pkgs, config, lib, ... }:
 let
-  cfg = config.winter.programs.kdrive;
+  cfg = config.mx.programs.kdrive;
   pname = "kDrive";
   version = "3.8.1.4";
 
@@ -90,7 +90,7 @@ echo "- SHA256 SRI : $SRI_HASH"
     '';
 in
 {
-  options.winter.programs.kdrive = {
+  options.mx.programs.kdrive = {
     enable = lib.mkEnableOption "Enable kDrive client";
   };
 

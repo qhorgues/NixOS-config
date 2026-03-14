@@ -1,13 +1,13 @@
 { pkgs, pkgs-unstable, inputs, lib, config, ... }:
 
 let
-  cfg = config.winter.programs.firefox;
+  cfg = config.mx.programs.firefox;
   addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
   getId = str:
       builtins.substring 1 (builtins.stringLength str - 2) str;
 in
 {
-  options.winter.programs.firefox = {
+  options.mx.programs.firefox = {
     enable = lib.mkEnableOption "Use firefox with custom config";
   };
 

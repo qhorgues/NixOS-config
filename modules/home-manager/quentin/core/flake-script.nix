@@ -1,8 +1,8 @@
 { lib, config, pkgs, ... }:
 
 let
-    cfg = config.winter.update;
-    cfga = config.winter.auto-update;
+    cfg = config.mx.update;
+    cfga = config.mx.auto-update;
     nix-latest-update = import ../../../pkgs/nix-latest-update.nix {
         pkgs = pkgs;
     };
@@ -29,7 +29,7 @@ let
     };
 in
 {
-    options.winter = {
+    options.mx = {
         update = {
             flake_path = lib.mkOption {
                 type = lib.types.str;
@@ -61,7 +61,7 @@ in
             ];
         }
         # (lib.mkIf cfga.enable {
-        #     systemd.user.services.winter-auto-update = {
+        #     systemd.user.services.mx-auto-update = {
         #         Unit = {
         #           Description = "Auto update services";
         #           After = [ "graphical-session.target" ];
@@ -75,18 +75,18 @@ in
         #         };
         #     };
 
-        #     systemd.user.timers.winter-auto-update = {
+        #     systemd.user.timers.mx-auto-update = {
         #         Install = {
         #             WantedBy = [ "timers.target" ];
         #         };
         #         Unit = {
         #             Description = "Execute every day";
-        #             Wants = [ "winter-auto-update-service.service" ];
+        #             Wants = [ "mx-auto-update-service.service" ];
         #         };
         #         Timer = {
         #             OnCalendar = "daily";
         #             Persistent = true;
-        #             Unit = "winter-auto-update.service";
+        #             Unit = "mx-auto-update.service";
         #         };
         #     };
         # })

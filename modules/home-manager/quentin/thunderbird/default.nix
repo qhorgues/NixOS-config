@@ -1,9 +1,9 @@
 { config, pkgs, lib, ... }:
 let
-  cfg = config.winter.programs.thunderbird;
+  cfg = config.mx.programs.thunderbird;
 in
 {
-  options.winter.programs.thunderbird = {
+  options.mx.programs.thunderbird = {
     enable = lib.mkEnableOption "Install thunderbird";
   };
 

@@ -1,23 +1,20 @@
 { pkgs, lib, config, ... }:
 
 let
-  cfg = config.winter.hardware.gpu.nvidia.standby;
+  nvidia = config.mx.hardware.gpu.vendor == "nvidia";
+
+  old-gpu = builtins.elem config.mx.hardware.gpu.generation [ "fermi" "kepler" "maxwell" "pascal" ];
 in
 {
-  options.winter.hardware.gpu.nvidia.standby = {
-    enable = lib.mkEnableOption "Enable Standby fix";
-    old-gpu = lib.mkEnableOption "if use gpu before 16 series";
-  };
-
   config = lib.mkMerge [
     (
-      lib.mkIf (cfg.enable && cfg.old-gpu) {
+      lib.mkIf (nvidia && old-gpu) {
         hardware.nvidia.powerManagement.enable = true;
         boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
       }
     )
     (
-      lib.mkIf cfg.enable {
+      lib.mkIf nvidia {
 
         boot.kernelParams = [
           "nvidia.NVreg_PreserveVideoMemoryAllocations=1"

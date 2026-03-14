@@ -1,10 +1,10 @@
 { pkgs, lib, config, ... }:
 
 let
-  cfg = config.winter.gnome;
+  cfg = config.mx.gnome;
 in
 {
-    options.winter.gnome = {
+    options.mx.gnome = {
       enable = lib.mkEnableOption "Enable GNOME desktop environment";
 
       scaling = lib.mkOption {
@@ -31,7 +31,7 @@ in
           services = {
             xserver = {
               enable = true;
-              videoDriver = config.winter.hardware.gpu.vendor;
+              videoDriver = config.mx.hardware.gpu.vendor;
               excludePackages = with pkgs; [
                   xterm
               ];
@@ -59,9 +59,9 @@ in
                               night-light-enabled = true;
                           };
                           "org/gnome/desktop/interface" = {
-                              scaling-factor = lib.gvariant.mkUint32 config.winter.gnome.scaling;
+                              scaling-factor = lib.gvariant.mkUint32 config.mx.gnome.scaling;
                               show-battery-percentage = true;
-                              text-scaling-factor = lib.gvariant.mkDouble config.winter.gnome.text-scaling;
+                              text-scaling-factor = lib.gvariant.mkDouble config.mx.gnome.text-scaling;
                           };
                           "org/gnome/desktop/input-sources" = {
                               sources = [
@@ -76,8 +76,8 @@ in
                               night-light-enabled = true;
                           };
                           # "org/gnome/desktop/interface" = {
-                          #     scaling-factor = lib.gvariant.mkUint32 config.winter.gnome.scaling;
-                          #     text-scaling-factor = lib.gvariant.mkDouble config.winter.gnome.text-scaling;
+                          #     scaling-factor = lib.gvariant.mkUint32 config.mx.gnome.scaling;
+                          #     text-scaling-factor = lib.gvariant.mkDouble config.mx.gnome.text-scaling;
                           # };
                       };
                   }];

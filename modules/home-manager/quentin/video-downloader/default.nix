@@ -1,9 +1,9 @@
 { config, pkgs, lib, ... }:
 let
-  cfg = config.winter.programs.video-downloader;
+  cfg = config.mx.programs.video-downloader;
 in
 {
-  options.winter.programs.video-downloader = {
+  options.mx.programs.video-downloader = {
     enable = lib.mkEnableOption "Install video downloader";
   };
 

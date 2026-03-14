@@ -1,10 +1,10 @@
 { pkgs, lib, config, osConfig, ... }:
 
 let
-  cfg = config.winter.programs.zed-editor;
+  cfg = config.mx.programs.zed-editor;
 in
 {
-  options.winter.programs.zed-editor = {
+  options.mx.programs.zed-editor = {
     enable = lib.mkEnableOption "Use Zed Editor";
   };
   config = lib.mkIf cfg.enable {
@@ -16,7 +16,7 @@ in
 
       userSettings = {
         language_models = {
-            ollama = lib.mkIf osConfig.winter.services.llm.enable {
+            ollama = lib.mkIf osConfig.mx.services.llm.enable {
                 api_url = "http://localhost:11434";
                 available_models = [
                     {

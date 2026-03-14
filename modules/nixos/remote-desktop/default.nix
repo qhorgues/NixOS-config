@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.winter.services.remote-desktop;
+  cfg = config.mx.services.remote-desktop;
 in
 {
-  options.winter.services.remote-desktop = {
+  options.mx.services.remote-desktop = {
     enable = lib.mkEnableOption "Enable remote desktop server";
   };
 

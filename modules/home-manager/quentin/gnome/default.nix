@@ -1,6 +1,6 @@
 { pkgs, lib, config, osConfig, ... }:
 {
-  config = lib.mkIf osConfig.winter.gnome.enable {
+  config = lib.mkIf osConfig.mx.gnome.enable {
     home.packages = with pkgs; [
         # Base gnome app
         gnome-tweaks
@@ -28,8 +28,8 @@
         papirus-icon-theme
         # (import ../../../pkgs/winteros-icons.nix {inherit pkgs;})
     ]
-    ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.framework-fan-control
-    ++ lib.optional osConfig.winter.gnome.gsconnect pkgs.gnomeExtensions.gsconnect;
+    ++ lib.optional osConfig.mx.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.framework-fan-control
+    ++ lib.optional osConfig.mx.gnome.gsconnect pkgs.gnomeExtensions.gsconnect;
     dconf = {
         enable = true;
         settings = {
@@ -45,8 +45,8 @@
               quick-settings-audio-panel.extensionUuid
               # tiling-shell.extensionUuid
             ]
-            ++ lib.optional osConfig.winter.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.framework-fan-control.extensionUuid
-            ++ lib.optional osConfig.winter.gnome.gsconnect pkgs.gnomeExtensions.gsconnect.extensionUuid;
+            ++ lib.optional osConfig.mx.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.framework-fan-control.extensionUuid
+            ++ lib.optional osConfig.mx.gnome.gsconnect pkgs.gnomeExtensions.gsconnect.extensionUuid;
             favorite-apps = [
               "firefox.desktop"
               "org.gnome.Nautilus.desktop"

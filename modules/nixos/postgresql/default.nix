@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.winter.services.postgresql;
+  cfg = config.mx.services.postgresql;
 in
 {
-  options.winter.services.postgresql = {
+  options.mx.services.postgresql = {
     enable = lib.mkEnableOption "Enable postgresql database";
   };
 

@@ -1,10 +1,10 @@
 { pkgs, pkgs-unstable, config, lib, ... }:
 
 let
-  cfg = config.winter.programs.dev;
+  cfg = config.mx.programs.dev;
 in
 {
-  options.winter.programs.dev = {
+  options.mx.programs.dev = {
     enable = lib.mkEnableOption "Enable dev tools";
     nix = lib.mkEnableOption "Enable Nix dev tools";
     cpp = lib.mkEnableOption "Enable C++ dev tools";

@@ -1,6 +1,6 @@
 { lib, config, ... }:
 let
-  cfg = config.winter.programs.ssh;
+  cfg = config.mx.programs.ssh;
 in
 {
   config = lib.mkIf cfg.enable {

@@ -1,14 +1,14 @@
 { pkgs, config, lib, ... }:
 
 let
-  cfg = config.winter.services.flatpak;
+  cfg = config.mx.services.flatpak;
   flatpakApp = import ../flatpak/app.nix {
     inherit pkgs lib;
     enableApp = cfg.enable;
   };
 in
 {
-  options.winter.services.flatpak = {
+  options.mx.services.flatpak = {
     enable = lib.mkEnableOption "Enable flatpak service";
   };
 

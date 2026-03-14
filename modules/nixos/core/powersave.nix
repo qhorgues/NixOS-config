@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.winter.hardware.powersave;
+  cfg = config.mx.hardware.powersave;
 in
 {
-  options.winter.hardware.powersave = {
+  options.mx.hardware.powersave = {
     enable = lib.mkEnableOption "Auto enable energy savings";
   };
 

@@ -1,10 +1,10 @@
 { pkgs, config, lib, ... }:
 
 let
-  cfg = config.winter.programs.graphism;
+  cfg = config.mx.programs.graphism;
 in
 {
-  options.winter.programs.graphism = {
+  options.mx.programs.graphism = {
     enable = lib.mkEnableOption "Enable graphism tools";
   };
 
