@@ -35,7 +35,7 @@
     );
 
     homeModules = {
-      quentin = ./modules/home-manager/quentin/default.nix;
+      quentin = import ./modules/home-manager/quentin/default.nix {inherit inputs;};
     };
 
     packages = forAllSystems (system:
