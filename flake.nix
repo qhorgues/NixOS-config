@@ -34,16 +34,9 @@
       }
     );
 
-
-    homeModules = forAllSystems (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-        lib = pkgs.lib;
-      in
-      {
-        quentin = import ./modules/home-manager/quentin/default.nix { inherit self pkgs inputs lib;};
-      }
-    );
+    homeModules = {
+      quentin = ./modules/home-manager/quentin/default.nix;
+    };
 
     packages = forAllSystems (system:
       let
