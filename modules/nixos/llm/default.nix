@@ -24,7 +24,7 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
-    mx.hardware.gpu.enable-acceleration = true;
+    mx.hardware.gpu.enable-computing = true;
 
     environment.systemPackages = [
       # open-webui-shortcut
@@ -41,20 +41,20 @@ in
     services.ollama = {
       enable = true;
       package =
-      (if config.mx.hardware.gpu.acceleration == "cuda" then
+      (if config.mx.hardware.gpu.computing == "cuda" then
         pkgs-unstable.ollama-cuda
-      else if config.mx.hardware.gpu.acceleration == "rocm" then
+      else if config.mx.hardware.gpu.computing == "rocm" then
         pkgs-unstable.ollama-rocm
-      else if config.mx.hardware.gpu.acceleration == "intel" then
+      else if config.mx.hardware.gpu.computing == "intel" then
         pkgs-unstable.ollama-vulkan
-      else if config.mx.hardware.gpu.acceleration == "cpu" then pkgs-unstable.ollama-cpu
+      else if config.mx.hardware.gpu.computing == "cpu" then pkgs-unstable.ollama-cpu
       else pkgs-unstable.ollama
       );
       loadModels = [
         "qwen3.5:9b"
         "qwen3-coder-next"
       ];
-      acceleration = config.mx.hardware.gpu.acceleration; # use cuda if nvidia, rocm if amd, and cpu only otherwise
+      computing = config.mx.hardware.gpu.computing; # use cuda if nvidia, rocm if amd, and cpu only otherwise
     };
   };
 }

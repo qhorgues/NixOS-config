@@ -19,5 +19,6 @@
     ./arduino
     ./obs-studio
     ./modulix-dev
+    ./home-manager
   ];
 }

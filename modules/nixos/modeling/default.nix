@@ -9,7 +9,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    mx.hardware.gpu.enable-acceleration = true;
+    mx.hardware.gpu.enable-computing = true;
     environment.systemPackages = with pkgs; [
       (if cgpu.vendor == "nvidia" then
           blender.override {

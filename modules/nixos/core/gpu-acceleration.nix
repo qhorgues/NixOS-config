@@ -1,44 +1,38 @@
-{ config, pkgs, lib, ...}:
+{ config, lib, pkgs, ... }:
+
 let
-  cgpu = config.mx.hardware.gpu;
-in
-{
-  config = lib.mkMerge [
-    (
-      lib.mkIf (cgpu.vendor == "amd" && cgpu.enable-acceleration) {
-        systemd.tmpfiles.rules =
-        let
-          rocmEnv = pkgs.symlinkJoin {
-            name = "rocm-combined";
-            paths = with pkgs.rocmPackages; [
-              rocblas
-              hipblas
-              clr
-            ];
-          };
-        in [
-          "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
+  cfg = config.mx.hardware.gpu;
+in {
+
+  config = {
+    hardware.graphics = {
+      enable = true;
+
+      extraPackages = with pkgs;
+        lib.optionals (cfg.vendor == "amd") [
+          amdvlk
+        ]
+        ++ lib.optionals (cfg.vendor == "intel") [
+          intel-media-driver   # Modern intel
+          libvdpau-va-gl
+        ]
+        ++ lib.optionals (cfg.vendor == "nvidia") [
+          vaapiVdpau
+          libvdpau-va-gl
         ];
-        hardware.amdgpu.opencl.enable = true;
-        hardware.graphics = {
-          extraPackages = with pkgs; [
-            mesa.opencl
-          ];
-        };
-        environment.variables = {
-          ROC_ENABLE_PRE_VEGA = "1";
-          RUSTICL_ENABLE      = "radeonsi";
-        };
-      }
-    )
-    (
-      lib.mkIf (cgpu.vendor == "intel" && cgpu.enable-acceleration) {
-        hardware.graphics = {
-          extraPackages = with pkgs; [
-            intel-compute-runtime
-          ];
-        };
-      }
-    )
-  ];
+    };
+
+    environment.sessionVariables = lib.mkMerge [
+      (lib.mkIf (cfg.vendor == "intel" && cfg.intelGeneration == "modern") {
+        LIBVA_DRIVER_NAME = "iHD";
+      })
+      (lib.mkIf (cfg.vendor == "intel" && cfg.intelGeneration == "legacy") {
+        LIBVA_DRIVER_NAME = "i965";
+      })
+      (lib.mkIf (cfg.vendor == "nvidia") {
+        LIBVA_DRIVER_NAME     = "nvidia";
+        MOZ_DISABLE_RDD_SANDBOX = "1";  # Firefox VAAPI
+      })
+    ];
+  };
 }
