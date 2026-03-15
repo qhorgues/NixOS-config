@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  cgpu = config.winter.hardware.gpu;
+  cgpu = config.mx.hardware.gpu;
 in
 {
   imports = [
@@ -12,12 +12,13 @@ in
     ./sound.nix
     ./update.nix
     ./zram.nix
-    ./nvidia-standby-fix.nix
     ./powersave.nix
     ./bluetooth.nix
     ./ios-connect.nix
     ./ssd.nix
     ./network.nix
+    ./gpu-computing.nix
+    ./nvidia.nix
     ./gpu-acceleration.nix
   ];
   nixpkgs.config.allowUnfree = true;
@@ -64,7 +65,7 @@ in
 
   documentation.nixos.enable = false;
 
-  hardware.fw-fanctrl.enable = config.winter.hardware.framework-fan-ctrl.enable;
+  hardware.fw-fanctrl.enable = config.mx.hardware.framework-fan-ctrl.enable;
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
 }

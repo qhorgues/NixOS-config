@@ -1,9 +1,9 @@
 { config, lib, ... }:
 let
-  cfg = config.winter.hardware.ssd;
+  cfg = config.mx.hardware.ssd;
 in
 {
-  options.winter.hardware.ssd = {
+  options.mx.hardware.ssd = {
     lists = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];

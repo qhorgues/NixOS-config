@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.winter.services.modulix-daemon;
+  cfg = config.mx.services.modulix-daemon;
 in
 {
-  options.winter.services.modulix-daemon = {
+  options.mx.services.modulix-daemon = {
     enable = lib.mkEnableOption "Modulix OS package management daemon";
 
     package = lib.mkOption {

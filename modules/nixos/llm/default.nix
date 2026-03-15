@@ -1,7 +1,7 @@
 { config, pkgs, pkgs-unstable,  lib, ... }:
 
 let
-  cfg = config.winter.services.llm;
+  cfg = config.mx.services.llm;
   # open-webui-shortcut = pkgs.makeDesktopItem {
   #   name = "Open WebUI";
   #   desktopName = "IA local";
@@ -12,7 +12,7 @@ let
   # };
 in
 {
-  options.winter.services.llm = {
+  options.mx.services.llm = {
     enable = lib.mkEnableOption "Enable local LLM service";
     open-webui = {
       enable = lib.mkEnableOption "Enable Open Webui service";
@@ -24,7 +24,7 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
-    winter.hardware.gpu.enable-acceleration = true;
+    mx.hardware.gpu.enable-computing = true;
 
     environment.systemPackages = [
       # open-webui-shortcut
@@ -41,20 +41,20 @@ in
     services.ollama = {
       enable = true;
       package =
-      (if config.winter.hardware.gpu.acceleration == "cuda" then
+      (if config.mx.hardware.gpu.computing == "cuda" then
         pkgs-unstable.ollama-cuda
-      else if config.winter.hardware.gpu.acceleration == "rocm" then
+      else if config.mx.hardware.gpu.computing == "rocm" then
         pkgs-unstable.ollama-rocm
-      else if config.winter.hardware.gpu.acceleration == "intel" then
+      else if config.mx.hardware.gpu.computing == "intel" then
         pkgs-unstable.ollama-vulkan
-      else if config.winter.hardware.gpu.acceleration == "cpu" then pkgs-unstable.ollama-cpu
+      else if config.mx.hardware.gpu.computing == "cpu" then pkgs-unstable.ollama-cpu
       else pkgs-unstable.ollama
       );
       loadModels = [
         "qwen3.5:9b"
         "qwen3-coder-next"
       ];
-      acceleration = config.winter.hardware.gpu.acceleration; # use cuda if nvidia, rocm if amd, and cpu only otherwise
+      acceleration = config.mx.hardware.gpu.computing; # use cuda if nvidia, rocm if amd, and cpu only otherwise
     };
   };
 }

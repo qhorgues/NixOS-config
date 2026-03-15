@@ -1,12 +1,12 @@
 { config, pkgs, pkgs-unstable, lib, ... }:
 
 let
-  cfg = config.winter.programs.games;
-  cgpu = config.winter.hardware.gpu;
+  cfg = config.mx.programs.games;
+  cgpu = config.mx.hardware.gpu;
   lsfg-vk = pkgs.callPackage ../../../pkgs/lsfg-vk.nix { };
   # lsfg-vk-ui = pkgs.callPackage ../../../pkgs/lsfg-vk-ui.nix { };
   #
-  conf_service = config.winter.services;
+  conf_service = config.mx.services;
 
   mx-game = import ../../../pkgs/mx-game.nix {
     lib = lib;
@@ -17,14 +17,14 @@ let
     lampEnable = conf_service.lamp.enable;
     postgresEnable = conf_service.postgresql.enable;
     printingEnable = conf_service.printing.enable;
-    teamviewerEnable = config.winter.programs.team-viewer.enable;
+    teamviewerEnable = config.mx.programs.team-viewer.enable;
     vmEnable = conf_service.vm.enable;
-    fwFanCtrl = config.winter.hardware.framework-fan-ctrl.enable;
+    fwFanCtrl = config.mx.hardware.framework-fan-ctrl.enable;
   };
 in
 {
 
-  options.winter.programs.games = {
+  options.mx.programs.games = {
     enable = lib.mkEnableOption "Enable Game config";
 
     force-fsr4-for-rdna3 = lib.mkEnableOption "Force FSR4 on AMD 7000 series";
@@ -72,7 +72,7 @@ in
         dedicatedServer.openFirewall = false;
         localNetworkGameTransfers.openFirewall = true;
         extraPackages = []
-        ++ lib.optional config.winter.programs.games.lsfg.enable lsfg-vk;
+        ++ lib.optional config.mx.programs.games.lsfg.enable lsfg-vk;
         extraCompatPackages = [
           pkgs-unstable.proton-ge-bin
         ];
@@ -81,7 +81,7 @@ in
             TZ = ":/etc/localtime";
             MANGOHUD = true;
             PROTON_ENABLE_WAYLAND=true;
-            OBS_VKCAPTURE = config.winter.programs.obs-studio.enable;
+            OBS_VKCAPTURE = config.mx.programs.obs-studio.enable;
             # PROTON_NO_D3D12=true;
 
             PROTON_FSR4_UPGRADE = cgpu.vendor == "amd"
@@ -96,15 +96,15 @@ in
                                   || (cgpu.vendor == "amd"
                                       && cgpu.generation != "rdna4");
           } //
-          (if config.winter.programs.games.lsfg.enable == true then {
+          (if config.mx.programs.games.lsfg.enable == true then {
             VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";
             ENABLE_LFSG=1;
             LSFG_LEGACY=1;
             LFSG_MULTIPLIER=2;
           } else {})
-          // (if config.winter.programs.games.lsfg.enable == true
-            && config.winter.programs.games.lsfg.steam_library_for_lossless_scaling != null then {
-            LSFG_DLL_PATH="${config.winter.programs.games.lsfg.steam_library_for_lossless_scaling}/steamapps/common/Lossless Scaling/Lossless.dll";
+          // (if config.mx.programs.games.lsfg.enable == true
+            && config.mx.programs.games.lsfg.steam_library_for_lossless_scaling != null then {
+            LSFG_DLL_PATH="${config.mx.programs.games.lsfg.steam_library_for_lossless_scaling}/steamapps/common/Lossless Scaling/Lossless.dll";
           } else {});
         };
       };
