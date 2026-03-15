@@ -45,7 +45,6 @@ let
 in
 pkgs.writeShellScriptBin "mx-games" ''
   set -euo pipefail
-
   if [ $# -eq 0 ]; then
     echo "Usage: mx-games <command> [args...]"
     echo ""
@@ -53,38 +52,30 @@ pkgs.writeShellScriptBin "mx-games" ''
     echo "${lib.concatStringsSep "\n" (map (s: "  - ${s}") servicesToManage)}"
     exit 1
   fi
-
   cleanup() {
     echo "==> Restoring power profile to 'balanced'..."
     ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced
-
     ${fanAfterCmd}
-
     echo "==> Restarting services..."
     ${startCmds}
     echo "==> Done."
   }
-
   trap cleanup EXIT
+  trap '
+    echo "==> Received SIGTERM, stopping game..."
+    kill -TERM "$child_pid" 2>/dev/null
+    wait "$child_pid" 2>/dev/null
+  ' TERM  # ← propage SIGTERM au jeu mais laisse EXIT faire le cleanup
 
   echo "==> Stopping services..."
   ${stopCmds}
   echo "==> Services stopped."
-
   echo "==> Setting power profile to 'performance'..."
   ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance
-
   ${fanBeforeCmd}
-
   echo "==> Running: $*"
-  echo ""
   "$@" &
   child_pid=$!
-
-  trap 'kill -TERM "$child_pid" 2>/dev/null' TERM INT
-
   wait "$child_pid"
-  exit_code=$?
-
-  exit $exit_code
+  exit $?
 ''
