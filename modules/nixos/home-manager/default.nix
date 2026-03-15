@@ -1,10 +1,26 @@
-{ config, inputs, pkgs, lib }:
+{ config, inputs, pkgs, lib, self, ... }:
 let
-  cfg = config.mx.services.home-manager;
+  cfg = config.mx.programs.home-manager;
 in
 {
-  options.mx.services.home-manager = {
+  options.mx.programs.home-manager = {
     enable = lib.mkEnableOption "Enable home-manager";
+    users = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.submodule {
+        options = {
+          configPath = lib.mkOption {
+            type = lib.types.path;
+            description = "Path to the Home Manager configuration file";
+          };
+          homeModule = lib.mkOption {
+            type = lib.types.str;
+            description = "Name of the home module in self.homeModules";
+          };
+        };
+      });
+      default = {};
+      description = "Map of users to their Home Manager configuration";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -13,11 +29,14 @@ in
       useUserPackages = true;
       extraSpecialArgs = {
         firefox-addons = inputs.firefox-addons;
+        #qhorgues-config = self;
       };
+      users = lib.mapAttrs (_: userCfg: {
+        imports = [
+          userCfg.configPath
+          self.homeModules.${userCfg.homeModule}
+        ];
+      }) cfg.users;
     };
-
-    environment.systemPackages = with pkgs; [
-      home-manager
-    ];
   };
 }
