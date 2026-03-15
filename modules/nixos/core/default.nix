@@ -12,12 +12,13 @@ in
     ./sound.nix
     ./update.nix
     ./zram.nix
-    ./nvidia-standby-fix.nix
     ./powersave.nix
     ./bluetooth.nix
     ./ios-connect.nix
     ./ssd.nix
     ./network.nix
+    ./gpu-computing.nix
+    ./nvidia
     ./gpu-acceleration.nix
   ];
   nixpkgs.config.allowUnfree = true;

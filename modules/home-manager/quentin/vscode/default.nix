@@ -122,7 +122,7 @@ in
             markdown = false;
             scminput = false;
           };
-          terminal.integrated.gpuAcceleration = "on";
+          terminal.integrated.gpucomputing = "on";
           workbench.preferredDarkColorTheme = "Visual Studio Dark";
         };
 

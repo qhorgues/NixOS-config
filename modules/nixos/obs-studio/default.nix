@@ -10,7 +10,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    mx.hardware.gpu.enable-acceleration = true;
+    mx.hardware.gpu.enable-computing = true;
     programs.obs-studio = {
       enable = true;
       enableVirtualCamera = true;
