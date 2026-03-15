@@ -24,7 +24,7 @@ in
       lib.mkIf nvidia {
         hardware.nvidia.package =
           (
-            if old-gpu then
+          if old-gpu then
             nvidia580Driver
           else if legacy-kepler then
             config.boot.kernelPackages.nvidiaPackages.lecay_470

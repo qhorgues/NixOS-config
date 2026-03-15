@@ -18,7 +18,7 @@ in
     ./ssd.nix
     ./network.nix
     ./gpu-computing.nix
-    ./nvidia
+    ./nvidia.nix
     ./gpu-acceleration.nix
   ];
   nixpkgs.config.allowUnfree = true;
