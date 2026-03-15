@@ -19,24 +19,12 @@
   outputs = { self, nixpkgs, coe33, ... }@inputs:
   let
     systems = [ "x86_64-linux" "aarch64-linux" "i686-linux" "x86_64-darwin" "aarch64-darwin" ];
-    linux = [ "x86_64-linux" "aarch64-linux" "i686-linux" ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
-    forLinuxSystems = nixpkgs.lib.genAttrs linux;
   in
   {
-    nixosModules = forLinuxSystems (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-        lib = pkgs.lib;
-      in
-      {
-        modulix-os = import ./modules/nixos/default.nix { inherit self pkgs inputs lib; };
-      }
-    );
+    nixosModules.modulix-os = ./modules/nixos/default.nix;
 
-    homeModules = {
-      quentin = import ./modules/home-manager/quentin/default.nix {inherit inputs;};
-    };
+    homeModules.quentin = ./modules/home-manager/quentin/default.nix;
 
     packages = forAllSystems (system:
       let
