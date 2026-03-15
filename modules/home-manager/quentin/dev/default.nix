@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, config, lib, ... }:
+{ pkgs, modulix-os-pkgs-unstable, config, lib, ... }:
 
 let
   cfg = config.mx.programs.dev;
@@ -66,7 +66,7 @@ in
           php84Packages.composer
           laravel
           filezilla
-          pkgs-unstable.bruno
+          modulix-os-pkgs-unstable.bruno
         ] ++ lib.optionals cfg.sql [
           mysql-workbench
           dbeaver-bin
