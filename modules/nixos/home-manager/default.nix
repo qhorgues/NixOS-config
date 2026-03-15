@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, lib, self, ... }:
+{ config, inputs-modulix-os, pkgs, lib, self, ... }:
 let
   cfg = config.mx.programs.home-manager;
 in
@@ -28,8 +28,12 @@ in
       useGlobalPkgs = true;
       useUserPackages = true;
       extraSpecialArgs = {
-        firefox-addons = inputs.firefox-addons;
-        #qhorgues-config = self;
+        qhorgues-config = self;
+        modulix-os-pkgs-unstable = import inputs-modulix-os.nixpkgs-unstable {
+          system = pkgs.stdenv.hostPlatform.system;
+          config.allowUnfree = true;
+        };
+        inputs-modulix-os = inputs-modulix-os;
       };
       users = lib.mapAttrs (_: userCfg: {
         imports = [

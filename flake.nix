@@ -16,15 +16,22 @@
     };
   };
 
-  outputs = { self, nixpkgs, coe33, ... }:
+  outputs = { self, nixpkgs, coe33, ... }@inputs:
   let
     systems = [ "x86_64-linux" "aarch64-linux" "i686-linux" "x86_64-darwin" "aarch64-darwin" ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in
   {
-    nixosModules.modulix-os = ./modules/nixos/default.nix;
+    nixosModules.modulix-os =
+    { ... }:
+    {
+      imports = [ ./modules/nixos ];
+      _module.args = {
+        inputs-modulix-os = inputs;
+      };
+    };
 
-    homeModules.quentin = ./modules/home-manager/quentin/default.nix;
+    homeModules.quentin = ./modules/home-manager/quentin;
 
     packages = forAllSystems (system:
       let
