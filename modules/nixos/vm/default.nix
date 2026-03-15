@@ -3,9 +3,9 @@
 with lib;
 
 let
-  cfg = config.winter.services.vm;
+  cfg = config.mx.services.vm;
 in {
-  options.winter.services.vm = {
+  options.mx.services.vm = {
     enable = lib.mkEnableOption "Enable Virtual Machine service";
     users = lib.mkOption {
       type = lib.types.listOf lib.types.str;

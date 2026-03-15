@@ -1,11 +1,11 @@
 { pkgs, lib, config, ... }:
 
 let
-  cfg = config.winter.services.lamp;
+  cfg = config.mx.services.lamp;
   phpmyadmin = import ../../../pkgs/phpmyadmin.nix {inherit lib pkgs;};
 in
 {
-  options.winter.services.lamp = {
+  options.mx.services.lamp = {
     enable = lib.mkEnableOption "Enable LAMP dev suite";
   };
 

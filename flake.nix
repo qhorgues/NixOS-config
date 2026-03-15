@@ -1,12 +1,11 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
         url = "github:nix-community/home-manager/release-25.11";
         inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
     firefox-addons = {
         url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
         inputs.nixpkgs.follows = "nixpkgs";
@@ -17,64 +16,34 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
+  outputs = { self, nixpkgs, coe33, ... }@inputs:
   let
-    nixpkgsConfig = {
-      allowUnfree = true;
-    };
+    systems = [ "x86_64-linux" "aarch64-linux" "i686-linux" "x86_64-darwin" "aarch64-darwin" ];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
   in
   {
-    nixosConfigurations =
+    nixosModules.modulix-os =
+    { ... }:
     {
-      "fw-laptop-16" = let
-        system = "x86_64-linux";
-      in nixpkgs.lib.nixosSystem
-      {
-        system = system;
-        specialArgs = { inherit self inputs;
-            pkgs-unstable = import nixpkgs-unstable {
-              system = system;
-              config = nixpkgsConfig;
-            };
-        };
-        modules = [
-          ./hosts/fw-laptop-16/configuration.nix
-          ./modules/nixos
-          inputs.home-manager.nixosModules.default
-        ];
-      };
-      "unowhy-13" = let
-        system = "x86_64-linux";
-      in nixpkgs.lib.nixosSystem {
-        system = system;
-        specialArgs = { inherit self inputs;
-            pkgs-unstable = import nixpkgs-unstable {
-                system = system;
-                config = nixpkgsConfig;
-            };
-        };
-        modules = [
-            ./hosts/unowhy-13/configuration.nix
-            ./modules/nixos
-            inputs.home-manager.nixosModules.default
-        ];
-      };
-      "desktop-acer-n50" = let
-        system = "x86_64-linux";
-      in nixpkgs.lib.nixosSystem {
-       	system = system;
-       	specialArgs = { inherit self inputs;
-            pkgs-unstable = import nixpkgs-unstable {
-                system = system;
-                config = nixpkgsConfig;
-            };
-        };
-       	modules = [
-          ./hosts/desktop-acer-n50/configuration.nix
-          ./modules/nixos
-          inputs.home-manager.nixosModules.default
-       	];
+      imports = [ ./modules/nixos ];
+      _module.args = {
+        inputs-modulix-os = inputs;
       };
     };
+
+    homeModules.quentin = ./modules/home-manager/quentin;
+
+    packages = forAllSystems (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
+        coe33 = coe33.packages.${system}.default;
+        clean-dir = import ./pkgs/clean-dir.nix { inherit pkgs; };
+        lsfg-vk = pkgs.callPackage ./pkgs/lsfg-vk.nix {};
+        nix-clean = import ./pkgs/nix-clean.nix { inherit pkgs; };
+        nix-latest-update = import ./pkgs/nix-latest-update.nix { inherit pkgs; };
+      }
+    );
   };
 }

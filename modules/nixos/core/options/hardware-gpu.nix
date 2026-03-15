@@ -1,23 +1,23 @@
 { lib, ... }:
 with lib;
 {
-  options.winter.hardware.gpu = {
+  options.mx.hardware.gpu = {
     vendor = mkOption {
       type = types.nullOr types.str;
       default = null;
       description = "GPU constructor (amd, nvidia, intel)";
     };
 
-    enable-acceleration = mkOption {
+    enable-computing = mkOption {
       type = types.bool;
       default = false;
-      description = "enable gpu acceleration (cuda, rocm)";
+      description = "enable gpu computing (cuda, rocm)";
     };
 
-    acceleration = mkOption {
+    computing = mkOption {
       type = types.nullOr types.str;
       default = null;
-      description = "Acceleration (cuda, rocm, intel, cpu)";
+      description = "computing (cuda, rocm, intel, cpu)";
     };
 
     generation = mkOption {

@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 let
-  cfg = config.winter.programs.arduino;
+  cfg = config.mx.programs.arduino;
 in {
-  options.winter.programs.arduino = {
+  options.mx.programs.arduino = {
     enable = lib.mkEnableOption "Enable Arduino dev tools";
     users = lib.mkOption {
       type = lib.types.listOf lib.types.str;
