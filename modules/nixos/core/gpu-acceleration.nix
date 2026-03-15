@@ -9,10 +9,7 @@ in {
       enable = true;
 
       extraPackages = with pkgs;
-        lib.optionals (cfg.vendor == "amd") [
-          amdvlk
-        ]
-        ++ lib.optionals (cfg.vendor == "intel") [
+        lib.optionals (cfg.vendor == "intel") [
           intel-media-driver   # Modern intel
           libvdpau-va-gl
         ]
