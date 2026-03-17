@@ -137,6 +137,16 @@ in
         };
     };
 
+    system.activationScripts.vkbasalt-compat = ''
+      mkdir -p /usr/share/vulkan/implicit_layer.d
+      ln -sf /run/current-system/sw/share/vulkan/implicit_layer.d/vkBasalt.json /usr/share/vulkan/implicit_layer.d/vkBasalt.json
+
+      mkdir -p /usr/lib
+      if [ -f "${pkgs.vkbasalt}/lib/libvkbasalt.so" ]; then
+        ln -sf "${pkgs.vkbasalt}/lib/libvkbasalt.so" /usr/lib/libvkbasalt.so
+      fi
+    '';
+
     services.udev.extraRules = ''
       ACTION=="add|change", SUBSYSTEM=="block", ATTR{queue/scheduler}="bfq"
     '';
