@@ -84,7 +84,7 @@ in
               format_on_save = "on";
           };
         };
-        lsp = lib.mkMerge {
+        lsp = {
           clangd = lib.mkIf config.mx.programs.dev.cpp {
               binary = {
                 path = "${pkgs.clang-tools}/bin/clangd";
