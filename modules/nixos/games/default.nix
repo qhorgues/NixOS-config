@@ -21,6 +21,18 @@ let
     vmEnable = conf_service.vm.enable;
     fwFanCtrl = config.mx.hardware.framework-fan-ctrl.enable;
   };
+
+  mkFhsDesktop = pkg: desktopFile: bin:
+    pkg.overrideAttrs (old: {
+      postInstall = (old.postInstall or "") + ''
+        sed -i 's|Exec=${bin}|Exec=${config.programs.steam.package}/bin/steam-run ${pkg}/bin/${bin}|g' \
+          $out/share/applications/${desktopFile}
+      '';
+    });
+
+  lutris-fhs = mkFhsDesktop pkgs-unstable.lutris "net.lutris.Lutris.desktop" "lutris";
+  heroic-fhs = mkFhsDesktop pkgs-unstable.heroic "com.heroicgameslauncher.hgl.desktop" "heroic";
+  umu-fhs    = mkFhsDesktop pkgs-unstable.umu-launcher "umu-launcher.desktop" "umu-run";
 in
 {
 
@@ -71,7 +83,11 @@ in
         remotePlay.openFirewall = false;
         dedicatedServer.openFirewall = false;
         localNetworkGameTransfers.openFirewall = true;
-        extraPackages = []
+        extraPackages = [
+          heroic-fhs
+          lutris-fhs
+          umu-fhs
+        ]
         ++ lib.optional config.mx.programs.games.lsfg.enable lsfg-vk;
         extraCompatPackages = [
           pkgs-unstable.proton-ge-bin
@@ -122,6 +138,9 @@ in
       };
     };
     environment.systemPackages = with pkgs; [
+      heroic-fhs
+      lutris-fhs
+      umu-fhs
       mangohud
       adwsteamgtk
       vkbasalt
