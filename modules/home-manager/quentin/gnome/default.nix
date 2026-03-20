@@ -1,4 +1,8 @@
 { pkgs, lib, config, osConfig, ... }:
+
+let
+  modulix-os-icon = pkgs.callPackage ../../../../pkgs/modulix-icon.nix {};
+in
 {
   config = lib.mkIf osConfig.mx.gnome.enable {
     home.packages = with pkgs; [
@@ -25,7 +29,7 @@
         gnomeExtensions.quick-settings-audio-panel
         # gnomeExtensions.tiling-shell
         # Icons
-        papirus-icon-theme
+        modulix-os-icon
         # (import ../../../pkgs/winteros-icons.nix {inherit pkgs;})
     ]
     ++ lib.optional osConfig.mx.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.framework-fan-control
@@ -56,7 +60,7 @@
             ];
         };
         "org/gnome/desktop/interface" = {
-            icon-theme = "Papirus"; # "WinterOS-icons";
+            icon-theme = "Modulix-OS"; # "WinterOS-icons";
             show-battery-percentage = true;
             toolbar-style = "text";
             gtk-theme = "Adwaita";
@@ -141,10 +145,10 @@
             ];
         };
         "org/gnome/desktop/wm/keybindings" = {
-          switch-applications = ["<Alt>Tab"];
-          switch-applications-backward = ["<Shift><Alt>Tab"];
-          switch-windows = ["<Super>Tab"];
-          switch-windows-backward = ["<Shift><Super>Tab"];
+          switch-applications = ["<Super>Tab"];
+          switch-applications-backward = ["<Shift><Super>Tab"];
+          switch-windows = ["<Alt>Tab"];
+          switch-windows-backward = ["<Shift><Alt>Tab"];
         };
         "org/gnome/Console" = {
             theme = "auto";
