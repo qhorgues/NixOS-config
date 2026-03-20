@@ -4,8 +4,7 @@ let
   cfg = config.mx.programs.games;
   cgpu = config.mx.hardware.gpu;
   lsfg-vk = pkgs.callPackage ../../../pkgs/lsfg-vk.nix { };
-  # lsfg-vk-ui = pkgs.callPackage ../../../pkgs/lsfg-vk-ui.nix { };
-  #
+  lsfg-vk-ui = pkgs.callPackage ../../../pkgs/lsfg-vk-ui.nix { };
   conf_service = config.mx.services;
 
   mx-game = import ../../../pkgs/mx-game.nix {
@@ -25,14 +24,13 @@ let
   mkFhsDesktop = pkg: desktopFile: bin:
     pkg.overrideAttrs (old: {
       postInstall = (old.postInstall or "") + ''
-        sed -i 's|Exec=${bin}|Exec=${config.programs.steam.package}/bin/steam-run ${pkg}/bin/${bin}|g' \
+        sed -i 's|Exec=${bin}|Exec=${pkgs.steam}/bin/steam-run ${pkg}/bin/${bin}|g' \
           $out/share/applications/${desktopFile}
       '';
     });
 
-  lutris-fhs = mkFhsDesktop pkgs-unstable.lutris "net.lutris.Lutris.desktop" "lutris";
-  heroic-fhs = mkFhsDesktop pkgs-unstable.heroic "com.heroicgameslauncher.hgl.desktop" "heroic";
-  umu-fhs    = mkFhsDesktop pkgs-unstable.umu-launcher "umu-launcher.desktop" "umu-run";
+  lsfg-vk-ui-fhs = mkFhsDesktop lsfg-vk-ui "gay.pancake.lsfg-vk-ui.desktop" "lsfg-vk-ui";
+
 in
 {
 
@@ -56,6 +54,10 @@ in
       default = [];
       description = "Users for gamemode permissions should be enabled.";
     };
+
+    heroic.enable = lib.mkEnableOption "Install heroic";
+    lutris.enable = lib.mkEnableOption "Install lutris";
+    umu.enable = lib.mkEnableOption "Install UMU";
   };
 
   config = lib.mkIf cfg.enable {
@@ -83,12 +85,11 @@ in
         remotePlay.openFirewall = false;
         dedicatedServer.openFirewall = false;
         localNetworkGameTransfers.openFirewall = true;
-        extraPackages = [
-          heroic-fhs
-          lutris-fhs
-          umu-fhs
-        ]
-        ++ lib.optional config.mx.programs.games.lsfg.enable lsfg-vk;
+        extraPackages = [ ]
+        ++ lib.optionals cfg.lsfg.enable [
+          lsfg-vk
+          lsfg-vk-ui-fhs
+        ];
         extraCompatPackages = [
           pkgs-unstable.proton-ge-bin
         ];
@@ -137,16 +138,18 @@ in
         MANGOHUD_CONFIG = "control=mangohud,gpu_list=0,hud_no_margin,legacy_layout=false,horizontal,round_corners=0,background_alpha=0,background_color=000000,font_size=24,text_color=FFFFFF,position=top-center,toggle_hud=Shift_R+F12,no_display,table_columns=1,gpu_text=GPU,gpu_stats,gpu_temp,gpu_power,gpu_color=2E9762,cpu_text=CPU,cpu_stats,cpu_temp,cpu_power,cpu_color=2E97CB,vram,vram_color=AD64C1,ram,ram_color=C26693,battery,battery_color=00FF00,fps,gpu_name,wine,wine_color=EB5B5B,fps_limit_method=late,toggle_fps_limit=Shift_R+F1,fps_limit=0\\,165\\,60\\,30,time";
       };
     };
-    environment.systemPackages = with pkgs; [
-      heroic-fhs
-      lutris-fhs
-      umu-fhs
-      mangohud
-      adwsteamgtk
-      vkbasalt
+    environment.systemPackages = [
+      pkgs.mangohud
+      pkgs.adwsteamgtk
+      pkgs.vkbasalt
+
+      pkgs-unstable.umu-launcher
       pkgs-unstable.goverlay
       mx-game
-    ];
+    ] ++ lib.optional cfg.lsfg.enable lsfg-vk-ui-fhs
+    ++ lib.optional cfg.heroic.enable pkgs-unstable.heroic
+    ++ lib.optional cfg.lutris.enable pkgs-unstable.lutris
+    ++ lib.optional cfg.umu.enable pkgs-unstable.umu;
     hardware = {
         graphics = {
           enable = true;
