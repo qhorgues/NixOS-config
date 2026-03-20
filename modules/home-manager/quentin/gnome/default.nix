@@ -173,7 +173,12 @@ in
                 (lib.gvariant.mkTuple["xkb" "fr+oss"])
             ];
         };
+        "/org/gnome/baobab/preferences" = {
+          excluded-uris = [
+            "file:///nix/store"
+          ];
         };
+      };
     };
     home.file.".local/share/wallpaper/clair-obscur.jpg".source = ./clair-obscur.jpg;
     home.file.".local/share/wallpaper/maelle_kill_simon.png".source = ./maelle_kill_simon.png;
