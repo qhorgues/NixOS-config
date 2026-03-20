@@ -27,6 +27,7 @@ in
         gnomeExtensions.caffeine
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
+        # gnomeExtensions.desktop-icons-ng-ding
         # gnomeExtensions.tiling-shell
         # Icons
         modulix-os-icon
@@ -47,6 +48,7 @@ in
               caffeine.extensionUuid
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
+              # desktop-icons-ng-ding.extensionUuid
               # tiling-shell.extensionUuid
             ]
             ++ lib.optional osConfig.mx.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.framework-fan-control.extensionUuid
