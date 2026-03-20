@@ -27,7 +27,7 @@ pkgs.writeShellScriptBin "clean-dir" ''
   }
 
   function rm_executable() {
-    rm_list $(${pkgs.findutils}/bin/find -type f -print0 | ${pkgs.findutils}/bin/xargs -0 -r file | ${pkgs.gnugrep}/bin/grep "ELF.*executable"| ${pkgs.gawk}/bin/awk -F: '{print $1}' ORS=' ')
+    rm_list $(${pkgs.findutils}/bin/find -type f -print0 | ${pkgs.findutils}/bin/xargs -0 -r ${pkgs.file}/bin/file | ${pkgs.gnugrep}/bin/grep "ELF.*executable"| ${pkgs.gawk}/bin/awk -F: '{print $1}' ORS=' ')
   }
 
   function rm_dir () {
