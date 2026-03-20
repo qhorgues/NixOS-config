@@ -173,7 +173,7 @@ in
                 (lib.gvariant.mkTuple["xkb" "fr+oss"])
             ];
         };
-        "/org/gnome/baobab/preferences" = {
+        "org/gnome/baobab/preferences" = {
           excluded-uris = [
             "file:///nix/store"
           ];
