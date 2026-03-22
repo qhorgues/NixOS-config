@@ -146,7 +146,7 @@ in
     )
     (
       lib.mkIf (cfg.enable && cfg.remote-desktop) {
-        services.gnome.gnome-gnome-remote-desktop.enable = true;
+        services.gnome.gnome-remote-desktop.enable = true;
         systemd.services.gnome-remote-desktop = {
           wantedBy = [ "graphical.target" ];
         };
