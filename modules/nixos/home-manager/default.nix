@@ -14,6 +14,7 @@ in
           };
           homeModule = lib.mkOption {
             type = lib.types.nullOr lib.types.str;
+            default = null;
             description = "Name of the home module in self.homeModules";
           };
         };
