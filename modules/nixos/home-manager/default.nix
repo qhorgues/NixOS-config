@@ -13,7 +13,7 @@ in
             description = "Path to the Home Manager configuration file";
           };
           homeModule = lib.mkOption {
-            type = lib.types.str;
+            type = lib.types.nullOr lib.types.str;
             description = "Name of the home module in self.homeModules";
           };
         };
@@ -38,8 +38,7 @@ in
       users = lib.mapAttrs (_: userCfg: {
         imports = [
           userCfg.configPath
-          self.homeModules.${userCfg.homeModule}
-        ];
+        ] ++ lib.optional (userCfg.homeModule != null) self.homeModules.${userCfg.homeModule};
       }) cfg.users;
     };
   };
