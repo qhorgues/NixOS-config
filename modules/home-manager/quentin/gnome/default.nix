@@ -2,8 +2,12 @@
 
 let
   modulix-os-icon = pkgs.callPackage ../../../../pkgs/modulix-icon.nix {};
+  cfg = config.mx.desktop-environment.gnome;
 in
 {
+  options.mx.desktop-environment.gnome = {
+    connection = lib.mkEnableOption "Enable connection";
+  };
   config = lib.mkIf osConfig.mx.gnome.enable {
     home.packages = with pkgs; [
         # Base gnome app
@@ -34,7 +38,8 @@ in
         # (import ../../../pkgs/winteros-icons.nix {inherit pkgs;})
     ]
     ++ lib.optional osConfig.mx.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.framework-fan-control
-    ++ lib.optional osConfig.mx.gnome.gsconnect pkgs.gnomeExtensions.gsconnect;
+    ++ lib.optional osConfig.mx.gnome.gsconnect pkgs.gnomeExtensions.gsconnect
+    ++ lib.optional cfg.connection pkgs.gnome-connections;
     dconf = {
         enable = true;
         settings = {
