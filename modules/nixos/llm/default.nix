@@ -53,7 +53,6 @@ in
       loadModels = [
         "qwen3.5:9b"
       ];
-      acceleration = config.mx.hardware.gpu.computing; # use cuda if nvidia, rocm if amd, and cpu only otherwise
     };
   };
 }
