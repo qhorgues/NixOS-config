@@ -64,6 +64,13 @@ in
           user = "quentin";
           identityFile = "~/.ssh/id_ed25519";
           proxyJump = "repaircafetours";
+          localForwards = [
+            {
+              bind.port = 5174;
+              host.address = "localhost";
+              host.port = 5173;
+            }
+          ];
         };
       };
     };
