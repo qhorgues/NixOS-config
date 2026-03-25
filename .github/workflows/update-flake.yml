@@ -2,9 +2,8 @@ name: Update Flake Lock
 
 on:
   schedule:
-    # Run daily at 2 AM UTC
     - cron: "0 2 * * *"
-  workflow_dispatch: # Allow manual execution
+  workflow_dispatch:
 
 jobs:
   update-flake:
@@ -56,7 +55,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # Create labels if they don't exist (ignore errors if they already exist)
           gh label create "dependencies" --description "Pull requests that update a dependency file" --color "0366d6" || true
           gh label create "automated" --description "Automated pull requests" --color "34d058" || true
 
@@ -69,14 +67,38 @@ jobs:
             --title "Automatic flake.lock update" \
             --body "This PR automatically updates flake.lock.
 
-          **Auto-merge scheduled in 48h**
+          **Auto-merge scheduled in 3 days**
 
-          This PR will be automatically merged after a 48-hour review period.
+          This PR will be automatically merged after a 3-day review period.
 
           Review the changes and close this PR if you don't want to apply this update." \
             --base master \
             --head "$BRANCH_NAME" \
             --label "dependencies,automated"
+
+      - name: Close outdated flake-update PRs
+        if: steps.check_changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Ferme toutes les PRs flake-update ouvertes sauf celle qu'on vient de créer
+          gh pr list \
+            --state open \
+            --label "automated" \
+            --json number,headRefName,title,author \
+            --jq "
+              .[]
+              | select(.headRefName | startswith(\"flake-update-\"))
+              | select(.headRefName != \"$BRANCH_NAME\")
+              | select(.title | startswith(\"Automatic flake.lock update\"))
+              | select(.author.login == \"github-actions[bot]\")
+              | .number
+            " | while read -r OLD_PR; do
+              echo "Closing outdated PR #$OLD_PR (superseded by new flake.lock update)"
+              gh pr close "$OLD_PR" \
+                --comment "Superseded by a newer flake.lock update PR. Closing automatically." \
+                --delete-branch
+            done
 
   auto-merge:
     runs-on: ubuntu-latest
@@ -87,38 +109,83 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Find old PRs to merge
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Find oldest PR to merge (> 3 days) and close the rest
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # Find PRs created more than 48h ago with specific criteria
-          CUTOFF_DATE=$(date -u -d '48 hours ago' --iso-8601=seconds)
+          CUTOFF_DATE=$(date -u -d '72 hours ago' --iso-8601=seconds)
 
-          gh pr list \
+          # Récupère tous les PRs éligibles triés du plus ancien au plus récent
+          ELIGIBLE_PRS=$(gh pr list \
             --state open \
             --label "automated" \
             --json number,createdAt,headRefName,title,author \
-            --jq ".[] | select(.createdAt < \"$CUTOFF_DATE\") | select(.headRefName | startswith(\"flake-update-\")) | select(.title | startswith(\"Automatic flake.lock update\")) | select(.author.login == \"github-actions[bot]\") | .number" | while read -r PR_NUMBER; do
+            --jq "
+              [ .[]
+                | select(.createdAt < \"$CUTOFF_DATE\")
+                | select(.headRefName | startswith(\"flake-update-\"))
+                | select(.title | startswith(\"Automatic flake.lock update\"))
+                | select(.author.login == \"github-actions[bot]\")
+              ]
+              | sort_by(.createdAt)
+              | .[].number
+            ")
 
-            echo "Merging PR #$PR_NUMBER (flake.lock auto-update older than 48h)"
+          if [ -z "$ELIGIBLE_PRS" ]; then
+            echo "No eligible PR found."
+            exit 0
+          fi
 
-            # Additional safety check: verify only flake.lock was changed
-            CHANGED_FILES=$(gh pr view "$PR_NUMBER" --json files --jq '.files[].path')
-            if [ "$CHANGED_FILES" != "flake.lock" ]; then
-              echo "⚠️  PR #$PR_NUMBER has unexpected file changes, skipping for safety"
-              echo "Changed files: $CHANGED_FILES"
-              continue
-            fi
+          # Le premier est le plus ancien : on le merge
+          PR_NUMBER=$(echo "$ELIGIBLE_PRS" | head -n1)
+          # Les suivants sont obsolètes : on les ferme
+          OUTDATED_PRS=$(echo "$ELIGIBLE_PRS" | tail -n +2)
 
-            # Check if PR is still mergeable
-            if gh pr view "$PR_NUMBER" --json mergeable --jq '.mergeable' | grep -q "MERGEABLE"; then
-              gh pr merge "$PR_NUMBER" \
-                --squash \
-                --delete-branch \
-                --subject "chore: update flake.lock [automated]" \
-                --body "Automatic flake.lock update after 48h review period"
-            else
-              echo "PR #$PR_NUMBER is not mergeable, skipping"
-            fi
-          done
+          echo "Processing PR #$PR_NUMBER (oldest flake.lock update older than 3 days)"
+
+          # Vérification de sécurité : seul flake.lock doit avoir changé
+          CHANGED_FILES=$(gh pr view "$PR_NUMBER" --json files --jq '.files[].path')
+          if [ "$CHANGED_FILES" != "flake.lock" ]; then
+            echo "⚠️  PR #$PR_NUMBER has unexpected file changes, skipping for safety"
+            echo "Changed files: $CHANGED_FILES"
+            exit 1
+          fi
+
+          BRANCH_NAME=$(gh pr view "$PR_NUMBER" --json headRefName --jq '.headRefName')
+          echo "Branch: $BRANCH_NAME"
+
+          git fetch origin
+          git checkout "$BRANCH_NAME"
+          git rebase origin/master \
+            -X ours \
+            || {
+              git checkout --ours flake.lock
+              git add flake.lock
+              git rebase --continue
+            }
+
+          git push --force-with-lease origin "$BRANCH_NAME"
+
+          gh pr merge "$PR_NUMBER" \
+            --squash \
+            --delete-branch \
+            --subject "chore: update flake.lock [automated]" \
+            --body "Automatic flake.lock update after 3-day review period"
+
+          # Ferme les PRs éligibles plus récentes qui sont désormais obsolètes
+          if [ -n "$OUTDATED_PRS" ]; then
+            echo "$OUTDATED_PRS" | while read -r OLD_PR; do
+              echo "Closing outdated PR #$OLD_PR (superseded by merged PR #$PR_NUMBER)"
+              gh pr close "$OLD_PR" \
+                --comment "Superseded by merged PR #$PR_NUMBER. Closing automatically." \
+                --delete-branch
+            done
+          fi
