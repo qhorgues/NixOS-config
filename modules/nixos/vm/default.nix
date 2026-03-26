@@ -7,6 +7,7 @@ let
 in {
   options.mx.services.vm = {
     enable = lib.mkEnableOption "Enable Virtual Machine service";
+    allArchitectures = lib.mkEnableOption "Enable all architectures emulation support";
     users = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];
@@ -21,11 +22,21 @@ in {
     virtualisation.libvirtd = {
       enable = true;
       qemu = {
-        package = pkgs.qemu_kvm;
+        package = if cfg.allArchitectures then pkgs.qemu else pkgs.qemu_kvm;
         runAsRoot = true;
         swtpm.enable = true;
+        ovmf = lib.mkIf cfg.allArchitectures {
+          enable = true;
+          packages = [ pkgs.OVMFFull.fd ];
+        };
       };
     };
+
+    boot.binfmt.emulatedSystems = lib.mkIf cfg.allArchitectures [
+      "aarch64-linux"
+      "riscv64-linux"
+      "armv7l-linux"
+    ];
 
     users.users = builtins.listToAttrs (map (user: {
       name = user;
@@ -36,6 +47,8 @@ in {
       spice
       spice-gtk
       spice-vdagent
+    ] ++ lib.optionals cfg.allArchitectures [
+      pkgs.qemu
     ];
   };
 }
