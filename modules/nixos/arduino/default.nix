@@ -17,6 +17,7 @@ in {
       pkgs.arduino-language-server
       pkgs.arduino-cli
     ];
+    services.udev.packages = [ pkgs.arduino-ide ];
     users.users = builtins.listToAttrs (map (user: {
       name = user;
       value.extraGroups = [ "dialout" "uucp" ];
