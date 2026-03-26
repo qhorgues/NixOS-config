@@ -25,10 +25,6 @@ in {
         package = if cfg.allArchitectures then pkgs.qemu else pkgs.qemu_kvm;
         runAsRoot = true;
         swtpm.enable = true;
-        ovmf = lib.mkIf cfg.allArchitectures {
-          enable = true;
-          packages = [ pkgs.OVMFFull.fd ];
-        };
       };
     };
 
