@@ -93,5 +93,20 @@ in
         ];
       }
     )
+    (
+      lib.mkIf (cfg.enable && cfg.mpi-lib) {
+        home.file.".clangd".text =
+          let
+            flags = lib.optionals cfg.mpi-lib [
+              "-I${pkgs.openmpi.dev}/include"
+            ];
+          in
+          lib.optionalString (flags != []) ''
+            CompileFlags:
+              Add:
+            ${lib.concatMapStrings (f: "    - ${f}\n") flags}
+          '';
+      }
+    )
   ];
 }
