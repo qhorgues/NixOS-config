@@ -25,57 +25,68 @@ let
 
   servicesToManage = lib.flatten (lib.attrValues serviceMap);
 
-  stopCmds = lib.concatMapStrings
-    (svc: "  ${pkgs.systemd}/bin/systemctl --no-ask-password stop ${svc} 2>/dev/null || echo \"Warning: could not stop ${svc}\"\n")
-    servicesToManage;
+  servicesStr = lib.concatStringsSep " " servicesToManage;
 
-  startCmds = lib.concatMapStrings
-    (svc: "  ${pkgs.systemd}/bin/systemctl --no-ask-password start ${svc} 2>/dev/null || echo \"Warning: failed to restart ${svc}\"\n")
-    servicesToManage;
+  stopCmds = lib.optionalString (servicesToManage != []) ''
+    ${pkgs.systemd}/bin/systemctl --no-ask-password --no-block stop ${servicesStr} 2>/dev/null \
+      || echo "Warning: could not stop some services"
+  '';
+  startCmds = lib.optionalString (servicesToManage != []) ''
+    ${pkgs.systemd}/bin/systemctl --no-ask-password start ${servicesStr} 2>/dev/null \
+      || echo "Warning: could not restart some services"
+  '';
+
 
   fanBeforeCmd  = lib.optionalString fwFanCtrl ''
-      echo "==> Setting fan profile to 'medium'..."
-      ${pkgs.fw-fanctrl}/bin/fw-fanctrl use medium
-    '';
+    echo "==> Setting fan profile to 'medium'..."
+    ${pkgs.fw-fanctrl}/bin/fw-fanctrl use medium
+  '';
   fanAfterCmd   = lib.optionalString fwFanCtrl ''
-      echo "==> Restoring fan profile to 'lazy'..."
-      ${pkgs.fw-fanctrl}/bin/fw-fanctrl use lazy
-    '';
+    echo "==> Restoring fan profile to 'lazy'..."
+    ${pkgs.fw-fanctrl}/bin/fw-fanctrl use lazy
+  '';
 
 in
 pkgs.writeShellScriptBin "mx-games" ''
-  set -euo pipefail
-  if [ $# -eq 0 ]; then
-    echo "Usage: mx-games <command> [args...]"
-    echo ""
-    echo "Services managed (stopped before, restarted after):"
-    echo "${lib.concatStringsSep "\n" (map (s: "  - ${s}") servicesToManage)}"
-    exit 1
-  fi
-  cleanup() {
-    echo "==> Restoring power profile to 'balanced'..."
-    ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced
-    ${fanAfterCmd}
-    echo "==> Restarting services..."
-    ${startCmds}
-    echo "==> Done."
-  }
-  trap cleanup EXIT
-  trap '
-    echo "==> Received SIGTERM, stopping game..."
-    kill -TERM "$child_pid" 2>/dev/null
-    wait "$child_pid" 2>/dev/null
-  ' TERM  # ← propage SIGTERM au jeu mais laisse EXIT faire le cleanup
+    set -euo pipefail
 
-  echo "==> Stopping services..."
-  ${stopCmds}
-  echo "==> Services stopped."
-  echo "==> Setting power profile to 'performance'..."
-  ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance
-  ${fanBeforeCmd}
-  echo "==> Running: $*"
-  "$@" &
-  child_pid=$!
-  wait "$child_pid"
-  exit $?
+    if [ $# -eq 0 ]; then
+        echo "Usage: mx-games <command> [args...]"
+        echo ""
+        echo "Services managed (stopped before, restarted after):"
+        echo "${lib.concatStringsSep "\n" (map (s: "  - ${s}") servicesToManage)}"
+        exit 1
+    fi
+
+    child_pid=""
+
+    cleanup() {
+        set +e
+        echo "==> Restoring power profile to 'balanced'..."
+        ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced
+        ${fanAfterCmd}
+        echo "==> Restarting services..."
+        ${startCmds}
+        echo "==> Done."
+    }
+    trap cleanup EXIT
+
+    forward_signal() {
+      [ -n "$child_pid" ] && kill -"$1" "$child_pid" 2>/dev/null || true
+    }
+    trap 'forward_signal TERM' TERM
+    trap 'forward_signal INT'  INT
+
+    echo "==> Stopping services..."
+    ${stopCmds}
+    echo "==> Setting power profile to 'performance'..."
+    ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance
+    ${fanBeforeCmd}
+
+    echo "==> Running: $*"
+    "$@" &
+    child_pid=$!
+    set +e
+    wait "$child_pid"
+    exit $?
 ''
