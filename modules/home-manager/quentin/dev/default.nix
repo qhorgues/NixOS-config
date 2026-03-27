@@ -7,8 +7,9 @@ in
   options.mx.programs.dev = {
     enable = lib.mkEnableOption "Enable dev tools";
     nix = lib.mkEnableOption "Enable Nix dev tools";
-    cpp = lib.mkEnableOption "Enable C++ dev tools";
+    cpp = lib.mkEnableOption "Enable C/C++ dev tools";
     mpi-lib = lib.mkEnableOption "Enable MPI lib dev tools";
+    openmp-lib = lib.mkEnableOption "Enable OpenMP dev tools";
     rust = lib.mkEnableOption "Enable Rust dev tools";
     python = lib.mkEnableOption "Enable Python dev tools";
     node = lib.mkEnableOption "Enable NodeJS dev tools";
@@ -42,6 +43,9 @@ in
         ] ++ lib.optionals cfg.mpi-lib [
           openmpi
           openmpi.dev
+        ] ++ lib.optionals cfg.openmp-lib [
+          llvmPackages.openmp
+          llvmPackages.openmp.dev
         ] ++ lib.optionals cfg.rust [
           # Rust
           cargo
@@ -94,11 +98,13 @@ in
       }
     )
     (
-      lib.mkIf (cfg.enable && cfg.mpi-lib) {
+      lib.mkIf (cfg.enable && (cfg.mpi-lib || cfg.openmp-lib)) {
         home.file.".clangd".text =
           let
             flags = lib.optionals cfg.mpi-lib [
               "-I${pkgs.openmpi.dev}/include"
+            ] ++ lib.optionals cfg.openmp-lib [
+              "-I${pkgs.llvmPackages.openmp.dev}/include"
             ];
           in
           lib.optionalString (flags != []) ''
