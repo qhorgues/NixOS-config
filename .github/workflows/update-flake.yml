@@ -121,7 +121,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          CUTOFF_DATE=$(date -u -d '72 hours ago' --iso-8601=seconds)
+          CUTOFF_DATE=$(date -u -d '72 hours ago' +%Y-%m-%dT%H:%M:%SZ)
 
           # Récupère tous les PRs éligibles triés du plus ancien au plus récent
           ELIGIBLE_PRS=$(gh pr list \
@@ -133,7 +133,7 @@ jobs:
                 | select(.createdAt < \"$CUTOFF_DATE\")
                 | select(.headRefName | startswith(\"flake-update-\"))
                 | select(.title | startswith(\"Automatic flake.lock update\"))
-                | select(.author.login == \"github-actions[bot]\")
+                | select(.author.login == \"app/github-actions\")
               ]
               | sort_by(.createdAt)
               | .[].number
