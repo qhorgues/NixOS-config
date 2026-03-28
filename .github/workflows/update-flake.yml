@@ -91,7 +91,7 @@ jobs:
               | select(.headRefName | startswith(\"flake-update-\"))
               | select(.headRefName != \"$BRANCH_NAME\")
               | select(.title | startswith(\"Automatic flake.lock update\"))
-              | select(.author.login == \"github-actions[bot]\")
+              | select(.author.login == \"app/github-actions\")
               | .number
             " | while read -r OLD_PR; do
               echo "Closing outdated PR #$OLD_PR (superseded by new flake.lock update)"
@@ -121,7 +121,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          CUTOFF_DATE=$(date -u -d '72 hours ago' --iso-8601=seconds)
+          CUTOFF_DATE=$(date -u -d '72 hours ago' +%Y-%m-%dT%H:%M:%SZ)
 
           # Récupère tous les PRs éligibles triés du plus ancien au plus récent
           ELIGIBLE_PRS=$(gh pr list \
@@ -133,7 +133,7 @@ jobs:
                 | select(.createdAt < \"$CUTOFF_DATE\")
                 | select(.headRefName | startswith(\"flake-update-\"))
                 | select(.title | startswith(\"Automatic flake.lock update\"))
-                | select(.author.login == \"github-actions[bot]\")
+                | select(.author.login == \"app/github-actions\")
               ]
               | sort_by(.createdAt)
               | .[].number
@@ -153,32 +153,23 @@ jobs:
 
           # Vérification de sécurité : seul flake.lock doit avoir changé
           CHANGED_FILES=$(gh pr view "$PR_NUMBER" --json files --jq '.files[].path')
-          if [ "$CHANGED_FILES" != "flake.lock" ]; then
+          if ! echo "$CHANGED_FILES" | grep -q "^flake.lock$"; then
             echo "⚠️  PR #$PR_NUMBER has unexpected file changes, skipping for safety"
             echo "Changed files: $CHANGED_FILES"
             exit 1
           fi
 
           BRANCH_NAME=$(gh pr view "$PR_NUMBER" --json headRefName --jq '.headRefName')
-          echo "Branch: $BRANCH_NAME"
 
           git fetch origin
-          git checkout "$BRANCH_NAME"
-          git rebase origin/master \
-            -X ours \
-            || {
-              git checkout --ours flake.lock
-              git add flake.lock
-              git rebase --continue
-            }
+          git checkout origin/master
+          git checkout "origin/$BRANCH_NAME" -- flake.lock
+          git commit -m "chore: update flake.lock [automated]"
+          git push origin HEAD:master
 
-          git push --force-with-lease origin "$BRANCH_NAME"
-
-          gh pr merge "$PR_NUMBER" \
-            --squash \
-            --delete-branch \
-            --subject "chore: update flake.lock [automated]" \
-            --body "Automatic flake.lock update after 3-day review period"
+          gh pr close "$PR_NUMBER" \
+            --comment "Merged manually via force-overwrite." \
+            --delete-branch
 
           # Ferme les PRs éligibles plus récentes qui sont désormais obsolètes
           if [ -n "$OUTDATED_PRS" ]; then
