@@ -63,9 +63,8 @@
             inputs = inputs;
           };
         };
-      };
       home-manager = inputs.home-manager.nixosModules.default;
-  };
+    };
     homeModules.quentin = ./modules/home-manager/quentin;
 
     packages = forAllSystems (system:
