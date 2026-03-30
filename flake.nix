@@ -67,6 +67,8 @@
     };
     homeModules.quentin = ./modules/home-manager/quentin;
 
+    secrets = ./secrets;
+
     packages = forAllSystems (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
