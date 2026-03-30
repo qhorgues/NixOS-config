@@ -7,7 +7,6 @@
     ./lxqt
     ./docker
     ./games
-    ./main-user
     ./lamp
     ./modeling
     ./postgresql
