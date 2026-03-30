@@ -15,5 +15,5 @@ in
   # Secret spécifique à chaque machine
   "fw-laptop-16/wireguard-key.age".publicKeys  = [ quentin-fw-laptop-16 host-fw-laptop-16 ];
 
-  "shared/quentin-passwd.age".publicKeys = allKeys;
+  "shared/quentin-password.age".publicKeys = allKeys;
 }
