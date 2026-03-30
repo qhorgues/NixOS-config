@@ -61,13 +61,12 @@
           imports = [ ./modules/nixos ];
           _module.args = {
             inputs = inputs;
+            secretsPath = ./secrets;
           };
         };
       home-manager = inputs.home-manager.nixosModules.default;
     };
     homeModules.quentin = ./modules/home-manager/quentin;
-
-    secrets = ./secrets;
 
     packages = forAllSystems (system:
       let
