@@ -39,7 +39,10 @@
           system = system;
           config = nixpkgsConfig;
         };
-        defaults = { inherit self pkgs-unstable inputs; };
+        defaults = {
+          inherit self pkgs-unstable inputs;
+          secretsPath = ./secrets;
+        };
       in nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = defaults // specialArgs;
