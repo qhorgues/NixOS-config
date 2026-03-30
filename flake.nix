@@ -65,6 +65,7 @@
           };
         };
       home-manager = inputs.home-manager.nixosModules.default;
+      agenix = inputs.agenix.nixosModules.default;
     };
     homeModules.quentin = ./modules/home-manager/quentin;
 
