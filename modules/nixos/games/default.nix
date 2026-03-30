@@ -142,8 +142,6 @@ in
       pkgs.mangohud
       pkgs.adwsteamgtk
       pkgs.vkbasalt
-
-      pkgs-unstable.umu-launcher
       pkgs-unstable.goverlay
       mx-game
     ] ++ lib.optional cfg.lsfg.enable lsfg-vk-ui-fhs
