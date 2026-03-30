@@ -55,6 +55,17 @@
   in
   {
     lib.make-system = make-system;
+    nixosModules = {
+      modulix-os =
+        { ... }: {
+          imports = [ ./modules/nixos ];
+          _module.args = {
+            inputs = inputs;
+            secretsPath = ./secrets;
+          };
+        };
+      home-manager = inputs.home-manager.nixosModules.default;
+    };
     homeModules.quentin = ./modules/home-manager/quentin;
 
     packages = forAllSystems (system:
