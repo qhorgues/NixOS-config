@@ -20,21 +20,38 @@
     };
   };
 
-  outputs = { self, nixpkgs, coe33, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, coe33, ... }@inputs:
   let
     systems = [ "x86_64-linux" "aarch64-linux" "i686-linux" "x86_64-darwin" "aarch64-darwin" ];
     forAllSystems = nixpkgs.lib.genAttrs systems;
-  in
-  {
-    nixosModules.modulix-os =
-    { ... }:
-    {
-      imports = [ ./modules/nixos ];
-      _module.args = {
-        inputs-modulix-os = inputs;
-      };
+
+    nixpkgsConfig = {
+      allowUnfree = true;
     };
 
+    make-system = {
+        system ? "x86_64-linux",
+        modules ? [],
+        specialArgs ? {},
+      }:
+      let
+        pkgs-unstable = import nixpkgs-unstable {
+          system = system;
+          config = nixpkgsConfig;
+        };
+        defaults = { inherit self pkgs-unstable inputs; };
+      in nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = defaults // specialArgs;
+        modules = [
+          inputs.agenix.nixosModules.default
+          inputs.home-manager.nixosModules.default
+          ./modules/nixos
+        ] ++ modules;
+      };
+  in
+  {
+    lib.make-system = make-system;
     homeModules.quentin = ./modules/home-manager/quentin;
 
     packages = forAllSystems (system:
