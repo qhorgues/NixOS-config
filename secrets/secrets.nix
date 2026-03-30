@@ -9,7 +9,7 @@ let
 in
 {
   # Secret spécifique à chaque machine
-  "secrets/fw-laptop-16.age".publicKeys  = [ quentin-fw-laptop-16 host-fw-laptop-16 ];
+  "fw-laptop-16/wireguard-key.age".publicKeys  = [ quentin-fw-laptop-16 host-fw-laptop-16 ];
 
-  "secrets/shared.age".publicKeys = allKeys;
+  "shared/quentin-passwd.age".publicKeys = allKeys;
 }
