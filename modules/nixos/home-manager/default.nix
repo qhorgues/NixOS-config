@@ -36,10 +36,12 @@ in
         };
         inputs-modulix-os = inputs;
       };
-      users = lib.mapAttrs (_: userCfg: {
+      users = lib.mapAttrs (username: userCfg: {
         imports = [
           userCfg.configPath
         ] ++ lib.optional (userCfg.homeModule != null) self.homeModules.${userCfg.homeModule};
+        home.username = lib.mkDefault username;
+        home.homeDirectory = lib.mkDefault "/home/${username}";
       }) cfg.users;
     };
   };
