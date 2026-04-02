@@ -58,6 +58,8 @@ in
     heroic.enable = lib.mkEnableOption "Install heroic";
     lutris.enable = lib.mkEnableOption "Install lutris";
     umu.enable = lib.mkEnableOption "Install UMU";
+
+    programs.games.cachyos-kernel.enable = lib.mkEnableOption "Enable optimized gaming CachyOS kernel";
   };
 
   config = lib.mkIf cfg.enable {
@@ -171,26 +173,8 @@ in
       ACTION=="add|change", SUBSYSTEM=="block", ATTR{queue/scheduler}="bfq"
     '';
 
-    nixpkgs.overlays = [
-      (self: super: {
-        linuxPackages = super.linuxPackages // {
-          kernel = super.linuxPackages.kernel.override {
-            structuredExtraConfig = with lib.kernel; {
-              HZ_1000 = yes;
-              HZ = 1000;
-              PREEMPT_FULL = yes;
-              IOSCHED_BFQ = yes;
-              DEFAULT_BFQ = yes;
-              DEFAULT_IOSCHED = "bfq";
-              V4L2_LOOPBACK = module;
-              HID = yes;
-            };
-          };
-        };
-      })
-    ];
     boot = {
-      kernelPackages = pkgs.linuxPackages_6_19;
+      kernelPackages = if cfg.cachyos-kernel.enable then pkgs.cachyosKernels.linuxPackages-cachyos-latest else pkgs.linuxPackages_6_19;
       tmp.cleanOnBoot = true;
       kernel.sysctl = {
         "kernel.split_lock_mitigate" = 0;
@@ -206,6 +190,12 @@ in
         "kernel.kexec_load_disabled" = 1;
       };
     };
+
+    nix.settings.substituters = []
+    ++ lib.optionals cfg.cachyos-kernel.enable [ "https://attic.xuyh0120.win/lantian" ];
+
+    nix.settings.trusted-public-keys = []
+     ++ lib.optionals cfg.cachyos-kernel.enable [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
     security.polkit.extraConfig = ''
       polkit.addRule(function(action, subject) {

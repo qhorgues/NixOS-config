@@ -21,6 +21,7 @@ in
     ./nvidia.nix
     ./gpu-acceleration.nix
     ./agenix.nix
+    ./kernel
   ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

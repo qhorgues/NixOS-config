@@ -18,6 +18,7 @@
       url = "github:qhorgues/CO-E33-Save-Editor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, coe33, ... }@inputs:
