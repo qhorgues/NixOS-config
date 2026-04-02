@@ -8,8 +8,8 @@ in
     (if config.mx.programs.games.cachyos-kernel.enable then
       inputs.nix-cachyos-kernel.overlays.pinned
     else (self: super: {
-      linuxPackages = super.linuxPackages_6_19 // {
-        kernel = super.linuxPackages_6_19.kernel.override {
+      linuxPackages = super.linuxPackages.override {
+        kernel = super.linuxPackages.kernel.override {
           structuredExtraConfig = gaming // media;
         };
       };
