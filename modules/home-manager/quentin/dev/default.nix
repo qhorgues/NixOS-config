@@ -87,6 +87,7 @@ in
           java-language-server
           jdk
           gradle
+          jdt-language-server
         ];
       }
     )
