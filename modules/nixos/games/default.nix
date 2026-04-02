@@ -61,7 +61,7 @@ in
 
     latest-unstable-mesa-driver.enable = lib.mkEnableOption "Enable latest unstable Mesa driver";
 
-    programs.games.cachyos-kernel.enable = lib.mkEnableOption "Enable optimized gaming CachyOS kernel";
+    cachyos-kernel.enable = lib.mkEnableOption "Enable optimized gaming CachyOS kernel";
   };
 
   config = lib.mkIf cfg.enable {
