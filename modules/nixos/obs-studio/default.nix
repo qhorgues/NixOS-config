@@ -10,6 +10,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    mx.programs._studio.enable = true;
     mx.hardware.gpu.enable-computing = true;
     programs.obs-studio = {
       enable = true;
