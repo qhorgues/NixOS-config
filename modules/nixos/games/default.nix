@@ -59,6 +59,8 @@ in
     lutris.enable = lib.mkEnableOption "Install lutris";
     umu.enable = lib.mkEnableOption "Install UMU";
 
+    latest-unstable-mesa-driver.enable = lib.mkEnableOption "Enable latest unstable Mesa driver";
+
     programs.games.cachyos-kernel.enable = lib.mkEnableOption "Enable optimized gaming CachyOS kernel";
   };
 
@@ -154,8 +156,8 @@ in
         graphics = {
           enable = true;
           enable32Bit = true;
-          package = pkgs.mesa;
-          package32 = pkgs.pkgsi686Linux.mesa;
+          package = if cfg.latest-unstable-mesa-driver.enable then pkgs-unstable.mesa else pkgs.mesa;
+          package32 = if cfg.latest-unstable-mesa-driver.enable then pkgs-unstable.pkgsi686Linux.mesa else pkgs.pkgsi686Linux.mesa;
         };
     };
 
