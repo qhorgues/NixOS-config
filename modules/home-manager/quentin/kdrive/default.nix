@@ -2,7 +2,7 @@
 let
   cfg = config.mx.programs.kdrive;
   pname = "kDrive";
-  version = "3.8.1.4";
+  version = "3.8.2.6";
 
   # Téléchargement de l'AppImage de kDrive
   src = pkgs.fetchurl {
