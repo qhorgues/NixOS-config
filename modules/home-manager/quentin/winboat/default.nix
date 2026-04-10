@@ -1,4 +1,4 @@
-{ config, osConfig, pkgs, lib, ... }:
+{ config, osConfig, pkgs-unstable, lib, ... }:
 
 let
   cfg = config.mx.programs.winboat;
@@ -15,8 +15,8 @@ in
         message = "You must enable Docker and be an authorized docker user to install the Winboat module.";
       }
     ];
-    home.packages = with pkgs; [
-      winboat
+    home.packages = [
+      pkgs-unstable.winboat
     ];
   };
 }
