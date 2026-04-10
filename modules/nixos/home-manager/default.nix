@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, lib, self, ... }:
+{ config, inputs, pkgs, pkgs-unstable, lib, self, ... }:
 let
   cfg = config.mx.programs.home-manager;
 in
@@ -35,6 +35,7 @@ in
           config.allowUnfree = true;
         };
         inputs-modulix-os = inputs;
+        pkgs-unstable = pkgs-unstable;
       };
       users = lib.mapAttrs (username: userCfg: {
         imports = [
