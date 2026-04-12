@@ -8,7 +8,7 @@ pkgs.writeShellScriptBin "nix-update" ''
     YELLOW='\033[1;33m'
     NC='\033[0m' # No Color
 
-    if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    if ! ${pkgs.git}/bin/git rev-parse --git-dir > /dev/null 2>&1; then
         echo -e "$RED Error: This directory is not a git repository $NC"
         exit 1
     fi
