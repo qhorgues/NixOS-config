@@ -30,6 +30,7 @@ in
         home.packages = with pkgs; [
           zeal
           git
+          claude-code
         ] ++ lib.optionals cfg.nix [
           nil
           nixd # Nix language server for zeditor
