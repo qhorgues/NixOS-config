@@ -6,6 +6,11 @@ in
 {
   options.mx.programs.zed-editor = {
     enable = lib.mkEnableOption "Use Zed Editor";
+    ollamaNumberToken = lib.mkOption {
+      type = lib.types.int;
+      default = 50000;
+      description = "The number token for Ollama";
+    };
   };
   config = lib.mkIf cfg.enable {
     programs.zed-editor = {
@@ -22,7 +27,7 @@ in
                     {
                         name = "qwen3.5:9b";
                         display_name = "qwen3.5:9b";
-                        max_tokens = 50000;
+                        max_tokens = cfg.ollamaNumberToken;
                         supports_tools = true;
                     }
                 ];
