@@ -53,7 +53,7 @@ in
         pkgs-unstable.ollama
       );
       loadModels = [
-        "qwen3.5:9b"
+        "gemma4:e2b"
       ];
     };
   };
