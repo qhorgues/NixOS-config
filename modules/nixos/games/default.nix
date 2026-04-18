@@ -176,7 +176,7 @@ in
     '';
 
     boot = {
-      kernelPackages = if cfg.cachyos-kernel.enable then pkgs.cachyosKernels.linuxPackages-cachyos-latest else pkgs.linuxPackages_6_19;
+      kernelPackages = if cfg.cachyos-kernel.enable then pkgs.cachyosKernels.linuxPackages-cachyos-latest else pkgs.linuxPackages_zen;
       tmp.cleanOnBoot = true;
       kernel.sysctl = {
         "kernel.split_lock_mitigate" = 0;
