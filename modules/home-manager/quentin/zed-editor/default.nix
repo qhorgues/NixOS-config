@@ -25,8 +25,8 @@ in
                 api_url = "http://localhost:11434";
                 available_models = [
                     {
-                        name = "gemma4:e2b";
-                        display_name = "gemma4:e2b";
+                        name = "gemma4:e4b";
+                        display_name = "gemma4:e4b";
                         max_tokens = cfg.ollamaNumberToken;
                         supports_tools = true;
                     }
