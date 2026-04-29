@@ -121,11 +121,8 @@ in
           (if config.mx.programs.games.lsfg.enable == true then {
             VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";
             LSFG_LEGACY=1;
-          } else {})
-          //
-          (if config.mx.programs.games.lsfg.enable == true && config.mx.programs.games.lsfg.activate_on_all_games == true then {
-            ENABLE_LFSG=1;
-            LFSG_MULTIPLIER=2;
+            ENABLE_LFSG=config.mx.programs.games.lsfg.activate_on_all_games;
+            LFSG_MULTIPLIER=lib.mkIf config.mx.programs.games.lsfg.activate_on_all_games 2;
           } else {})
           // (if config.mx.programs.games.lsfg.enable == true
             && config.mx.programs.games.lsfg.steam_library_for_lossless_scaling != null then {
