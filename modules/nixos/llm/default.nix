@@ -28,7 +28,7 @@ in
 
     environment.systemPackages = [
       # open-webui-shortcut
-      pkgs.newelle
+      pkgs-unstable.newelle
     ];
 
 
