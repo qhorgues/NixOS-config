@@ -40,7 +40,8 @@ in
     force-fsr4-for-rdna3 = lib.mkEnableOption "Force FSR4 on AMD 7000 series";
 
     lsfg = {
-      enable = lib.mkEnableOption "Enable Losseless Scaling (required Lossless scaling app on Steam)";
+      enable = lib.mkEnableOption "Install Losseless Scaling (required Lossless scaling app on Steam) but not enable by default";
+      activate_on_all_games = lib.mkEnableOption "Activate Lossless Scaling on all games by default";
 
       steam_library_for_lossless_scaling = lib.mkOption {
         type = lib.types.nullOr lib.types.str;
@@ -117,7 +118,7 @@ in
                                   || (cgpu.vendor == "amd"
                                       && cgpu.generation != "rdna4");
           } //
-          (if config.mx.programs.games.lsfg.enable == true then {
+          (if config.mx.programs.games.lsfg.enable == true && config.mx.programs.games.lsfg.activate_on_all_games == true then {
             VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";
             ENABLE_LFSG=1;
             LSFG_LEGACY=1;
