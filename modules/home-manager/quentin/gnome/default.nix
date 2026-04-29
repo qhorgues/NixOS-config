@@ -31,6 +31,7 @@ in
         gnomeExtensions.caffeine
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
+        gnomeExtensions.upower-battery
         # gnomeExtensions.desktop-icons-ng-ding
         # gnomeExtensions.tiling-shell
         # Icons
@@ -53,6 +54,7 @@ in
               caffeine.extensionUuid
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
+              upower-battery.extensionUuid
               # desktop-icons-ng-ding.extensionUuid
               # tiling-shell.extensionUuid
             ]
