@@ -118,10 +118,13 @@ in
                                   || (cgpu.vendor == "amd"
                                       && cgpu.generation != "rdna4");
           } //
-          (if config.mx.programs.games.lsfg.enable == true && config.mx.programs.games.lsfg.activate_on_all_games == true then {
+          (if config.mx.programs.games.lsfg.enable == true then {
             VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";
-            ENABLE_LFSG=1;
             LSFG_LEGACY=1;
+          } else {})
+          //
+          (if config.mx.programs.games.lsfg.enable == true && config.mx.programs.games.lsfg.activate_on_all_games == true then {
+            ENABLE_LFSG=1;
             LFSG_MULTIPLIER=2;
           } else {})
           // (if config.mx.programs.games.lsfg.enable == true
