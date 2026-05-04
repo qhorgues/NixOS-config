@@ -30,6 +30,10 @@ in
             multi-account-containers
             sponsorblock
           ];
+          settings = {
+            "gfx.webrender.all" = true;
+            "WebglAllowWindowsNativeGl" = true;
+          };
 
           search = {
             default = "youtube";
@@ -87,6 +91,8 @@ in
           ];
 
           settings = {
+            "gfx.webrender.all" = true;
+            "WebglAllowWindowsNativeGl" = true;
             "app.normandy.first_run" = 0;
             "browser.aboutConfig.showWarning" = false;
             "browser.bookmarks.restore_default_bookmarks" = false;
