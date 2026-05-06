@@ -105,6 +105,7 @@ in
             PROTON_ENABLE_WAYLAND=true;
             OBS_VKCAPTURE = config.mx.programs.obs-studio.enable;
             # PROTON_NO_D3D12=true;
+            PROTON_PRIORITY_HIGH=true;
 
             PROTON_FSR4_UPGRADE = cgpu.vendor == "amd"
                                   && cgpu.generation == "rdna4";
