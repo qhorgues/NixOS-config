@@ -56,6 +56,22 @@ in
       description = "Users for gamemode permissions should be enabled.";
     };
 
+    gamescopeSession = {
+      enable = lib.mkEnableOption "Enable gamescope dedicated session";
+      screen = {
+        width = lib.mkOption {
+          type = lib.types.int;
+          description = "Screen width";
+          default = 1920;
+        };
+        height = lib.mkOption {
+          type = lib.types.int;
+          description = "Screen height";
+          default = 1080;
+        };
+      };
+    };
+
     heroic.enable = lib.mkEnableOption "Install heroic";
     lutris.enable = lib.mkEnableOption "Install lutris";
     umu.enable = lib.mkEnableOption "Install UMU";
@@ -69,19 +85,39 @@ in
     programs = {
       gamescope = {
         enable = true;
+        package = pkgs.gamescope;
         capSysNice = true;
         args = [
+          "--adaptive-sync"
+          "--hdr-enabled"
+          "--steam"
           "--rt"
-          "--expose-wayland"
+          "-e"
+          "-W ${builtins.toString cfg.gamescopeSession.screen.width}"
+          "-H ${builtins.toString cfg.gamescopeSession.screen.height}"
+          "-f"
         ];
         env = {
           TZ = ":/etc/localtime";
-          XKB_DEFAULT_LAYOUT="fr";
-          XKB_DEFAULT_VARIANT="latin9";
-          XKB_DEFAULT_OPTIONS="grp:alt_shift_toggle";
+          ENABLE_GAMESCOPE_WSI = "1";
+          DXVK_HDR             = "1";
+          WLR_RENDERER         = "vulkan";
+          XKB_DEFAULT_LAYOUT   = config.services.xserver.xkb.layout;
+          XKB_DEFAULT_VARIANT  = config.services.xserver.xkb.variant;
+          STEAM_DESKTOP_RETURN_COMMAND = "${pkgs.gnome-session}/bin/gnome-session";
         };
       };
-      gamemode.enable = true;
+      gamemode = {
+        enable = true;
+        settings = {
+          general.renice = 10;
+          gpu = {
+            gpu_device = 0;
+            amd_performance_level = lib.mkIf (config.mx.hardware.gpu.vendor == "amd") "high";
+            nv_powermizer_mode = lib.mkIf (config.mx.hardware.gpu.vendor == "nvidia") 1;
+          };
+        };
+      };
       steam = {
         enable = true;
         gamescopeSession = {
