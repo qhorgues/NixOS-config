@@ -87,25 +87,6 @@ in
         enable = true;
         package = pkgs.gamescope;
         capSysNice = true;
-        args = [
-          "--adaptive-sync"
-          "--hdr-enabled"
-          "--steam"
-          "--rt"
-          "-e"
-          "-W ${builtins.toString cfg.gamescopeSession.screen.width}"
-          "-H ${builtins.toString cfg.gamescopeSession.screen.height}"
-          "-f"
-        ];
-        env = {
-          TZ = ":/etc/localtime";
-          ENABLE_GAMESCOPE_WSI = "1";
-          DXVK_HDR             = "1";
-          WLR_RENDERER         = "vulkan";
-          XKB_DEFAULT_LAYOUT   = config.services.xserver.xkb.layout;
-          XKB_DEFAULT_VARIANT  = config.services.xserver.xkb.variant;
-          STEAM_DESKTOP_RETURN_COMMAND = "${pkgs.gnome-session}/bin/gnome-session";
-        };
       };
       gamemode = {
         enable = true;
@@ -121,7 +102,25 @@ in
       steam = {
         enable = true;
         gamescopeSession = {
-            enable = true;
+          enable = cfg.gamescopeSession.enable;
+          args = [
+            "--adaptive-sync"
+            "--hdr-enabled"
+            "--steam"
+            "--rt"
+            "-e"
+            "-W ${builtins.toString cfg.gamescopeSession.screen.width}"
+            "-H ${builtins.toString cfg.gamescopeSession.screen.height}"
+            "-f"
+          ];
+          env = {
+            TZ = ":/etc/localtime";
+            ENABLE_GAMESCOPE_WSI = "1";
+            DXVK_HDR             = "1";
+            WLR_RENDERER         = "vulkan";
+            XKB_DEFAULT_LAYOUT   = config.services.xserver.xkb.layout;
+            XKB_DEFAULT_VARIANT  = config.services.xserver.xkb.variant;
+          };
         };
         remotePlay.openFirewall = false;
         dedicatedServer.openFirewall = false;
