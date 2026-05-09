@@ -83,5 +83,8 @@
         kiwix = pkgs.callPackage ./pkgs/kiwix.nix { inherit pkgs; };
       }
     );
+
+    lib.mkGameConfigSwitcher = { pkgs, ... } @ args:
+      pkgs.callPackage ./lib/game-settings-switcher.nix args;
   };
 }
