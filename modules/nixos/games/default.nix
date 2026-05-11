@@ -79,6 +79,8 @@ in
     latest-unstable-mesa-driver.enable = lib.mkEnableOption "Enable latest unstable Mesa driver";
 
     cachyos-kernel.enable = lib.mkEnableOption "Enable optimized gaming CachyOS kernel";
+
+    enableHDR = lib.mkEnableOption "Enable HDR on games";
   };
 
   config = lib.mkIf cfg.enable {
@@ -105,14 +107,14 @@ in
           enable = cfg.gamescopeSession.enable;
           args = [
             "--adaptive-sync"
-            "--hdr-enabled"
             "--steam"
             "--rt"
             "-e"
             "-W ${builtins.toString cfg.gamescopeSession.screen.width}"
             "-H ${builtins.toString cfg.gamescopeSession.screen.height}"
             "-f"
-          ];
+          ]
+          ++ lib.optional cfg.enableHDR "--hdr-enabled";
           env = {
             TZ = ":/etc/localtime";
             ENABLE_GAMESCOPE_WSI = "1";
@@ -137,7 +139,6 @@ in
           extraEnv = {
             TZ = ":/etc/localtime";
             MANGOHUD = true;
-            PROTON_ENABLE_WAYLAND=true;
             OBS_VKCAPTURE = config.mx.programs.obs-studio.enable;
             # PROTON_NO_D3D12=true;
             PROTON_PRIORITY_HIGH=true;
@@ -153,6 +154,11 @@ in
             PROTON_XESS_UPGRADE = cgpu.vendor == "intel"
                                   || (cgpu.vendor == "amd"
                                       && cgpu.generation != "rdna4");
+
+            PROTON_ENABLE_WAYLAND = cgpu.vendor == "amd" || cfg.enableHDR;
+            PROTON_ENABLE_HDR = cfg.enableHDR;
+            DXVK_HDR = cfg.enableHDR;
+            ENABLE_HDR_WSI = cfg.enableHDR;
           } //
           (if config.mx.programs.games.lsfg.enable == true then {
             VK_LAYER_PATH= "${lsfg-vk}/share/vulkan/explicit_layer.d";
@@ -198,6 +204,11 @@ in
         };
     };
 
+    services.udev.extraRules = ''
+      ACTION=="add|change", SUBSYSTEM=="block", ATTR{queue/scheduler}="bfq"
+    '';
+
+    # Enable VK basalt compatibility
     system.activationScripts.vkbasalt-compat = ''
       mkdir -p /usr/share/vulkan/implicit_layer.d
       ln -sf /run/current-system/sw/share/vulkan/implicit_layer.d/vkBasalt.json /usr/share/vulkan/implicit_layer.d/vkBasalt.json
@@ -206,10 +217,6 @@ in
       if [ -f "${pkgs.vkbasalt}/lib/libvkbasalt.so" ]; then
         ln -sf "${pkgs.vkbasalt}/lib/libvkbasalt.so" /usr/lib/libvkbasalt.so
       fi
-    '';
-
-    services.udev.extraRules = ''
-      ACTION=="add|change", SUBSYSTEM=="block", ATTR{queue/scheduler}="bfq"
     '';
 
     boot = {
