@@ -34,8 +34,10 @@ in
             };
         };
         edit_predictions = {
-            enabled_in_text_threads = true;
+            provider = "ollama";
         };
+        auto_indent = "preserve_indent";
+        auto_indent_on_paste = true;
         auto_update = true;
         telemetry = {
             diagnostics = false;
@@ -114,7 +116,7 @@ in
                   path = lib.getExe pkgs.rust-analyzer;
               };
           };
-          nix = {
+          nixd = {
               enable_lsp_tasks = true;
           };
         };
@@ -133,12 +135,10 @@ in
         buffer_font_size = 14;
         diagnostics.include_warnings = true;
         collaboration_panel.button = true;
-        chat_panel.button = "when_in_call";
         show_wrap_guides = false;
         tab_bar.show = false;
         debugger.dock = "left";
         soft_wrap = "bounded";
-        notification_panel.button = false;
         autosave = "on_focus_change";
 
         calls = {
