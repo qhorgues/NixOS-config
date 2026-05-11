@@ -1,4 +1,4 @@
-{ pkgs, lib, config, osConfig, ... }:
+{ pkgs, pkgs-unstable, lib, config, osConfig, ... }:
 
 let
   cfg = config.mx.programs.zed-editor;
@@ -16,7 +16,7 @@ in
     programs.zed-editor = {
       enable = true;
       installRemoteServer = true;
-      package = pkgs.zed-editor;
+      package = pkgs-unstable.zed-editor;
       extensions = ["html" "toml" "make" "neocmake"];
 
       userSettings = {
