@@ -6,11 +6,6 @@ in
 {
   options.mx.programs.zed-editor = {
     enable = lib.mkEnableOption "Use Zed Editor";
-    ollamaNumberToken = lib.mkOption {
-      type = lib.types.int;
-      default = 50000;
-      description = "The number token for Ollama";
-    };
   };
   config = lib.mkIf cfg.enable {
     programs.zed-editor = {
@@ -96,11 +91,11 @@ in
           dock = "right";
           default_model = {
             provider = "ollama";
-            model = "gemma4:e4b";
+            model = "qwen3.5:9b";
           };
           inline_assistant_model = {
-            provider = "copilot_chat";
-            model = "oswe-vscode-prime";
+            provider = "ollama";
+            model = "qwen2.5-coder:7b";
           };
           model_parameters = [];
         };
@@ -141,6 +136,18 @@ in
                 display_name = "gemma4:e4b";
                 max_tokens = 100000;
                 name = "gemma4:e4b";
+                supports_tools = true;
+              }
+              {
+                display_name = "qwen3.5:9b";
+                max_tokens = 262000;
+                name = "qwen3.5:9b";
+                supports_tools = true;
+              }
+              {
+                display_name = "qwen2.5-coder:7b";
+                max_tokens = 128000;
+                name = "qwen2.5-coder:7b";
                 supports_tools = true;
               }
             ];

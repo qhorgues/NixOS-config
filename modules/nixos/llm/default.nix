@@ -54,6 +54,8 @@ in
       );
       loadModels = [
         "gemma4:e4b"
+        "qwen2.5-coder:7b"
+        "qwen3.5:9b"
       ];
     };
   };
