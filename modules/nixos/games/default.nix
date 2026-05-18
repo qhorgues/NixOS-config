@@ -6,6 +6,7 @@ let
   lsfg-vk = pkgs.callPackage ../../../pkgs/lsfg-vk.nix { };
   lsfg-vk-ui = pkgs.callPackage ../../../pkgs/lsfg-vk-ui.nix { };
   conf_service = config.mx.services;
+  proton-cachyos = pkgs.callPackage ../../../pkgs/proton-cachyos.nix { };
 
   mx-game = import ../../../pkgs/mx-game.nix {
     lib = lib;
@@ -134,6 +135,7 @@ in
         ];
         extraCompatPackages = [
           pkgs-unstable.proton-ge-bin
+          proton-cachyos
         ];
         package = pkgs.steam.override {
           extraEnv = {
@@ -270,45 +272,45 @@ in
       });
     '';
 
-    system.activationScripts.steamConfigInject = {
-      text = ''
-        for user in /home/*; do
-          steam_path="$user/.local/share/Steam"
-          config_path="$steam_path/config"
-          config_file="$config_path/config.vdf"
-          mkdir -p "$config_path"
-          if [ ! -f "$config_file" ]; then
-            cat > "$config_file" <<EOF
-        "InstallConfigStore"
-        {
-        "Software"
-        {
-          "Valve"
-          {
-              "Steam"
-              {
-                  "CompatToolMapping"
-                  {
-                      "0"
-                      {
-                          "name"      "GE-Proton"
-                          "config"        ""
-                          "priority"      "75"
-                      }
-                  }
-                  "ShaderCacheManager"
-                  {
-                      "EnableShaderBackgroundProcessing"          "1"
-                  }
-              }
-          }
-        }
-        }
-        EOF
-            chown -R $(basename "$user"):users "$steam_path"
-          fi
-        done
-      '';
-    };
+    # system.activationScripts.steamConfigInject = {
+    #   text = ''
+    #     for user in /home/*; do
+    #       steam_path="$user/.local/share/Steam"
+    #       config_path="$steam_path/config"
+    #       config_file="$config_path/config.vdf"
+    #       mkdir -p "$config_path"
+    #       if [ ! -f "$config_file" ]; then
+    #         cat > "$config_file" <<EOF
+    #     "InstallConfigStore"
+    #     {
+    #     "Software"
+    #     {
+    #       "Valve"
+    #       {
+    #           "Steam"
+    #           {
+    #               "CompatToolMapping"
+    #               {
+    #                   "0"
+    #                   {
+    #                       "name"      "GE-Proton"
+    #                       "config"        ""
+    #                       "priority"      "75"
+    #                   }
+    #               }
+    #               "ShaderCacheManager"
+    #               {
+    #                   "EnableShaderBackgroundProcessing"          "1"
+    #               }
+    #           }
+    #       }
+    #     }
+    #     }
+    #     EOF
+    #         chown -R $(basename "$user"):users "$steam_path"
+    #       fi
+    #     done
+    #   '';
+    # };
   };
 }
