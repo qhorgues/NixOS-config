@@ -47,7 +47,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   preFixup = ''
     substituteInPlace "$steamcompattool/compatibilitytool.vdf" \
-      --replace-fail "${finalAttrs.version}" "${steamDisplayName}"
+      --replace-fail "proton-cachyos-${version}-x86_64" "${steamDisplayName}"
   '';
 
   /*
