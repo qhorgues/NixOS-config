@@ -33,7 +33,7 @@ in
 
 
     services.open-webui = {
-      package = pkgs.open-webui;
+      package = pkgs-unstable.open-webui;
       enable = cfg.open-webui.enable;
       port = cfg.open-webui.port;
     };
@@ -42,15 +42,15 @@ in
       enable = true;
       package =
       (if config.mx.hardware.gpu.computing == "cuda" then
-        pkgs-unstable.ollama-cuda
+        pkgs.ollama-cuda
       else if config.mx.hardware.gpu.computing == "rocm" then
-        pkgs-unstable.ollama-rocm
+        pkgs.ollama-rocm
       else if config.mx.hardware.gpu.computing == "intel" then
-        pkgs-unstable.ollama-vulkan
+        pkgs.ollama-vulkan
       else if config.mx.hardware.gpu.computing == "cpu" then
-        pkgs-unstable.ollama-cpu
+        pkgs.ollama-cpu
       else
-        pkgs-unstable.ollama
+        pkgs.ollama
       );
       loadModels = [
         "gemma4:e4b"
