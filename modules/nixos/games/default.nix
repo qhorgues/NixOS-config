@@ -94,7 +94,6 @@ in
         settings = {
           general.renice = 10;
           gpu = {
-            gpu_device = 0;
             amd_performance_level = lib.mkIf (config.mx.hardware.gpu.vendor == "amd") "high";
             nv_powermizer_mode = lib.mkIf (config.mx.hardware.gpu.vendor == "nvidia") 1;
           };
