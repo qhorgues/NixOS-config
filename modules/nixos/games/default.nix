@@ -79,8 +79,6 @@ in
 
     latest-unstable-mesa-driver.enable = lib.mkEnableOption "Enable latest unstable Mesa driver";
 
-    cachyos-kernel.enable = lib.mkEnableOption "Enable optimized gaming CachyOS kernel";
-
     enableHDR = lib.mkEnableOption "Enable HDR on games";
   };
 
@@ -222,7 +220,7 @@ in
     '';
 
     boot = {
-      kernelPackages = if cfg.cachyos-kernel.enable then pkgs.cachyosKernels.linuxPackages-cachyos-latest else pkgs.linuxPackages_zen;
+      kernelPackages = pkgs.linuxPackages_zen;
       tmp.cleanOnBoot = true;
       kernel.sysctl = {
         "kernel.split_lock_mitigate" = 0;
@@ -238,12 +236,6 @@ in
         "kernel.kexec_load_disabled" = 1;
       };
     };
-
-    nix.settings.substituters = []
-    ++ lib.optionals cfg.cachyos-kernel.enable [ "https://attic.xuyh0120.win/lantian" ];
-
-    nix.settings.trusted-public-keys = []
-     ++ lib.optionals cfg.cachyos-kernel.enable [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
 
     security.polkit.extraConfig = ''
       polkit.addRule(function(action, subject) {
