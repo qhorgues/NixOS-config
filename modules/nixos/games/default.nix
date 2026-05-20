@@ -187,7 +187,7 @@ in
     environment.systemPackages = [
       pkgs.mangohud
       pkgs.adwsteamgtk
-      pkgs.vkbasalt
+      pkgs-unstable.vkbasalt
       pkgs-unstable.goverlay
       mx-game
     ] ++ lib.optional cfg.lsfg.enable lsfg-vk-ui-fhs
@@ -213,8 +213,8 @@ in
       ln -sf /run/current-system/sw/share/vulkan/implicit_layer.d/vkBasalt.json /usr/share/vulkan/implicit_layer.d/vkBasalt.json
 
       mkdir -p /usr/lib
-      if [ -f "${pkgs.vkbasalt}/lib/libvkbasalt.so" ]; then
-        ln -sf "${pkgs.vkbasalt}/lib/libvkbasalt.so" /usr/lib/libvkbasalt.so
+      if [ -f "${pkgs-unstable.vkbasalt}/lib/libvkbasalt.so" ]; then
+        ln -sf "${pkgs-unstable.vkbasalt}/lib/libvkbasalt.so" /usr/lib/libvkbasalt.so
       fi
     '';
 
