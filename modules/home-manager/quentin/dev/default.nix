@@ -1,4 +1,4 @@
-{ pkgs, modulix-os-pkgs-unstable, config, lib, ... }:
+{ pkgs, pkgs-unstable, config, lib, ... }:
 
 let
   cfg = config.mx.programs.dev;
@@ -27,9 +27,9 @@ in
   config = lib.mkMerge [
     (
       lib.mkIf cfg.enable {
-        home.packages = with pkgs; [
+        home.packages = with pkgs-unstable; [
+          pkgs.git
           zeal
-          git
           claude-code
         ] ++ lib.optionals cfg.nix [
           nil
@@ -72,7 +72,7 @@ in
           php84Packages.composer
           laravel
           filezilla
-          modulix-os-pkgs-unstable.bruno
+          bruno
         ] ++ lib.optionals cfg.sql [
           mysql-workbench
           dbeaver-bin
@@ -81,8 +81,8 @@ in
           dconf-editor
           cambalache
           gnome-builder
-          flatpak
-          flatpak-builder
+          pkgs.flatpak
+          pkgs.flatpak-builder
         ] ++ lib.optionals cfg.ci [
           act
         ] ++ lib.optionals cfg.java [

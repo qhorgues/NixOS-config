@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, lib, config, osConfig, ... }:
+{ pkgs-unstable, lib, config, osConfig, ... }:
 
 let
   cfg = config.mx.programs.zed-editor;
@@ -174,7 +174,7 @@ in
           clangd = lib.mkIf config.mx.programs.dev.cpp {
             binary = {
               arguments = ["--compile-commands-dir=build"];
-              path = "${pkgs.clang-tools}/bin/clangd";
+              path = "${pkgs-unstable.clang-tools}/bin/clangd";
             };
             initialization_options = {
               fallbackFlags = [
@@ -199,7 +199,7 @@ in
           };
           rust-analyzer = {
             binary = {
-              path = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+              path = "${pkgs-unstable.rust-analyzer}/bin/rust-analyzer";
             };
           };
         };
