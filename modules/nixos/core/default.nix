@@ -26,9 +26,6 @@ in
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = config.system.nixos.release;
-  services.xserver.videoDrivers = [
-   (if cgpu.vendor == "amd" then "amdgpu"
-     else if cgpu.vendor == "intel" || cgpu.vendor == "nvidia" then cgpu.vendor else "auto") ];
 
   time.timeZone = "Europe/Paris";
   i18n.defaultLocale = "fr_FR.UTF-8";
