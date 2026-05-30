@@ -9,7 +9,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      thunderbird-latest-bin
+      thunderbird-latest
     ];
   };
 }

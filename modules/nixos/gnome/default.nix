@@ -2,6 +2,7 @@
 
 let
   cfg = config.mx.gnome;
+  cgpu = config.mx.hardware.gpu;
 in
 {
     options.mx.gnome = {
@@ -32,7 +33,13 @@ in
           services = {
             xserver = {
               enable = true;
-              videoDriver = config.mx.hardware.gpu.vendor;
+              videoDriver =  (
+                if cgpu.vendor == "amd"
+                then "amdgpu"
+                else if cgpu.vendor == "intel" || cgpu.vendor == "nvidia" then
+                cgpu.vendor
+                else "auto"
+              );
               excludePackages = with pkgs; [
                   xterm
               ];
@@ -44,10 +51,6 @@ in
             displayManager.gdm.enable = true;
             desktopManager.gnome = {
               enable = true;
-              extraGSettingsOverrides = ''
-                [org.gnome.mutter]
-                experimental-features=['variable-refresh-rate','scale-monitor-framebuffer','xwayland-native-scaling']
-              ''; #'scale-monitor-framebuffer','xwayland-native-scaling'
             };
           };
 
