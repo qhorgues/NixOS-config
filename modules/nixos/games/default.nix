@@ -83,6 +83,17 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    nixpkgs.overlays = [
+      (_final: prev: let
+        stable = import self.inputs.nixpkgs {
+          inherit (prev.stdenv.hostPlatform) system;
+          config.allowUnfree = true;
+        };
+        in {
+        inherit (stable) bubblewrap;
+        })
+    ];
+
     programs = {
       gamescope = {
         enable = true;
