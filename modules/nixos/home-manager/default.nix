@@ -35,7 +35,6 @@ in
           config.allowUnfree = true;
         };
         inputs-modulix-os = inputs;
-        pkgs-unstable = pkgs-unstable;
       };
       users = lib.mapAttrs (username: userCfg: {
         imports = [
