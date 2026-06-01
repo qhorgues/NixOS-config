@@ -1,4 +1,4 @@
-{ config, osConfig, pkgs-unstable, lib, ... }:
+{ config, osConfig, modulix-os-pkgs-unstable, lib, ... }:
 
 let
   cfg = config.mx.programs.winboat;
@@ -16,7 +16,7 @@ in
       }
     ];
     home.packages = [
-      pkgs-unstable.winboat
+      modulix-os-pkgs-unstable.winboat
     ];
   };
 }
