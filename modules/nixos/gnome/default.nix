@@ -33,13 +33,15 @@ in
           services = {
             xserver = {
               enable = true;
-              videoDriver =  (
-                if cgpu.vendor == "amd"
-                then "amdgpu"
-                else if cgpu.vendor == "intel" || cgpu.vendor == "nvidia" then
-                cgpu.vendor
-                else "auto"
-              );
+              videoDrivers =  [
+                (
+                  if cgpu.vendor == "amd"
+                  then "amdgpu"
+                  else if cgpu.vendor == "nvidia" then
+                  cgpu.vendor
+                  else "modesetting"
+                )
+              ];
               excludePackages = with pkgs; [
                   xterm
               ];
