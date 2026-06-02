@@ -116,6 +116,12 @@ in
               title = "youtube";
               url = "https://www.youtube.com";
             }];
+            "browser.newtabpage.activity-stream.feeds.topsites" = false;
+            "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+            "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
+            "browser.newtabpage.activity-stream.feeds.snippets" = false;
+            "browser.newtabpage.activity-stream.showSponsored" = false;
+            "browser.newtabpage.activity-stream.system.showSponsored" = false;
           };
           search = {
             default = "youtube";
@@ -283,6 +289,13 @@ in
 
             "browser.ml.chat.enabled" = true;
             "browser.ml.chat.provider" = "localhost:8080";
+
+            "browser.newtabpage.activity-stream.feeds.topsites" = false;
+            "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+            "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
+            "browser.newtabpage.activity-stream.feeds.snippets" = false;
+            "browser.newtabpage.activity-stream.showSponsored" = false;
+            "browser.newtabpage.activity-stream.system.showSponsored" = false;
           };
 
           search = {
