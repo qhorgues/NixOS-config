@@ -1,4 +1,4 @@
-{ pkgs, modulix-os-pkgs-unstable, lib, config, inputs-modulix-os, ... }:
+{ pkgs, lib, config, inputs-modulix-os, ... }:
 
 let
   cfg = config.mx.programs.firefox;
@@ -6,6 +6,12 @@ let
   getId = str:
     builtins.substring 1 (builtins.stringLength str - 2) str;
   firefoxConfigPath = "${config.xdg.configHome}/mozilla/firefox";
+
+  firefoxpwa = pkgs.firefoxpwa.unwrapped.overrideAttrs (old: {
+    postInstall = ''
+      mkdir -p $out/lib/firefoxpwa
+    '' + old.postInstall;
+  });
 in
 {
   options.mx.programs.firefox = {
@@ -18,7 +24,7 @@ in
       package = pkgs.firefox-bin;
       configPath = firefoxConfigPath;
       languagePacks = [ "fr" ];
-      nativeMessagingHosts = [ modulix-os-pkgs-unstable.firefoxpwa ];
+      nativeMessagingHosts = [ firefoxpwa ];
 
       policies = {
         DisableTelemetry = true;
@@ -370,7 +376,7 @@ in
 
     home.sessionVariables.MOZ_USE_XINPUT2 = "1";
 
-    home.packages = [ modulix-os-pkgs-unstable.firefoxpwa ];
+    home.packages = [ firefoxpwa ];
 
     xdg.desktopEntries."youtube" = {
       name = "Youtube";
