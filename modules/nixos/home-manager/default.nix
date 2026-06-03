@@ -30,11 +30,7 @@ in
       useUserPackages = true;
       extraSpecialArgs = {
         qhorgues-config = self;
-        modulix-os-pkgs-unstable = import inputs.nixpkgs-unstable {
-          system = pkgs.stdenv.hostPlatform.system;
-          config.allowUnfree = true;
-        };
-        inputs-modulix-os = inputs;
+        inputs = inputs;
         pkgs-unstable = pkgs-unstable;
       };
       users = lib.mapAttrs (username: userCfg: {

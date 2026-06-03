@@ -1,10 +1,16 @@
-{ pkgs, modulix-os-pkgs-unstable, lib, config, inputs-modulix-os, ... }:
+{ pkgs, lib, config, inputs, ... }:
 
 let
   cfg = config.mx.programs.firefox;
-  addons = inputs-modulix-os.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+  addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
   getId = str:
       builtins.substring 1 (builtins.stringLength str - 2) str;
+
+  firefoxpwa = pkgs.firefoxpwa.unwrapped.overrideAttrs (old: {
+    postInstall = ''
+      mkdir -p $out/lib/firefoxpwa
+    '' + old.postInstall;
+  });
 in
 {
   options.mx.programs.firefox = {
@@ -18,7 +24,7 @@ in
       languagePacks = [
         "fr"
       ];
-      nativeMessagingHosts = [ modulix-os-pkgs-unstable.firefoxpwa ];
+      nativeMessagingHosts = [ firefoxpwa ];
       profiles = {
         "youtube" = {
           id = 1;
@@ -420,7 +426,7 @@ in
       MOZ_USE_XINPUT2 = "1";
     };
     home.packages = [
-      modulix-os-pkgs-unstable.firefoxpwa
+      firefoxpwa
     ];
 
     xdg.desktopEntries = {
