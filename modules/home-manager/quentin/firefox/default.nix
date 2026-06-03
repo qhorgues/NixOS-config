@@ -1,8 +1,8 @@
-{ pkgs, lib, config, inputs-modulix-os, ... }:
+{ pkgs, lib, config, inputs, ... }:
 
 let
   cfg = config.mx.programs.firefox;
-  addons = inputs-modulix-os.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
+  addons = inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
   getId = str:
     builtins.substring 1 (builtins.stringLength str - 2) str;
   firefoxConfigPath = "${config.xdg.configHome}/mozilla/firefox";

@@ -1,4 +1,4 @@
-{ pkgs, modulix-os-pkgs-unstable, config, lib, ... }:
+{ pkgs, pkgs-unstable, config, lib, ... }:
 
 let
   cfg = config.mx.programs.dev;
@@ -27,7 +27,7 @@ in
   config = lib.mkMerge [
     (
       lib.mkIf cfg.enable {
-        home.packages = with modulix-os-pkgs-unstable; [
+        home.packages = with pkgs-unstable; [
           pkgs.git
           zeal
           claude-code

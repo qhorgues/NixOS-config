@@ -1,4 +1,4 @@
-{ modulix-os-pkgs-unstable, lib, config, osConfig, ... }:
+{ pkgs-unstable, lib, config, osConfig, ... }:
 
 let
   cfg = config.mx.programs.zed-editor;
@@ -11,7 +11,7 @@ in
     programs.zed-editor = {
       enable = true;
       installRemoteServer = true;
-      package = modulix-os-pkgs-unstable.zed-editor;
+      package = pkgs-unstable.zed-editor;
       extensions = ["html" "toml" "make" "neocmake"];
 
       userSettings = {
@@ -174,7 +174,7 @@ in
           clangd = lib.mkIf config.mx.programs.dev.cpp {
             binary = {
               arguments = ["--compile-commands-dir=build"];
-              path = "${modulix-os-pkgs-unstable.clang-tools}/bin/clangd";
+              path = "${pkgs-unstable.clang-tools}/bin/clangd";
             };
             initialization_options = {
               fallbackFlags = [
@@ -199,7 +199,7 @@ in
           };
           rust-analyzer = {
             binary = {
-              path = "${modulix-os-pkgs-unstable.rust-analyzer}/bin/rust-analyzer";
+              path = "${pkgs-unstable.rust-analyzer}/bin/rust-analyzer";
             };
           };
         };
