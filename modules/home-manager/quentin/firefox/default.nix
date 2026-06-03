@@ -6,11 +6,7 @@ let
   getId = str:
       builtins.substring 1 (builtins.stringLength str - 2) str;
 
-  firefoxpwa = pkgs.firefoxpwa.unwrapped.overrideAttrs (old: {
-    postInstall = ''
-      mkdir -p $out/lib/firefoxpwa
-    '' + old.postInstall;
-  });
+  firefoxpwa = pkgs.firefoxpwa;
 in
 {
   options.mx.programs.firefox = {
