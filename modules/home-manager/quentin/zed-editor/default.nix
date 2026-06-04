@@ -125,8 +125,12 @@ in
           include_warnings = true;
         };
         edit_predictions = {
-          provider = "ollama";
+          provider = "zed";
           mode = "eager";
+          ollama = {
+            model = "qwen2.5-coder:7b";
+            prompt_format = "qwen";
+          };
         };
         language_models = {
           ollama = lib.mkIf osConfig.mx.services.llm.enable {
