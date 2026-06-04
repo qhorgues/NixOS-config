@@ -31,6 +31,7 @@ in
             user-agent-string-switcher
             multi-account-containers
             sponsorblock
+            gnome-shell-integration
           ];
           settings = {
             "gfx.webrender.all" = true;
@@ -90,6 +91,7 @@ in
             pwas-for-firefox
             multi-account-containers
             sponsorblock
+            gnome-shell-integration
           ];
 
           settings = {
