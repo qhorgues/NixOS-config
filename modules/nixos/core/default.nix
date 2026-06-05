@@ -14,7 +14,8 @@
     ./nvidia.nix
     ./agenix.nix
     ./kernel
-  ] ++ lib.optionals (!config.mx.mode.server) [
+
+    # Desktop only
     ./sound.nix
     ./network.nix
     ./gpu-acceleration.nix

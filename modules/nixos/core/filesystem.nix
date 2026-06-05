@@ -1,13 +1,15 @@
-{ ... }:
+{ config, lib, ... }:
 {
-  # Automatic mounting device
-  services.devmon.enable = true;
+  config = lib.mkIf (!config.mx.mode.server) {
+    # Automatic mounting device
+    services.devmon.enable = true;
 
-  # Virtual filesystems
-  services.gvfs.enable = true;
+    # Virtual filesystems
+    services.gvfs.enable = true;
 
-  # Manipulate storage device
-  services.udisks2 = {
-    enable = true;
+    # Manipulate storage device
+    services.udisks2 = {
+      enable = true;
+    };
   };
 }

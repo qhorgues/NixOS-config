@@ -12,7 +12,7 @@ in
     };
   };
 
-  config = lib.mkIf (!cfg.enable) {
+  config = lib.mkIf (!config.mx.mode.server && !cfg.enable) {
     hardware.bluetooth.enable = lib.mkForce false;
     environment.gnome.excludePackages = with pkgs; [
       gnome-bluetooth
