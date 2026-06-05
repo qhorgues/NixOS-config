@@ -4,7 +4,7 @@ let
   cfg = config.mx.hardware.gpu;
 in {
 
-  config = lib .mkIf (!config.mx.mode.server) {
+  config = lib .mkIf (!config.mx.mode.server.enable) {
     hardware.graphics = {
       enable = true;
 

@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 {
-  config = lib.mkIf (!config.mx.mode.server) {
+  config = lib.mkIf (!config.mx.mode.server.enable) {
     programs.nix-ld = {
       enable = lib.mkDefault true;
       libraries = with pkgs; [
