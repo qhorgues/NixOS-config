@@ -1,12 +1,25 @@
-{ ... }:
+{ lib, config, ... }:
 
+let
+  cfg = config.mx.core.sound;
+in
 {
-  services.pulseaudio.enable = false;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
+  options.mx.core.sound = {
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable sound fonctionnality";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    services.pulseaudio.enable = false;
+    services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      jack.enable = true;
+    };
   };
 }
