@@ -1,27 +1,27 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
-let
-  cgpu = config.mx.hardware.gpu;
-in
 {
   imports = [
     ./boot.nix
     ./fix.nix
     ./options
     ./security.nix
-    ./sound.nix
     ./update.nix
     ./zram.nix
     ./powersave.nix
-    ./bluetooth.nix
-    ./ios-connect.nix
     ./ssd.nix
-    ./network.nix
     ./gpu-computing.nix
     ./nvidia.nix
-    ./gpu-acceleration.nix
     ./agenix.nix
     ./kernel
+  ] ++ lib.optionals (!config.mx.mode.server) [
+    ./sound.nix
+    ./network.nix
+    ./gpu-acceleration.nix
+    ./ios-connect.nix
+    ./bluetooth.nix
+    ./nix-ld.nix
+    ./filesystem.nix
   ];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -42,24 +42,6 @@ in
   };
 
   console.keyMap = "fr";
-
-  programs.nix-ld = {
-      enable = lib.mkDefault true;
-      libraries = with pkgs; [
-        stdenv.cc.cc.lib # libstdc++
-        zlib # libz
-        glib # libglib
-      ];
-    };
-
-  services.devmon.enable = true;
-  services.gvfs.enable = true;
-  services.udisks2 = {
-    enable = true;
-  };
-  systemd.tmpfiles.rules = [
-    "d /media 0755 root root -"
-  ];
 
   documentation.nixos.enable = false;
 
