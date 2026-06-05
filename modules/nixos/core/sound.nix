@@ -12,7 +12,7 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf (!config.mx.mode.server && cfg.enable) {
     services.pulseaudio.enable = false;
     services.pipewire = {
       enable = true;
