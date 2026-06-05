@@ -13,7 +13,7 @@ in
     security-mode = lib.mkEnableOption "Enable advanced networking security settings";
   };
 
-  config = lib.mkIf (!config.mx.mode.server && cfg.enable) (
+  config = lib.mkIf (!config.mx.mode.server.enable && cfg.enable) (
     lib.mkMerge [
       {
         networking.networkmanager.enable = lib.mkDefault true;

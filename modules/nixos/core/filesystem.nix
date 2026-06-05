@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-  config = lib.mkIf (!config.mx.mode.server) {
+  config = lib.mkIf (!config.mx.mode.server.enable) {
     # Automatic mounting device
     services.devmon.enable = true;
 
