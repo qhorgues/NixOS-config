@@ -8,7 +8,7 @@ in
     enable = lib.mkEnableOption "Enbale ios connection tools";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf (!config.mx.mode.server.enable && cfg.enable) {
     services.usbmuxd.enable = true;
     environment.systemPackages = with pkgs; [
       libimobiledevice
