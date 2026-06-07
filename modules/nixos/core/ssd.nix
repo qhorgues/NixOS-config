@@ -12,6 +12,11 @@ in
   };
 
   config = {
+    hardware.block = {
+      defaultScheduler = "kyber";
+      defaultSchedulerRotational = "bfq";
+    };
+
     fileSystems = builtins.listToAttrs (map (disk: {
       name = disk;
       value.options = [ "noatime" "nodiratime" "discard" "defaults" "commit=120" ];

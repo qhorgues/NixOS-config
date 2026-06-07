@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, pkgs-unstable, lib, self, ... }:
+{ config, inputs, pkgs-unstable, lib, self, ... }:
 let
   cfg = config.mx.programs.home-manager;
 in
@@ -30,8 +30,8 @@ in
       useUserPackages = true;
       extraSpecialArgs = {
         qhorgues-config = self;
-        inputs = inputs;
         pkgs-unstable = pkgs-unstable;
+        inputs = inputs;
       };
       users = lib.mapAttrs (username: userCfg: {
         imports = [

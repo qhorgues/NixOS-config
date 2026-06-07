@@ -6,13 +6,13 @@ in
   config = lib.mkIf cfg.enable {
 
     programs.ssh = {
-      matchBlocks = {
+      settings = {
         "repaircafetours" = {
-          hostname = "57.128.4.193";
-          port = 22;
-          user = "quentin";
-          identityFile = "~/.ssh/id_ed25519";
-          localForwards = [
+          HostName = "57.128.4.193";
+          Port = 22;
+          User = "quentin";
+          IdentityFile = "~/.ssh/id_ed25519";
+          LocalForward = [
             {
               bind.port = 7000;
               host.address = "localhost";
@@ -21,12 +21,12 @@ in
           ];
         };
         "rpi-quentin-proxy" = {
-          hostname = "91.165.146.203";
-          port = 48320;
-          user = "quentin";
-          identityFile = "~/.ssh/id_ed25519";
+          HostName = "91.165.146.203";
+          Port = 48320;
+          User = "quentin";
+          IdentityFile = "~/.ssh/id_ed25519";
           proxyJump = "repaircafetours";
-          localForwards = [
+          LocalForward = [
             {
               bind.port = 11080;
               host.address = "localhost";
@@ -40,11 +40,11 @@ in
           ];
         };
         "rpi-quentin" = {
-          hostname = "91.165.146.203";
-          port = 48320;
-          user = "quentin";
-          identityFile = "~/.ssh/id_ed25519";
-          localForwards = [
+          HostName = "91.165.146.203";
+          Port = 48320;
+          User = "quentin";
+          IdentityFile = "~/.ssh/id_ed25519";
+          LocalForward = [
             {
               bind.port = 10080;
               host.address = "localhost";
@@ -53,18 +53,18 @@ in
           ];
         };
         "rpi-horgues" = {
-          hostname = "91.168.167.51";
-          port = 16000;
-          user = "quentin";
-          identityFile = "~/.ssh/id_ed25519";
+          HostName = "91.168.167.51";
+          Port = 16000;
+          User = "quentin";
+          IdentityFile = "~/.ssh/id_ed25519";
         };
         "rpi-horgues-proxy" = {
-          hostname = "91.168.167.51";
-          port = 16000;
-          user = "quentin";
-          identityFile = "~/.ssh/id_ed25519";
+          HostName = "91.168.167.51";
+          Port = 16000;
+          User = "quentin";
+          IdentityFile = "~/.ssh/id_ed25519";
           proxyJump = "repaircafetours";
-          localForwards = [
+          LocalForward = [
             {
               bind.port = 5174;
               host.address = "localhost";

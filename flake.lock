@@ -4,9 +4,7 @@
       "inputs": {
         "darwin": "darwin",
         "home-manager": "home-manager",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "systems": "systems"
       },
       "locked": {
@@ -59,9 +57,7 @@
       "inputs": {
         "crane": "crane",
         "flake-utils": "flake-utils",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "lastModified": 1780166094,
@@ -94,10 +90,7 @@
     },
     "darwin": {
       "inputs": {
-        "nixpkgs": [
-          "agenix",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["agenix", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1744478979,
@@ -116,9 +109,7 @@
     },
     "firefox-addons": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "dir": "pkgs/firefox-addons",
@@ -190,10 +181,7 @@
     },
     "home-manager": {
       "inputs": {
-        "nixpkgs": [
-          "agenix",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["agenix", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1745494811,
@@ -211,9 +199,7 @@
     },
     "home-manager_2": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "lastModified": 1779506708,

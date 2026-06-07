@@ -5,6 +5,7 @@ let
 in
 {
   imports = [
+  ] ++ lib.optionals (lib.versionAtLeast lib.version "26.05") [
     ./ssh-config.nix
   ];
 

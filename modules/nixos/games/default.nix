@@ -87,7 +87,9 @@ in
       gamescope = {
         enable = true;
         package = pkgs.gamescope;
-        capSysNice = true;
+
+        # HOT FIX: TODO CHANGE WHEN WORK'S
+        capSysNice = false;
       };
       gamemode = {
         enable = true;
@@ -108,8 +110,8 @@ in
             "--steam"
             "--rt"
             "-e"
-            "-W ${builtins.toString cfg.gamescopeSession.screen.width}"
-            "-H ${builtins.toString cfg.gamescopeSession.screen.height}"
+            "-W ${toString cfg.gamescopeSession.screen.width}"
+            "-H ${toString cfg.gamescopeSession.screen.height}"
             "-f"
           ]
           ++ lib.optional cfg.enableHDR "--hdr-enabled";
