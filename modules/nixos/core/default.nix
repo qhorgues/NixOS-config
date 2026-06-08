@@ -5,7 +5,7 @@
     ./boot.nix
     ./fix.nix
     ./options
-    ./security.nix
+    ./security
     ./update.nix
     ./zram.nix
     ./powersave.nix
