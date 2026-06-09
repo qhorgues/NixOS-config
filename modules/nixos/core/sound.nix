@@ -25,7 +25,7 @@ in
 
       # Based on GLF OS configuration
       extraConfig.pipewire = {
-        "91-low-latency" = {
+        "92-low-latency" = {
           "context.properties" = {
             "default.clock.rate" = 48000;
             "default.clock.quantum" = 256;
@@ -33,7 +33,7 @@ in
             "default.clock.max-quantum" = 256;
           };
         };
-        "92-noise-suppression" = {
+        "99-noise-suppression" = {
           "context.modules" = [{
             name = "libpipewire-module-filter-chain";
             flags = [ "nofail" ];
