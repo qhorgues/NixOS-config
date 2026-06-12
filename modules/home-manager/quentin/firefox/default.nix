@@ -7,11 +7,7 @@ let
     builtins.substring 1 (builtins.stringLength str - 2) str;
   firefoxConfigPath = "${config.xdg.configHome}/mozilla/firefox";
 
-  firefoxpwa = pkgs.firefoxpwa.unwrapped.overrideAttrs (old: {
-    postInstall = ''
-      mkdir -p $out/lib/firefoxpwa
-    '' + old.postInstall;
-  });
+  firefoxpwa = pkgs.firefoxpwa;
 in
 {
   options.mx.programs.firefox = {
