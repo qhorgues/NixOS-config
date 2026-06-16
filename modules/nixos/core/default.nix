@@ -14,6 +14,7 @@
     ./nvidia.nix
     ./agenix.nix
     ./kernel
+    ./dns.nix
 
     # Desktop only
     ./sound.nix
