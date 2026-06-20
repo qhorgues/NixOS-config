@@ -86,5 +86,7 @@
 
     lib.mkGameConfigSwitcher = { pkgs, ... } @ args:
       pkgs.callPackage ./lib/game-settings-switcher.nix args;
+    lib.igpu-launch = { pkgs, ... } @ args:
+      pkgs.callPackage ./lib/igpu-launch.nix args;
   };
 }
