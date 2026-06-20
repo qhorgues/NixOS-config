@@ -1,6 +1,6 @@
 { writeShellScriptBin
-, igpuId    ? "1002:164e"
-, gpuNumber ? 0
+, igpuId
+, gpuNumber
 }:
 
 writeShellScriptBin "igpu-launch" ''
