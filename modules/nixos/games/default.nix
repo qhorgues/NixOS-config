@@ -40,6 +40,18 @@ in
 
     force-fsr4-for-rdna3 = lib.mkEnableOption "Force FSR4 on AMD 7000 series";
 
+    users = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "Users added to the 'gamers' group.";
+    };
+
+    game_lib_dirs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "Folder with games shared for all gamers user";
+    };
+
     lsfg = {
       enable = lib.mkEnableOption "Install Losseless Scaling (required Lossless scaling app on Steam) but not enable by default";
       activate_on_all_games = lib.mkEnableOption "Activate Lossless Scaling on all games by default";
@@ -49,12 +61,6 @@ in
         default = null;
         description = "Path to lossless scaling DLL";
       };
-    };
-
-    gamemode.users = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-      description = "Users for gamemode permissions should be enabled.";
     };
 
     gamescopeSession = {
@@ -175,10 +181,15 @@ in
       };
     };
 
-    users.users = builtins.listToAttrs (map (user: {
-      name = user;
-      value.extraGroups = [ "gamemode" ];
-    }) cfg.gamemode.users);
+    users.groups = {
+      gamers.members = cfg.users;
+    };
+
+    users.users = lib.mkMerge (map (user: {
+      ${user}.extraGroups = [ "gamemode" ];
+    }) cfg.users);
+
+    systemd.tmpfiles.rules = map (p: "d ${p} 0770 root gamers -") cfg.game_lib_dirs;
 
     environment = {
       sessionVariables = {
