@@ -76,7 +76,7 @@ in
             enable-hot-corners = false;
         };
         "org/gnome/desktop/background" = {
-            picture-uri =  "file://${config.home.homeDirectory}/.local/share/wallpaper/clair-obscur.jpg";
+            picture-uri =  "file://${config.home.homeDirectory}/.local/share/wallpaper/exp33silksong.jpg";
             picture-uri-dark = "file://${config.home.homeDirectory}/.local/share/wallpaper/maelle_kill_simon.png";
         };
         "org/gnome/desktop/wm/preferences" = {
@@ -191,5 +191,6 @@ in
     };
     home.file.".local/share/wallpaper/clair-obscur.jpg".source = ./clair-obscur.jpg;
     home.file.".local/share/wallpaper/maelle_kill_simon.png".source = ./maelle_kill_simon.png;
+    home.file.".local/share/wallpaper/exp33silksong.jpg".source = ./exp33silksong.jpg;
   };
 }
