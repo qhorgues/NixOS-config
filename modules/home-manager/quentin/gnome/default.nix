@@ -77,7 +77,7 @@ in
         };
         "org/gnome/desktop/background" = {
             picture-uri =  "file://${config.home.homeDirectory}/.local/share/wallpaper/exp33silksong.jpg";
-            picture-uri-dark = "file://${config.home.homeDirectory}/.local/share/wallpaper/maelle_kill_simon.png";
+            picture-uri-dark = "file://${config.home.homeDirectory}/.local/share/wallpaper/exp33silksong.jpg";
         };
         "org/gnome/desktop/wm/preferences" = {
             button-layout = "appmenu:minimize,maximize,close";
