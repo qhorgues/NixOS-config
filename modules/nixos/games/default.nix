@@ -162,7 +162,7 @@ in
                                   || (cgpu.vendor == "amd"
                                       && cgpu.generation != "rdna4");
 
-            PROTON_ENABLE_WAYLAND = cgpu.vendor == "amd" || cfg.enableHDR;
+            PROTON_ENABLE_WAYLAND = false; # cgpu.vendor == "amd" || cfg.enableHDR;
             PROTON_ENABLE_HDR = cfg.enableHDR;
             DXVK_HDR = cfg.enableHDR;
             ENABLE_HDR_WSI = cfg.enableHDR;
