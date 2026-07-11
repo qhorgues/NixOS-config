@@ -133,28 +133,24 @@ in
           };
         };
         language_models = {
-          ollama = lib.mkIf osConfig.mx.services.llm.enable {
-            api_url = "http://localhost:11434";
-            available_models = [
-              {
-                display_name = "gemma4:e4b";
-                max_tokens = 100000;
-                name = "gemma4:e4b";
-                supports_tools = true;
-              }
-              {
-                display_name = "qwen3.5:9b";
-                max_tokens = 262000;
-                name = "qwen3.5:9b";
-                supports_tools = true;
-              }
-              {
-                display_name = "qwen2.5-coder:7b";
-                max_tokens = 128000;
-                name = "qwen2.5-coder:7b";
-                supports_tools = true;
-              }
-            ];
+          openai_compatible =  lib.mkIf osConfig.mx.services.llm.enable {
+            llama-swap = {
+              api_url = "http://localhost:8081/v1";
+              available_models = [
+                {
+                  name = "qwen3.5:9b";
+                  display_name = "Qwen3.5 9B (local)";
+                  max_tokens = 262144;
+                  max_output_tokens = 32768;
+                  capabilities = {
+                    parallel_tool_calls = true;
+                    prompt_cache_key = true;
+                    tools = true;
+                    images = false;
+                  };
+                }
+              ];
+            };
           };
         };
         languages = {
