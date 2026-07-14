@@ -8,6 +8,9 @@ in
     enable = lib.mkEnableOption "Use Zed Editor";
   };
   config = lib.mkIf cfg.enable {
+    home.sessionVariables = {
+      LLAMA_SWAP_API_KEY = "local";
+    };
     programs.zed-editor = {
       enable = true;
       installRemoteServer = true;
