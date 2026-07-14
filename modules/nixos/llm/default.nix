@@ -48,11 +48,32 @@ in
       description = "Port for llama-cpp server";
     };
 
+    ramOverflow = {
+      enable = lib.mkEnableOption "GPU/RAM automatic layer overflow via llama.cpp -fit";
+
+      marginMiB = lib.mkOption {
+        type = lib.types.str;
+        default = "1024";
+        description = "Free VRAM margin per device left by -fit (--fit-target)";
+      };
+
+      minCtx = lib.mkOption {
+        type = lib.types.str;
+        default = "4096";
+        description = "Floor context size -fit is allowed to shrink to (--fit-ctx)";
+      };
+    };
+
     extraFlags = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [ "-ngl" "99" "--parallel" "4" "-fa" "on" ];
+      default =
+        if cfg.ramOverflow.enable then
+          [ "--parallel" "4" "-fa" "on" "-fit" "on" "--fit-target" cfg.ramOverflow.marginMiB "--fit-ctx" cfg.ramOverflow.minCtx ]
+        else
+          [ "-ngl" "99" "--parallel" "4" "-fa" "on" ];
       description = "Extra flags passed to llama-cpp";
     };
+
 
     modelsPreset = lib.mkOption {
       type = lib.types.attrsOf modelOptions;
