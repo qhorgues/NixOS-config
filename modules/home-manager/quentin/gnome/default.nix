@@ -2,6 +2,7 @@
 
 let
   modulix-os-icon = pkgs.callPackage ../../../../pkgs/modulix-icon.nix {};
+  hanabi = pkgs.callPackage ../../../../pkgs/hanabi.nix {};
   cfg = config.mx.desktop-environment.gnome;
 in
 {
@@ -32,6 +33,7 @@ in
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
         gnomeExtensions.upower-battery
+        hanabi
         # gnomeExtensions.desktop-icons-ng-ding
         # gnomeExtensions.tiling-shell
         # Icons
@@ -55,6 +57,7 @@ in
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
               upower-battery.extensionUuid
+              hanabi.extensionUuid
               # desktop-icons-ng-ding.extensionUuid
               # tiling-shell.extensionUuid
             ]
