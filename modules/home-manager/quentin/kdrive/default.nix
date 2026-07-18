@@ -2,12 +2,12 @@
 let
   cfg = config.mx.programs.kdrive;
   pname = "kDrive";
-  version = "3.8.2.6";
+  version = "3.8.5.2";
 
   # Téléchargement de l'AppImage de kDrive
   src = pkgs.fetchurl {
     url = "https://download.storage.infomaniak.com/drive/desktopclient/${pname}-${version}-amd64.AppImage";
-    sha256 = "sha256-sob6jStvSHunR6bmixlHCaQ8gmdyPd8lBsyg5o0/YpE=";
+    sha256 = "sha256-8ec7d+HI89GSCKR8evgBtVy2qEzdrzPl97tPvvRzZAI=";
   };
 
   # Code source de l'icône au format SVG
