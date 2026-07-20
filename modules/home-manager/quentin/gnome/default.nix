@@ -36,7 +36,6 @@ in
         # gnomeExtensions.tiling-shell
         # Icons
         modulix-os-icon
-        # (import ../../../pkgs/winteros-icons.nix {inherit pkgs;})
     ]
     ++ lib.optional osConfig.mx.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.framework-fan-control
     ++ lib.optional osConfig.mx.gnome.gsconnect pkgs.gnomeExtensions.gsconnect
@@ -69,7 +68,7 @@ in
             ];
         };
         "org/gnome/desktop/interface" = {
-            icon-theme = "Modulix-OS"; # "WinterOS-icons";
+            icon-theme = "Modulix-OS";
             show-battery-percentage = true;
             toolbar-style = "text";
             gtk-theme = "Adwaita";
