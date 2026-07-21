@@ -38,7 +38,11 @@ in
 
     app = lib.mkOption {
       default = [ ];
-      description = "Sunshine apps, each with its own name and resolution/output switch.";
+      description = ''
+        Sunshine apps, each with its own name and resolution/output switch.
+        These target the *quentin-session* mode (an interactively logged-in GNOME
+        session + Mutter display-switch).
+      '';
       type = lib.types.listOf (lib.types.submodule {
         options = {
           name = lib.mkOption {
@@ -95,7 +99,7 @@ in
     services.sunshine = {
       enable = true;
       autoStart = true;
-      openFirewall = true;
+      openFirewall = lib.mkDefault true;
       capSysAdmin = true;
     };
 
