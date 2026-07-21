@@ -2,7 +2,6 @@
 
 let
   cfg = config.mx.fonts;
-  cooper-black = import ./cooper-black.nix { inherit pkgs; };
   mx-use-system-font = pkgs.writeShellScriptBin "mx-use-system-font" ''
     mkdir -p ~/.local/share/fonts
     for dir in /nix/store/*/share/fonts/*; do
@@ -22,7 +21,6 @@ in
       mx-use-system-font
     ];
     fonts.packages = with pkgs; [
-      cooper-black
       dejavu_fonts
       merriweather
       freefont_ttf
