@@ -89,7 +89,7 @@ let
 
     '';
 
-  list-available-display-interface = pkgs.writeShellScriptBin "ùx-list-available-display-interface" ''
+  list-available-display-interface = pkgs.writeShellScriptBin "mx-list-available-display-interface" ''
     #!${pkgs.bash}/bin/bash
 
     VIRTUAL_OUTPUTS=(${lib.concatStringsSep " " (map (o: ''"${o}"'') videoOutputs)})
