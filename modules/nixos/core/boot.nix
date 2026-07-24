@@ -19,7 +19,12 @@ in
             enable = true;
             maxGenerations = 10;
             secureBoot.enable = true;
-            extraConfig = "timeout: 1\nquiet: yes\nremember_last_entry: yes";
+            extraConfig = ''
+              timeout: 1
+              quiet: yes
+              remember_last_entry: no
+              default_entry: 1
+            '';
           };
 
           loader.efi.canTouchEfiVariables = lib.mkDefault true;
