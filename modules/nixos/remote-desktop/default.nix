@@ -33,6 +33,13 @@ let
   switches = lib.any (a: a.output != null) cfg.app;
 in
 {
+  imports = [
+    ./wake-on-lan.nix
+    ./headless-session.nix
+    ./tailscale.nix
+    ./wireguard.nix
+  ];
+
   options.mx.services.remote-desktop = {
     enable = lib.mkEnableOption "Enable remote desktop server";
 
@@ -41,7 +48,9 @@ in
       description = ''
         Sunshine apps, each with its own name and resolution/output switch.
         These target the *quentin-session* mode (an interactively logged-in GNOME
-        session + Mutter display-switch).
+        session + Mutter display-switch).  In `headless.enable` mode the game runs
+        in the dedicated stream session instead — use `headless.sessionCommand`,
+        not steam=true apps here.
       '';
       type = lib.types.listOf (lib.types.submodule {
         options = {
