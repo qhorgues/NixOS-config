@@ -18,7 +18,17 @@ in
           loader.limine = {
             enable = true;
             maxGenerations = 10;
-            secureBoot.enable = true;
+            secureBoot = {
+              enable = true;
+              autoGenerateKeys = true;
+              autoEnrollKeys = {
+                enable = true;
+                extraArgs = [
+                  "--microsoft"
+                  "--firmware-builtin"
+                ];
+              };
+            };
             extraConfig = ''
               timeout: 1
               quiet: yes
