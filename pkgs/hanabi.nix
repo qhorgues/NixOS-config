@@ -26,8 +26,8 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "jeffshee";
     repo = "gnome-ext-hanabi";
-    rev = "typescript";
-    hash = "sha256-GPkmnmwCahP9tm3MeMhE06efel1RmQBM3Sf2ay0hhMI=";
+    rev = "main";
+    hash = "sha256-oTXfNluKBX5PFxu6H3P0iB6CZFmljWWTrASWf40QZe8=";
   };
 
   npmDeps = fetchNpmDeps {
@@ -72,15 +72,15 @@ stdenv.mkDerivation (finalAttrs: {
 
   postFixup = ''
     ext=$out/share/gnome-shell/extensions/${finalAttrs.passthru.extensionUuid}
-    r=$ext/renderer/renderer.js
     schemas=$(echo "$out/share/gsettings-schemas/"*/glib-2.0/schemas)
 
-    mv "$r" "$r.mjs"
-    makeWrapper ${gjs}/bin/gjs "$r" \
-      --add-flags "-m $r.mjs" \
+    makeWrapper ${gjs}/bin/gjs "$ext/hanabi-gjs" \
       --prefix GI_TYPELIB_PATH : "$GI_TYPELIB_PATH" \
       --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "$GST_PLUGIN_SYSTEM_PATH_1_0" \
       --prefix GSETTINGS_SCHEMA_DIR : "$schemas"
+
+    substituteInPlace "$ext/extension.js" \
+      --replace-fail 'argv.push("gjs", "-m",' "argv.push(\"$ext/hanabi-gjs\", \"-m\","
 
     ln -s "$schemas" "$ext/schemas"
   '';
