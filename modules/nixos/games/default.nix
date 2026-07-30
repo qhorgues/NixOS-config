@@ -20,6 +20,8 @@ let
     teamviewerEnable = config.mx.programs.team-viewer.enable;
     vmEnable = conf_service.vm.enable;
     fwFanCtrl = config.mx.hardware.framework-fan-ctrl.enable;
+    desktop = config.mx.desktop.environment;
+    enableHDR = cfg.enableHDR;
   };
 
   mkFhsDesktop = pkg: desktopFile: bin:
