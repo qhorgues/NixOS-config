@@ -4,10 +4,13 @@ let
   modulix-os-icon = pkgs.callPackage ../../../../pkgs/modulix-icon.nix {};
   hanabi = pkgs.callPackage ../../../../pkgs/hanabi.nix {};
   cfg = config.mx.desktop-environment.gnome;
+  wallpaperImageWhite = if cfg.live-wallpaper then "wallpaper.jpg" else "exp33silksong.jpg";
+  wallpaperImageDark = if cfg.live-wallpaper then "wallpaper.jpg" else "exp33silksong.jpg";
 in
 {
   options.mx.desktop-environment.gnome = {
     connection = lib.mkEnableOption "Enable connection";
+    live-wallpaper = lib.mkEnableOption "live wallpaper (hanabi)";
   };
   config = lib.mkIf osConfig.mx.gnome.enable {
     home.packages = with pkgs; [
@@ -33,7 +36,6 @@ in
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
         gnomeExtensions.upower-battery
-        hanabi
         # gnomeExtensions.desktop-icons-ng-ding
         # gnomeExtensions.tiling-shell
         # Icons
@@ -41,7 +43,8 @@ in
     ]
     ++ lib.optional osConfig.mx.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.framework-fan-control
     ++ lib.optional osConfig.mx.gnome.gsconnect pkgs.gnomeExtensions.gsconnect
-    ++ lib.optional cfg.connection pkgs.gnome-connections;
+    ++ lib.optional cfg.connection pkgs.gnome-connections
+    ++ lib.optional cfg.live-wallpaper hanabi;
     dconf = {
         enable = true;
         settings = {
@@ -56,12 +59,12 @@ in
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
               upower-battery.extensionUuid
-              hanabi.extensionUuid
               # desktop-icons-ng-ding.extensionUuid
               # tiling-shell.extensionUuid
             ]
             ++ lib.optional osConfig.mx.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.framework-fan-control.extensionUuid
-            ++ lib.optional osConfig.mx.gnome.gsconnect pkgs.gnomeExtensions.gsconnect.extensionUuid;
+            ++ lib.optional osConfig.mx.gnome.gsconnect pkgs.gnomeExtensions.gsconnect.extensionUuid
+            ++ lib.optional cfg.live-wallpaper hanabi.extensionUuid;
             favorite-apps = [
               "firefox.desktop"
               "org.gnome.Nautilus.desktop"
@@ -78,8 +81,8 @@ in
             enable-hot-corners = false;
         };
         "org/gnome/desktop/background" = {
-            picture-uri =  "file://${config.home.homeDirectory}/.local/share/wallpaper/exp33silksong.jpg";
-            picture-uri-dark = "file://${config.home.homeDirectory}/.local/share/wallpaper/exp33silksong.jpg";
+            picture-uri =  "file://${config.home.homeDirectory}/.local/share/wallpaper/${wallpaperImageWhite}";
+            picture-uri-dark = "file://${config.home.homeDirectory}/.local/share/wallpaper/${wallpaperImageDark}";
         };
         "org/gnome/desktop/wm/preferences" = {
             button-layout = "appmenu:minimize,maximize,close";
@@ -189,10 +192,26 @@ in
             "file:///nix/store"
           ];
         };
+      }
+      // lib.optionalAttrs cfg.live-wallpaper {
+        "io/github/jeffshee/hanabi-extension" = {
+          video-path = "${config.home.homeDirectory}/.local/share/wallpaper/wallpaper.mp4";
+          content-fit = 2;
+          enable-graphics-offload = true;
+          enable-va = true;
+          force-mediafile = true;
+          show-panel-menu = false;
+        };
       };
     };
-    home.file.".local/share/wallpaper/clair-obscur.jpg".source = ./clair-obscur.jpg;
-    home.file.".local/share/wallpaper/maelle_kill_simon.png".source = ./maelle_kill_simon.png;
-    home.file.".local/share/wallpaper/exp33silksong.jpg".source = ./exp33silksong.jpg;
+    home.file = {
+      ".local/share/wallpaper/clair-obscur.jpg".source = ./clair-obscur.jpg;
+      ".local/share/wallpaper/maelle_kill_simon.png".source = ./maelle_kill_simon.png;
+      ".local/share/wallpaper/exp33silksong.jpg".source = ./exp33silksong.jpg;
+    }
+    // lib.optionalAttrs cfg.live-wallpaper {
+      ".local/share/wallpaper/wallpaper.mp4".source = ./wallpaper.mp4;
+      ".local/share/wallpaper/wallpaper.jpg".source = ./wallpaper.jpg;
+    };
   };
 }
