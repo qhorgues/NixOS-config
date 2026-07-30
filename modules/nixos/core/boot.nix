@@ -18,8 +18,22 @@ in
           loader.limine = {
             enable = true;
             maxGenerations = 10;
-            secureBoot.enable = true;
-            extraConfig = "timeout: 1\nquiet: yes\nremember_last_entry: yes";
+            secureBoot = {
+              enable = true;
+              autoGenerateKeys = true;
+              autoEnrollKeys = {
+                enable = true;
+                extraArgs = [
+                  "--microsoft"
+                  "--firmware-builtin"
+                ];
+              };
+            };
+            extraConfig = ''
+              timeout: 1
+              quiet: yes
+              remember_last_entry: no
+            '';
           };
 
           loader.efi.canTouchEfiVariables = lib.mkDefault true;

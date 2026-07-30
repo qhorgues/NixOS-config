@@ -28,6 +28,9 @@
 
     nixpkgsConfig = {
       allowUnfree = true;
+
+      # TEMPORARY FIX
+      permittedInsecurePackages = [ "electron-40.10.5" ]; # For winboat /!\
     };
 
     make-system = {
