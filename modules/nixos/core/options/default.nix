@@ -3,6 +3,7 @@
   imports = [
     ./hardware-gpu.nix
     ./framework.nix
+    ./desktop.nix
   ];
 
   # General internal options
