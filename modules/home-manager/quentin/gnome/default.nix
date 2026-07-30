@@ -209,6 +209,7 @@ in
           show-panel-menu = false;
           mute = true;
           volume = 0;
+          startup-delay = 0;
         };
       };
     };
