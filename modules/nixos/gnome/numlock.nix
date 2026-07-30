@@ -2,14 +2,14 @@
 
 {
   options = {
-    mx.gnome.numlock = lib.mkOption {
+    mx.desktop.gnome.numlock = lib.mkOption {
         type = lib.types.bool;
         default = true;
         description = "disable NumLock auto";
     };
     };
 
-  config = lib.mkIf (config.mx.gnome.enable && config.mx.gnome.numlock) {
+  config = lib.mkIf (config.mx.desktop.environment == "gnome" && config.mx.desktop.gnome.numlock) {
     programs.dconf = {
         enable = true;
         profiles.gdm.databases = [{

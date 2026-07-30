@@ -16,7 +16,7 @@ in
     connection = lib.mkEnableOption "Enable connection";
     live-wallpaper = lib.mkEnableOption "live wallpaper (hanabi)";
   };
-  config = lib.mkIf osConfig.mx.gnome.enable {
+  config = lib.mkIf (osConfig.mx.desktop.environment == "gnome") {
     home.packages = with pkgs; [
         # Base gnome app
         gnome-tweaks
@@ -46,7 +46,7 @@ in
         modulix-os-icon
     ]
     ++ lib.optional osConfig.mx.hardware.framework-fan-ctrl.enable pkgs.gnomeExtensions.framework-fan-control
-    ++ lib.optional osConfig.mx.gnome.gsconnect pkgs.gnomeExtensions.gsconnect
+    ++ lib.optional osConfig.mx.desktop.gnome.gsconnect pkgs.gnomeExtensions.gsconnect
     ++ lib.optional cfg.connection pkgs.gnome-connections
     ++ lib.optional cfg.live-wallpaper hanabi;
     dconf = {
@@ -67,7 +67,7 @@ in
               # tiling-shell.extensionUuid
             ]
             ++ lib.optional osConfig.mx.hardware.framework-fan-ctrl.enable       pkgs.gnomeExtensions.framework-fan-control.extensionUuid
-            ++ lib.optional osConfig.mx.gnome.gsconnect pkgs.gnomeExtensions.gsconnect.extensionUuid
+            ++ lib.optional osConfig.mx.desktop.gnome.gsconnect pkgs.gnomeExtensions.gsconnect.extensionUuid
             ++ lib.optional cfg.live-wallpaper hanabi.extensionUuid;
             favorite-apps = [
               "firefox.desktop"

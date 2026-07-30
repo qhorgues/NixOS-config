@@ -1,13 +1,12 @@
 { pkgs, lib, config, ... }:
 
 let
-  cfg = config.mx.gnome;
+  cfg = config.mx.desktop.gnome;
   cgpu = config.mx.hardware.gpu;
+  isGnome = config.mx.desktop.environment == "gnome";
 in
 {
-    options.mx.gnome = {
-      enable = lib.mkEnableOption "Enable GNOME desktop environment";
-
+    options.mx.desktop.gnome = {
       scaling = lib.mkOption {
         type = lib.types.int;
         default = 1;
@@ -25,11 +24,12 @@ in
     imports = [
       ./numlock.nix
       ./trash.nix
+      ../core/options/desktop.nix
     ];
 
     config = lib.mkMerge [
       (
-        lib.mkIf cfg.enable {
+        lib.mkIf isGnome {
           services = {
             xserver = {
               enable = true;
@@ -65,9 +65,9 @@ in
                               night-light-enabled = true;
                           };
                           "org/gnome/desktop/interface" = {
-                              scaling-factor = lib.gvariant.mkUint32 config.mx.gnome.scaling;
+                              scaling-factor = lib.gvariant.mkUint32 config.mx.desktop.gnome.scaling;
                               show-battery-percentage = true;
-                              text-scaling-factor = lib.gvariant.mkDouble config.mx.gnome.text-scaling;
+                              text-scaling-factor = lib.gvariant.mkDouble config.mx.desktop.gnome.text-scaling;
                           };
                           "org/gnome/desktop/input-sources" = {
                               sources = [
@@ -82,8 +82,8 @@ in
                               night-light-enabled = true;
                           };
                           # "org/gnome/desktop/interface" = {
-                          #     scaling-factor = lib.gvariant.mkUint32 config.mx.gnome.scaling;
-                          #     text-scaling-factor = lib.gvariant.mkDouble config.mx.gnome.text-scaling;
+                          #     scaling-factor = lib.gvariant.mkUint32 config.mx.desktop.gnome.scaling;
+                          #     text-scaling-factor = lib.gvariant.mkDouble config.mx.desktop.gnome.text-scaling;
                           # };
                       };
                   }];
@@ -142,7 +142,7 @@ in
       }
     )
     (
-      lib.mkIf (cfg.enable && cfg.gsconnect) {
+      lib.mkIf (isGnome && cfg.gsconnect) {
         networking.firewall = rec {
           allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
           allowedUDPPortRanges = allowedTCPPortRanges;
@@ -150,7 +150,7 @@ in
       }
     )
     (
-      lib.mkIf (cfg.enable && cfg.remote-desktop) {
+      lib.mkIf (isGnome && cfg.remote-desktop) {
         services.gnome.gnome-remote-desktop.enable = true;
         systemd.services.gnome-remote-desktop = {
           wantedBy = [ "graphical.target" ];

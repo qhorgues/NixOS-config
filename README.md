@@ -91,10 +91,13 @@ After installation reboot imediatly in bios setup
       userName = "<user_name>"; # Username of the main user
       userFullName = "<Full Name>"; # Full name of the main user
     };
-    gnome = {
-      # This is apply in gdm only  
-      scaling = 2; # Scaling factor for the display
-      text-scaling = 0.7; # Scaling factor for text
+    desktop = {
+      environment = "gnome"; # none, gnome, plasma or lxqt (plasma: screen detection only, DE not provided)
+      gnome = {
+        # This is apply in gdm only  
+        scaling = 2; # Scaling factor for the display
+        text-scaling = 0.7; # Scaling factor for text
+      };
     };
     # Optional if you use VM list users trusted to use the VM
     vm = {

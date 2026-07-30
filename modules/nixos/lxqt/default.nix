@@ -1,12 +1,11 @@
 { pkgs, lib, config, ... }:
 
-let
-  cfg = config.mx.lxqt;
-in
 {
-  options.mx.lxqt.enable = lib.mkEnableOption "Enable LXQT desktop environment";
+  imports = [
+    ../core/options/desktop.nix
+  ];
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf (config.mx.desktop.environment == "lxqt") {
     services.xserver = {
       enable = true;
       # displayManager.lightdm.enable = true;
