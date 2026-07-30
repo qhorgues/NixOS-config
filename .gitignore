@@ -4,3 +4,6 @@ result-*
 
 # Ignore automatically generated direnv output
 .direnv
+
+# Video assets are served from release tags and fetched with pkgs.fetchurl
+*.mp4

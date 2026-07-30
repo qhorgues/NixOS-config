@@ -6,6 +6,10 @@ let
   cfg = config.mx.desktop-environment.gnome;
   wallpaperImageWhite = if cfg.live-wallpaper then "wallpaper.jpg" else "exp33silksong.jpg";
   wallpaperImageDark = if cfg.live-wallpaper then "wallpaper.jpg" else "exp33silksong.jpg";
+  wallpaperVideo = pkgs.fetchurl {
+    url = "https://github.com/qhorgues/NixOS-config/releases/download/wallpaper-v1/wallpaper.mp4";
+    hash = "sha256-yysmlKR8wOc0OZwJIpeoUs/ywUUlPK+pV/qS3qGU4x4=";
+  };
 in
 {
   options.mx.desktop-environment.gnome = {
@@ -214,7 +218,7 @@ in
       ".local/share/wallpaper/exp33silksong.jpg".source = ./exp33silksong.jpg;
     }
     // lib.optionalAttrs cfg.live-wallpaper {
-      ".local/share/wallpaper/wallpaper.mp4".source = ./wallpaper.mp4;
+      ".local/share/wallpaper/wallpaper.mp4".source = wallpaperVideo;
       ".local/share/wallpaper/wallpaper.jpg".source = ./wallpaper.jpg;
     };
   };
