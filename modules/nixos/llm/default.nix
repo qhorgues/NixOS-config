@@ -31,6 +31,9 @@ let
       stop-timeout = lib.mkOption { type = lib.types.str; default = "60"; };
     };
   };
+
+  modelsPresetIni =
+    pkgs.writeText "llama-models.ini" (lib.generators.toINI { } cfg.modelsPreset);
 in
 {
   options.mx.services.llm = {
@@ -147,8 +150,9 @@ in
       package = cfg.llamaCppPackage;
       host = cfg.host;
       port = cfg.port;
-      extraFlags = cfg.extraFlags;
-      modelsPreset = cfg.modelsPreset;
+      extraFlags =
+        cfg.extraFlags
+        ++ lib.optionals (cfg.modelsPreset != { }) [ "--models-preset" "${modelsPresetIni}" ];
     };
 
     systemd.services.llama-cpp = {
