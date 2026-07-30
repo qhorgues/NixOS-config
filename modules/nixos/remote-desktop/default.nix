@@ -1,9 +1,49 @@
 { config, lib, pkgs, ... }:
 
 let
+  username = "quentin";
+
+  runtimeDir = "/run/user/$(${pkgs.coreutils}/bin/id -u ${username})";
+
+  steamBin = "${config.programs.steam.package}/bin/steam";
+
+  steamEnv = ''
+    export XDG_RUNTIME_DIR=${runtimeDir}
+    export DBUS_SESSION_BUS_ADDRESS=unix:path=${runtimeDir}/bus
+  '';
+
+  steamRunning = "${pkgs.procps}/bin/pgrep -u ${username} -x 'steam|steamwebhelper'";
+
+  steamOpenScript = pkgs.writeShellScript "steam-open-bigpicture" ''
+    ${steamEnv}
+    exec ${pkgs.util-linux}/bin/setsid ${steamBin} steam://open/bigpicture
+  '';
+
+  steamCloseScript = pkgs.writeShellScript "steam-close-bigpicture" ''
+    ${steamEnv}
+    if ${steamRunning} >/dev/null 2>&1; then
+      ${pkgs.util-linux}/bin/setsid ${steamBin} steam://close/bigpicture || true
+    fi
+    exit 0
+  '';
+
+  steamMonitorScript = pkgs.writeShellScript "steam-monitor" ''
+    ${steamEnv}
+    for _ in $(${pkgs.coreutils}/bin/seq 60); do
+      ${steamRunning} >/dev/null 2>&1 && break
+      ${pkgs.coreutils}/bin/sleep 1
+    done
+    while ${steamRunning} >/dev/null 2>&1; do
+      ${pkgs.coreutils}/bin/sleep 2
+    done
+    exit 0
+  '';
+
   cfg = config.mx.services.remote-desktop;
 
-  steamBigPicture = "sudo -u quentin ${pkgs.util-linux}/bin/setsid ${config.programs.steam.package}/bin/steam steam://open/bigpicture";
+  steamBigPicture = "sudo -u ${username} ${steamOpenScript}";
+  closeSteamBigPicture = "sudo -u ${username} ${steamCloseScript}";
+  steamMonitor = "sudo -u ${username} ${steamMonitorScript}";
 
   sunshineAssets = "${config.services.sunshine.package}/assets";
 
@@ -16,11 +56,16 @@ let
   mkPrepCmd = a: lib.optional (a.output != null) {
     do = "${activate} ${a.output}";
     undo = restore;
+  }
+  ++ lib.optional a.steam {
+    do = "";
+    undo = closeSteamBigPicture;
   };
 
   mkApp = a:
     let
       detached = lib.optional a.steam steamBigPicture ++ a.command;
+      prepCmd = mkPrepCmd a;
       image =
         if a.image != null then a.image
         else if a.steam then "${sunshineAssets}/steam.png"
@@ -28,7 +73,8 @@ let
     in
     { inherit (a) name; image-path = image; }
     // lib.optionalAttrs (detached != [ ]) { inherit detached; }
-    // lib.optionalAttrs (a.output != null) { prep-cmd = mkPrepCmd a; };
+    // lib.optionalAttrs a.steam { cmd = steamMonitor; }
+    // lib.optionalAttrs (prepCmd != [ ]) { prep-cmd = prepCmd; };
 
   switches = lib.any (a: a.output != null) cfg.app;
 in
@@ -101,9 +147,23 @@ in
       autoStart = true;
       openFirewall = lib.mkDefault true;
       capSysAdmin = true;
+      applications = {
+        env = {
+          PATH = "$(PATH):$(HOME)/.local/bin";
+        };
+        apps = map mkApp cfg.app;
+      };
     };
 
-    services.sunshine.applications.apps = map mkApp cfg.app;
+
+    security.sudo.extraRules = [{
+    users = [ "sunshine" ];
+    commands = [
+      { command = "${steamOpenScript}"; }
+      { command = "${steamCloseScript}"; }
+      { command = "${steamMonitorScript}"; }
+    ];
+  }];
 
     assertions = lib.optionals switches [
       {
