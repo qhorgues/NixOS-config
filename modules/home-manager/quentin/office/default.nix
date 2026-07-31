@@ -22,7 +22,8 @@ in
       gsettings-desktop-schemas
       onlyoffice-desktopeditors
       libreoffice-fresh
-      hunspellDicts.fr-moderne
+      hunspellDicts.fr-any
+      hunspellDicts.en-us
     ];
   };
 }
