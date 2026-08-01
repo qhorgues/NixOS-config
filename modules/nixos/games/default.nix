@@ -212,7 +212,7 @@ in
     ] ++ lib.optional cfg.lsfg.enable lsfg-vk-ui-fhs
     ++ lib.optional cfg.heroic.enable pkgs-unstable.heroic
     ++ lib.optional cfg.lutris.enable pkgs-unstable.lutris
-    ++ lib.optional cfg.umu.enable pkgs-unstable.umu;
+    ++ lib.optional cfg.umu.enable pkgs-unstable.umu-launcher;
     hardware = {
         graphics = {
           enable = true;
