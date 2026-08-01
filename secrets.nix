@@ -16,5 +16,5 @@ in
 {
   # Secret spécifique à chaque machine
   "secrets/fw-laptop-16/wireguard-key.age".publicKeys  = fw-laptop-16;
-  "secrets/shared/hungingface-token.age".publicKeys = fw-laptop-16;
+  "secrets/shared/huggingface-token.age".publicKeys = fw-laptop-16;
 }
