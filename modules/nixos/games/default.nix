@@ -147,7 +147,6 @@ in
         package = pkgs.steam.override {
           extraEnv = {
             TZ = ":/etc/localtime";
-            MANGOHUD = true;
             OBS_VKCAPTURE = config.mx.programs.obs-studio.enable;
             # PROTON_NO_D3D12=true;
             PROTON_PRIORITY_HIGH=true;

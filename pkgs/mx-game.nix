@@ -196,7 +196,7 @@ pkgs.writeShellScriptBin "mx-games" ''
         ${gamescopeEnv}
         echo "==> Running under gamescope ($mode_desc): $*"
         ${pkgs.gamescope}/bin/gamescope ${lib.concatStringsSep " " gamescopeArgs} \
-            -W "$width" -H "$height" "''${refresh_args[@]}" -- "$@" &
+            -W "$width" -H "$height" "''${refresh_args[@]}" --mangoapp -- "$@" &
     else
         echo "==> Running: $*"
         "$@" &
