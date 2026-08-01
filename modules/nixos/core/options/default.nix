@@ -1,6 +1,7 @@
 { lib, config, ... }:
 {
   imports = [
+    ./hardware-cpu.nix
     ./hardware-gpu.nix
     ./framework.nix
     ./desktop.nix

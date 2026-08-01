@@ -2,6 +2,7 @@
 
 let
   cfg = config.mx.programs.modeling;
+  cgpu = config.mx.hardware.gpu;
 in
 {
   options.mx.programs.modeling = {
@@ -16,7 +17,7 @@ in
             cudaSupport = true;
           }
         else if cgpu.vendor == "amd" then
-          blender-hip
+          pkgsRocm.blender
         else
           blender)
       bambu-studio
