@@ -43,10 +43,10 @@ in
           environment.etc."machine-info".text = "";
 
           # Hostname anonyme pour mDNS/LLMNR
-          services.resolved.extraConfig = ''
-            MulticastDNS=no
-            LLMNR=no
-          '';
+          services.resolved.settings.Resolve = {
+            MulticastDNS = "no";
+            LLMNR = "no";
+          };
 
           services.avahi.enable = lib.mkForce false;
         }
