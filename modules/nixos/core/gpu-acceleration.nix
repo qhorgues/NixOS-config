@@ -1,7 +1,12 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.mx.hardware.gpu;
+  cgpu = config.mx.hardware.gpu;
+  ccpu = config.mx.hardware.cpu;
+
+  intel-legacy = ccpu.generation == "legacy";
+  intel-graphics = ccpu.vendor == "intel" || cgpu.vendor == "intel";
+  nvidia = cgpu.vendor == "nvidia";
 in {
 
   config = lib .mkIf (!config.mx.mode.server.enable) {
@@ -9,25 +14,18 @@ in {
       enable = true;
 
       extraPackages = with pkgs;
-        lib.optionals (cfg.vendor == "intel") [
-          intel-media-driver   # Modern intel
-          libvdpau-va-gl
-        ]
-        ++ lib.optionals (cfg.vendor == "nvidia") [
-          vaapiVdpau
-          libvdpau-va-gl
-        ];
+        lib.optional intel-graphics
+          (if intel-legacy then intel-vaapi-driver else intel-media-driver)
+        ++ lib.optional nvidia libva-vdpau-driver
+        ++ lib.optional (intel-graphics || nvidia) libvdpau-va-gl;
     };
 
     environment.sessionVariables = lib.mkMerge [
-      (lib.mkIf (cfg.vendor == "intel" && cfg.intelGeneration == "modern") {
-        LIBVA_DRIVER_NAME = "iHD";
+      (lib.mkIf (cgpu.vendor == "intel") {
+        LIBVA_DRIVER_NAME = if intel-legacy then "i965" else "iHD";
       })
-      (lib.mkIf (cfg.vendor == "intel" && cfg.intelGeneration == "legacy") {
-        LIBVA_DRIVER_NAME = "i965";
-      })
-      (lib.mkIf (cfg.vendor == "nvidia") {
-        LIBVA_DRIVER_NAME     = "nvidia";
+      (lib.mkIf nvidia {
+        LIBVA_DRIVER_NAME       = "nvidia";
         MOZ_DISABLE_RDD_SANDBOX = "1";  # Firefox VAAPI
       })
     ];
