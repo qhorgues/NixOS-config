@@ -79,11 +79,12 @@ let
 
   detectCmd = detectCmds.${desktop} or "false";
 
-  gamescopeArgs = [ "-f" "--adaptive-sync" ] # "-e"
+  gamescopeArgs = [ "-f" "--adaptive-sync" "--mangoapp" "--rt" "--force-grab-cursor" "--immediate-flips" ]
     ++ lib.optional enableHDR "--hdr-enabled";
 
   gamescopeEnv = ''
     export ENABLE_GAMESCOPE_WSI=1
+    export LD_PRELOAD=""
     ${lib.optionalString enableHDR "export DXVK_HDR=1"}
   '';
 
@@ -196,7 +197,7 @@ pkgs.writeShellScriptBin "mx-games" ''
         ${gamescopeEnv}
         echo "==> Running under gamescope ($mode_desc): $*"
         ${pkgs.gamescope}/bin/gamescope ${lib.concatStringsSep " " gamescopeArgs} \
-            -W "$width" -H "$height" "''${refresh_args[@]}" --mangoapp -- "$@" &
+            -W "$width" -H "$height" "''${refresh_args[@]}" -- "$@" &
     else
         echo "==> Running: $*"
         "$@" &
