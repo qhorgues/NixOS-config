@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, lib, ... }:
+  { config, pkgs, pkgs-unstable, lib, ... }:
 
 let
   cfg = config.mx.programs.games;
@@ -33,6 +33,75 @@ let
     });
 
   lsfg-vk-ui-fhs = mkFhsDesktop lsfg-vk-ui "gay.pancake.lsfg-vk-ui.desktop" "lsfg-vk-ui";
+
+  mangohudStyleBase = ''
+    legacy_layout=0
+    round_corners=0
+    background_color=000000
+    font_size=24
+    text_color=FFFFFF
+    gpu_text=GPU
+    cpu_text=CPU
+    gpu_color=2E9762
+    cpu_color=2E97CB
+    vram_color=AD64C1
+    ram_color=C26693
+    battery_color=00FF00
+    engine_color=EB5B5B
+    wine_color=EB5B5B
+    frametime_color=00FF00
+  '';
+
+  mangohudStyleBar = ''
+    ${mangohudStyleBase}
+    horizontal
+    hud_no_margin
+    table_columns=1
+    position=top-center
+    background_alpha=0
+  '';
+
+  mangohudStylePanel = ''
+    ${mangohudStyleBase}
+    position=top-left
+    background_alpha=0.4
+  '';
+
+  mangohudDaily = ''
+    ${mangohudStyleBar}
+    gpu_stats
+    gpu_temp
+    gpu_power
+    cpu_stats
+    cpu_temp
+    cpu_power
+    vram
+    ram
+    battery
+    fps
+    frame_timing
+    time
+  '';
+
+  mangohudPresets = pkgs.writeText "mangohud-presets.conf" ''
+    [preset 0]
+    ${mangohudStyleBar}
+    fps
+    frame_timing
+    time
+
+    [preset 1]
+    ${mangohudDaily}
+
+    [preset 2]
+    inherit
+    ${mangohudStyleBar}
+    time
+
+    [preset 3]
+    inherit
+    ${mangohudStylePanel}
+  '';
 
 in
 {
@@ -95,9 +164,7 @@ in
       gamescope = {
         enable = true;
         package = pkgs.gamescope;
-
-        # HOT FIX: TODO CHANGE WHEN WORK'S
-        capSysNice = false;
+        capSysNice = true;
       };
       gamemode = {
         enable = true;
@@ -195,12 +262,25 @@ in
     environment = {
       sessionVariables = {
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = "\${HOME}/.steam/root/compatibilitytools.d";
-        MANGOHUD_CONFIG = "control=mangohud,gpu_list=0,hud_no_margin,legacy_layout=false,horizontal,round_corners=0,background_alpha=0,background_color=000000,font_size=24,text_color=FFFFFF,position=top-center,toggle_hud=Shift_R+F12,no_display,table_columns=1,gpu_text=GPU,gpu_stats,gpu_temp,gpu_power,gpu_color=2E9762,cpu_text=CPU,cpu_stats,cpu_temp,cpu_power,cpu_color=2E97CB,vram,vram_color=AD64C1,ram,ram_color=C26693,battery,battery_color=00FF00,fps,gpu_name,wine,wine_color=EB5B5B,fps_limit_method=late,toggle_fps_limit=Shift_R+F1,fps_limit=0\\,165\\,60\\,30,time";
+        MANGOHUD_PRESETSFILE = "/etc/MangoHud/presets.conf";
+        MANGOHUD_CONFIG = lib.concatStringsSep "," [
+          "control=mangohud"
+          "gpu_list=0"
+          "preset=0\\,1\\,2\\,3"
+          "toggle_preset=Shift_R+F10"
+          "toggle_hud=Shift_R+F12"
+          "toggle_hud_position=Shift_R+F11"
+          "toggle_fps_limit=Shift_L+F1"
+          "fps_limit_method=late"
+          "fps_limit=0\\,165\\,60\\,30"
+        ];
 
         MESA_SHADER_CACHE_MAX_SIZE= lib.mkIf (cgpu.vendor == "amd") "12G";
         __GL_SHADER_DISK_CACHE_SIZE= lib.mkIf (cgpu.vendor == "nvidia") "12000000000";
 
       };
+
+      etc."MangoHud/presets.conf".source = mangohudPresets;
     };
     environment.systemPackages = [
       pkgs.mangohud
