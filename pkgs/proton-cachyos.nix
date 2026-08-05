@@ -6,7 +6,7 @@
   # Can be overridden to alter the display name in steam
   # This could be useful if multiple versions should be installed together
   steamDisplayName ? "Proton CachyOS",
-  version ? "11.0-20260702-slr"
+  version ? "11.0-20260703-slr"
 }:
 let
   tag = "cachyos-${version}";
@@ -17,7 +17,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   src = fetchzip {
     url = "https://github.com/CachyOS/proton-cachyos/releases/download/${tag}/proton-cachyos-${version}-x86_64.tar.xz";
-    hash = "sha256-ZyyhEf6NcW7MzswWAlMdE4Ok8KnBOmB81yvu8ZwVxl4=";
+    hash = "sha256-jOcPeEkBBPPNqyjXBoHm1Nk8AexPiLhx5+385NjUPT0=";
   };
 
 
