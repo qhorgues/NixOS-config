@@ -26,8 +26,8 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "jeffshee";
     repo = "gnome-ext-hanabi";
-    rev = "main";
-    hash = "sha256-oTXfNluKBX5PFxu6H3P0iB6CZFmljWWTrASWf40QZe8=";
+    rev = "9374f9790691f70996bfcbe11d51794052c3a436";
+    hash = "sha256-K8l0mlysnhdsvyDTzMbA0vHYJn+t+FZGrHRxzpy93eU=";
   };
 
   npmDeps = fetchNpmDeps {
