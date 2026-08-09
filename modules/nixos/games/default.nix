@@ -67,14 +67,14 @@ let
     background_alpha=0.4
   '';
 
-  mangohudDaily = ''
-    ${mangohudStyleBar}
+  mangohudElementsFps = ''
+    fps
+    time
+  '';
+
+  mangohudElementsBasic = ''
     gpu_stats
-    gpu_temp
-    gpu_power
     cpu_stats
-    cpu_temp
-    cpu_power
     vram
     ram
     battery
@@ -83,24 +83,80 @@ let
     time
   '';
 
-  mangohudPresets = pkgs.writeText "mangohud-presets.conf" ''
-    [preset 0]
-    ${mangohudStyleBar}
+  mangohudElementsDetailed = ''
+    gpu_stats
+    gpu_temp
+    gpu_core_clock
+    gpu_mem_clock
+    gpu_power
+    cpu_stats
+    cpu_temp
+    cpu_mhz
+    cpu_power
+    vram
+    ram
+    battery
     fps
+    frametime
     frame_timing
     time
+  '';
 
+  mangohudElementsFull = ''
+    gpu_name
+    gpu_stats
+    gpu_temp
+    gpu_junction_temp
+    gpu_mem_temp
+    gpu_core_clock
+    gpu_mem_clock
+    gpu_power
+    gpu_fan
+    gpu_voltage
+    cpu_stats
+    cpu_temp
+    cpu_mhz
+    cpu_power
+    core_load
+    core_bars
+    core_type
+    vram
+    ram
+    swap
+    procmem
+    io_read
+    io_write
+    battery
+    fps
+    frametime
+    fps_metrics=avg,0.01
+    frame_timing
+    throttling_status
+    resolution
+    refresh_rate
+    vulkan_driver
+    engine_version
+    arch
+    wine
+    time
+  '';
+
+  mangohudPresets = pkgs.writeText "mangohud-presets.conf" ''
     [preset 1]
-    ${mangohudDaily}
+    ${mangohudStyleBar}
+    ${mangohudElementsFps}
 
     [preset 2]
-    inherit
     ${mangohudStyleBar}
-    time
+    ${mangohudElementsBasic}
 
     [preset 3]
-    inherit
     ${mangohudStylePanel}
+    ${mangohudElementsDetailed}
+
+    [preset 4]
+    ${mangohudStylePanel}
+    ${mangohudElementsFull}
   '';
 
 in
@@ -266,7 +322,7 @@ in
         MANGOHUD_CONFIG = lib.concatStringsSep "," [
           "control=mangohud"
           "gpu_list=0"
-          "preset=0\\,1\\,2\\,3"
+          "preset=0\\,1\\,2\\,3\\,4"
           "toggle_preset=Shift_R+F10"
           "toggle_hud=Shift_R+F12"
           "toggle_hud_position=Shift_R+F11"
