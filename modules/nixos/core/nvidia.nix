@@ -9,15 +9,6 @@ let
 
   close-nvidia = legacy-fermi || legacy-kepler || old-gpu;
 
-  nvidia580Driver = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-    version = "580.142";
-    sha256_64bit = "sha256-IJFfzz/+icNVDPk7YKBKKFRTFQ2S4kaOGRGkNiBEdWM=";
-    sha256_aarch64 = "sha256-jntr88SpTYR648P1rizQjB/8KleBoa14Ay12vx8XETM=";
-    openSha256 = "sha256-v968LbRqy8jB9+yHy9ceP2TDdgyqfDQ6P41NsCoM2AY=";
-    settingsSha256 = "sha256-BnrIlj5AvXTfqg/qcBt2OS9bTDDZd3uhf5jqOtTMTQM=";
-    persistencedSha256 = "sha256-il403KPFAnDbB+dITnBGljhpsUPjZwmLjGt8iPKuBqw=";
-  };
-
   nvidia595Driver = config.boot.kernelPackages.nvidiaPackages.mkDriver {
     version = "595.58.03";
     sha256_64bit = "sha256-jA1Plnt5MsSrVxQnKu6BAzkrCnAskq+lVRdtNiBYKfk=";
@@ -35,11 +26,11 @@ in
         hardware.nvidia.package =
           (
           if old-gpu then
-            nvidia580Driver
+            config.boot.kernelPackages.nvidiaPackages.legacy_580
           else if legacy-kepler then
-            config.boot.kernelPackages.nvidiaPackages.lecay_470
+            config.boot.kernelPackages.nvidiaPackages.legacy_470
           else if legacy-fermi then
-            config.boot.kernelPackages.nvidiaPackages.lecay_390
+            config.boot.kernelPackages.nvidiaPackages.legacy_390
           else
             nvidia595Driver
           );
