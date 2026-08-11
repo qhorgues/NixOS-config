@@ -205,7 +205,7 @@ in
           enable-va = true;
           force-mediafile = true;
           pause-on-battery = 2;
-          pause-on-maximize-or-fullscreen = 1;
+          pause-on-maximize-or-fullscreen = 2;
           show-panel-menu = false;
           mute = true;
           volume = 0;
