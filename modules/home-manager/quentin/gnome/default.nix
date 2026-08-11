@@ -31,6 +31,7 @@ in
         loupe
         gnome-extension-manager
         decibels
+        baobab
         # Extension
         gnomeExtensions.dash-to-dock
         gnomeExtensions.blur-my-shell
