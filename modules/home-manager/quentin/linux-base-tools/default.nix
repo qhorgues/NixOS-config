@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, osConfig, ... }:
 let
   cfg = config.mx.programs.linux-base-tools;
 in
@@ -12,6 +12,14 @@ in
       htop
       lm_sensors
       fastfetch
+      (if osConfig.mx.hardware.gpu == "amd" then
+        nvtopPackages.amd
+      else if osConfig.mx.hardware.gpu == "nvidia" then
+        nvtopPackages.nvidia
+      else if osConfig.mx.hardware.gpu == "intel" then
+        nvtopPackages.intel
+      else
+        nvtopPackages.full)
     ];
   };
 }
