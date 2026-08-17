@@ -12,7 +12,8 @@ let
     lib = lib;
     pkgs = pkgs;
     dockerEnable = conf_service.docker.enable;
-    ollamaEnable = conf_service.llm.enable;
+    # ollamaEnable = conf_service.llm.enable;
+    llamacppEnable = conf_service.llm.enable;
     open-webuiEnable = conf_service.llm.open-webui.enable;
     lampEnable = conf_service.lamp.enable;
     postgresEnable = conf_service.postgresql.enable;

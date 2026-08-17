@@ -2,7 +2,8 @@
   lib,
   pkgs,
   dockerEnable ? false,
-  ollamaEnable ? false,
+  # ollamaEnable ? false,
+  llamacppEnable ? false,
   open-webuiEnable ? false,
   lampEnable ? false,
   postgresEnable ? false,
@@ -16,7 +17,8 @@
 let
   serviceMap = {
     docker     = lib.optionals dockerEnable     [ "docker.service" "docker.socket" ];
-    ollama     = lib.optionals ollamaEnable     [ "ollama.service" ];
+    # ollama     = lib.optionals ollamaEnable     [ "ollama.service" ];
+    llama-cpp  = lib.optionals llamacppEnable   [ "llama-cpp.service" ];
     open-webui = lib.optionals open-webuiEnable [ "open-webui.service" ];
     lamp       = lib.optionals lampEnable       [ "httpd.service" "mysql.service" ];
     postgres   = lib.optionals postgresEnable   [ "postgresql.service" ];
