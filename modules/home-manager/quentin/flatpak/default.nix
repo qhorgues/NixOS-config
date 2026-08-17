@@ -24,8 +24,35 @@ in
     home.activation.flatpak = lib.hm.dag.entryAfter ["writeBoundary"]
     ''
       ${pkgs.flatpak}/bin/flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-      ${pkgs.flatpak}/bin/flatpak update --user -y
     '';
+
+    systemd.user.services.flatpak-update = {
+      Unit = {
+        Description = "Flatpak updater";
+      };
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.flatpak}/bin/flatpak update --user -y";
+        Restart = "on-failure";
+        RestartSec = 60;
+      };
+    };
+
+    systemd.user.timers.flatpak-update = {
+      Unit = {
+        Description = "Auto flatpak update";
+      };
+
+      Timer = {
+        OnActiveSec = "5min";
+        Unit = "flatpak-update.service";
+      };
+
+      Install = {
+        WantedBy = [ "timers.target" ];
+      };
+    };
 
     home.activation.flatseal = flatpakApp "com.github.tchx84.Flatseal";
   };
