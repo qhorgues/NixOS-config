@@ -21,19 +21,24 @@ let
       hf-repo = lib.mkOption { type = lib.types.str; description = "HuggingFace repo"; };
       hf-file = lib.mkOption { type = lib.types.str; description = "GGUF filename"; };
       alias = lib.mkOption { type = lib.types.str; description = "Model alias"; };
-      ctx-size = lib.mkOption { type = lib.types.str; default = "8192"; };
-      temp = lib.mkOption { type = lib.types.str; default = "0.7"; };
-      top-p = lib.mkOption { type = lib.types.str; default = "0.95"; };
-      min-p = lib.mkOption { type = lib.types.str; default = "0.01"; };
-      top-k = lib.mkOption { type = lib.types.str; default = "40"; };
-      jinja = lib.mkOption { type = lib.types.str; default = "on"; };
-      load-on-startup = lib.mkOption { type = lib.types.str; default = "false"; };
-      stop-timeout = lib.mkOption { type = lib.types.str; default = "60"; };
+      ctx-size = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+      temp = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+      top-p = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+      min-p = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+      top-k = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+      jinja = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+      load-on-startup = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+      stop-timeout = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
+      presence-penalty = lib.mkOption { type = lib.types.nullOr lib.types.str; default = null; };
     };
   };
 
   modelsPresetIni =
-    pkgs.writeText "llama-models.ini" (lib.generators.toINI { } cfg.modelsPreset);
+    pkgs.writeText "llama-models.ini" (
+      lib.generators.toINI { } (
+        lib.mapAttrs (_: lib.filterAttrs (_: v: v != null)) cfg.modelsPreset
+      )
+    );
 in
 {
   options.mx.services.llm = {
