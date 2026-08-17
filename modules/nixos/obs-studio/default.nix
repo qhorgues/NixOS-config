@@ -3,6 +3,7 @@
 let
   cfg = config.mx.programs.obs-studio;
   cgpu = config.mx.hardware.gpu;
+  gamesEnabled = config.mx.programs.games.enable;
 in
 {
   options.mx.programs.obs-studio = {
@@ -23,8 +24,15 @@ in
       );
       plugins = with pkgs.obs-studio-plugins; [
         obs-move-transition
-      ] ++ lib.optional config.mx.programs.games.enable pkgs.obs-studio-plugins.obs-vkcapture;
+      ] ++ lib.optional (cgpu.vendor != "nvidia") pkgs.obs-studio-plugins.obs-vaapi
+       ++ lib.optional gamesEnabled pkgs.obs-studio-plugins.obs-vkcapture;
     };
+
+    environment.systemPackages =
+      lib.optional gamesEnabled pkgs.obs-studio-plugins.obs-vkcapture;
+
+    programs.steam.extraPackages =
+      lib.optional gamesEnabled pkgs.obs-studio-plugins.obs-vkcapture;
   };
 
 }

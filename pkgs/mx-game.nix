@@ -5,9 +5,13 @@
   fwFanCtrl ? false,
   desktop ? "none",
   enableHDR ? false,
+  obsCapture ? false,
 }:
 let
   servicesToManage = services;
+
+  obsGameCapture = lib.optionalString obsCapture
+    "${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
 
   servicesStr = lib.concatStringsSep " " servicesToManage;
 
@@ -86,6 +90,11 @@ pkgs.writeShellScriptBin "mx-games" ''
         echo "  --no-force-grab-cursor    drop --force-grab-cursor"
         echo "  --no-immediate-flips      drop --immediate-flips"
         echo "  --no-hdr                  drop --hdr-enabled (and DXVK_HDR)"
+        echo "  --no-obs-capture          drop obs-vkcapture (also: MX_GAMES_OBS_CAPTURE=0)"
+        echo "  --obs-capture             re-add it. On by default when OBS Studio is"
+        echo "                            installed; covers Vulkan and OpenGL games."
+        echo "                            gamescope and mangoapp never capture, so only"
+        echo "                            the game claims the OBS socket."
         echo ""
         echo "Environment:"
         echo "  MX_GAMES_GAMESCOPE_ARGS   extra gamescope args, split on whitespace (no quote"
@@ -122,6 +131,16 @@ pkgs.writeShellScriptBin "mx-games" ''
     want_immediate_flips=1
     want_hdr=${if enableHDR then "1" else "0"}
 
+    obs_capture_bin="${obsGameCapture}"
+    obs_capture=0
+    if [ -n "$obs_capture_bin" ]; then
+        obs_capture=1
+    fi
+    case "''${MX_GAMES_OBS_CAPTURE:-}" in
+        1) obs_capture=1 ;;
+        0) obs_capture=0 ;;
+    esac
+
     while [ $# -gt 0 ]; do
         case "$1" in
             --no-gamescope)         use_gamescope=0 ;;
@@ -132,6 +151,8 @@ pkgs.writeShellScriptBin "mx-games" ''
             --no-force-grab-cursor) want_force_grab_cursor=0 ;;
             --no-immediate-flips)   want_immediate_flips=0 ;;
             --no-hdr)               want_hdr=0 ;;
+            --obs-capture)          obs_capture=1 ;;
+            --no-obs-capture)       obs_capture=0 ;;
             -h|--help)              usage; exit 0 ;;
             --)                     shift; break ;;
             --*)                    echo "Error: unknown option '$1'" >&2; usage >&2; exit 1 ;;
@@ -145,13 +166,21 @@ pkgs.writeShellScriptBin "mx-games" ''
         exit 1
     fi
 
+    if [ "$obs_capture" = "1" ] && [ -z "$obs_capture_bin" ]; then
+        echo "Error: obs capture requires OBS Studio (mx.programs.obs-studio.enable)" >&2
+        exit 1
+    fi
+
+    capture_cmd=()
+    if [ "$obs_capture" = "1" ]; then
+        capture_cmd=("$obs_capture_bin")
+    fi
+
     user_gs_args=()
     if [ -n "''${MX_GAMES_GAMESCOPE_ARGS:-}" ]; then
         read -r -a user_gs_args <<< "$MX_GAMES_GAMESCOPE_ARGS" || true
     fi
 
-    # Index of the option keys given by the user, so a default setting the same
-    # option can be dropped instead of duplicated.
     declare -A user_keys=()
     for arg in ''${user_gs_args[@]+"''${user_gs_args[@]}"}; do
         case "$arg" in
@@ -286,17 +315,24 @@ pkgs.writeShellScriptBin "mx-games" ''
 
         export ENABLE_GAMESCOPE_WSI=1
         export LD_PRELOAD=""
-        export MANGOHUD=0
+        if [ "$want_mangoapp" = "1" ] || gs_has --mangoapp; then
+            export MANGOHUD=0
+        fi
         if [ "$want_hdr" = "1" ] || gs_has --hdr-enabled; then
             export DXVK_HDR=1
         fi
 
+        gs_prefix=(${pkgs.coreutils}/bin/env DISABLE_OBS_VKCAPTURE=1)
+        child_prefix=(${pkgs.coreutils}/bin/env -u DISABLE_OBS_VKCAPTURE)
+
         echo "==> Running under gamescope ($mode_desc): $*"
-        ${pkgs.gamescope}/bin/gamescope "''${gs_args[@]}" \
-            ''${user_gs_args[@]+"''${user_gs_args[@]}"} -- "$@" &
+        ''${gs_prefix[@]+"''${gs_prefix[@]}"} ${pkgs.gamescope}/bin/gamescope "''${gs_args[@]}" \
+            ''${user_gs_args[@]+"''${user_gs_args[@]}"} \
+            -- ''${child_prefix[@]+"''${child_prefix[@]}"} \
+               ''${capture_cmd[@]+"''${capture_cmd[@]}"} "$@" &
     else
         echo "==> Running: $*"
-        "$@" &
+        ''${capture_cmd[@]+"''${capture_cmd[@]}"} "$@" &
     fi
     child_pid=$!
     set +e

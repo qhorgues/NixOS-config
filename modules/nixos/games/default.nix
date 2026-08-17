@@ -15,6 +15,7 @@ let
     fwFanCtrl = config.mx.hardware.framework-fan-ctrl.enable;
     desktop = config.mx.desktop.environment;
     enableHDR = cfg.enableHDR;
+    obsCapture = config.mx.programs.obs-studio.enable;
   };
 
   mkFhsDesktop = pkg: desktopFile: bin:
@@ -263,9 +264,10 @@ in
         package = pkgs.steam.override {
           extraEnv = {
             TZ = ":/etc/localtime";
-            OBS_VKCAPTURE = config.mx.programs.obs-studio.enable;
-            # PROTON_NO_D3D12=true;
             PROTON_PRIORITY_HIGH=true;
+
+            MANGOHUD = true;
+            OBS_VKCAPTURE = config.mx.programs.obs-studio.enable;
 
             PROTON_FSR4_UPGRADE = cgpu.vendor == "amd"
                                   && cgpu.generation == "rdna4";
