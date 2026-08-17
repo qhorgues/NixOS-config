@@ -5,21 +5,13 @@ let
   cgpu = config.mx.hardware.gpu;
   lsfg-vk = pkgs.callPackage ../../../pkgs/lsfg-vk.nix { };
   lsfg-vk-ui = pkgs.callPackage ../../../pkgs/lsfg-vk-ui.nix { };
-  conf_service = config.mx.services;
   proton-cachyos = pkgs.callPackage ../../../pkgs/proton-cachyos.nix { };
 
+  gameServices = import ../../../lib/mx-game-services.nix { inherit lib config; };
+
   mx-game = import ../../../pkgs/mx-game.nix {
-    lib = lib;
-    pkgs = pkgs;
-    dockerEnable = conf_service.docker.enable;
-    # ollamaEnable = conf_service.llm.enable;
-    llamacppEnable = conf_service.llm.enable;
-    open-webuiEnable = conf_service.llm.open-webui.enable;
-    lampEnable = conf_service.lamp.enable;
-    postgresEnable = conf_service.postgresql.enable;
-    printingEnable = conf_service.printing.enable;
-    teamviewerEnable = config.mx.programs.team-viewer.enable;
-    vmEnable = conf_service.vm.enable;
+    inherit lib pkgs;
+    services = gameServices.enabledUnits;
     fwFanCtrl = config.mx.hardware.framework-fan-ctrl.enable;
     desktop = config.mx.desktop.environment;
     enableHDR = cfg.enableHDR;
@@ -393,17 +385,7 @@ in
 
     security.polkit.extraConfig = ''
       polkit.addRule(function(action, subject) {
-        var allowedUnits = [
-          "docker.service", "docker.socket",
-          "ollama.service",
-          "open-webui.service",
-          "httpd.service", "mysql.service",
-          "postgresql.service",
-          "cups.service", "cups.socket",
-          "teamviewerd.service",
-          "libvirtd.service", "libvirtd.socket",
-          "virtlogd.service", "virtlogd.socket"
-        ];
+        var allowedUnits = ${builtins.toJSON gameServices.enabledUnits};
 
         if (action.id === "org.freedesktop.systemd1.manage-units" &&
             subject.isInGroup("wheel") &&

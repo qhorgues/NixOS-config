@@ -1,33 +1,13 @@
 {
   lib,
   pkgs,
-  dockerEnable ? false,
-  # ollamaEnable ? false,
-  llamacppEnable ? false,
-  open-webuiEnable ? false,
-  lampEnable ? false,
-  postgresEnable ? false,
-  printingEnable ? false,
-  teamviewerEnable ? false,
-  vmEnable ? false,
+  services ? [ ],
   fwFanCtrl ? false,
   desktop ? "none",
   enableHDR ? false,
 }:
 let
-  serviceMap = {
-    docker     = lib.optionals dockerEnable     [ "docker.service" "docker.socket" ];
-    # ollama     = lib.optionals ollamaEnable     [ "ollama.service" ];
-    llama-cpp  = lib.optionals llamacppEnable   [ "llama-cpp.service" ];
-    open-webui = lib.optionals open-webuiEnable [ "open-webui.service" ];
-    lamp       = lib.optionals lampEnable       [ "httpd.service" "mysql.service" ];
-    postgres   = lib.optionals postgresEnable   [ "postgresql.service" ];
-    printing   = lib.optionals printingEnable   [ "cups.service" "cups.socket" ];
-    teamviewer = lib.optionals teamviewerEnable [ "teamviewerd.service" ];
-    vm         = lib.optionals vmEnable         [ "libvirtd.service" "libvirtd.socket" "virtlogd.service" "virtlogd.socket" ];
-  };
-
-  servicesToManage = lib.flatten (lib.attrValues serviceMap);
+  servicesToManage = services;
 
   servicesStr = lib.concatStringsSep " " servicesToManage;
 
