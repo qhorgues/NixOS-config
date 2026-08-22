@@ -20,6 +20,7 @@
       };
     };
 
+    services.devmon.enable = true;
 
     environment.lxqt.excludePackages = with pkgs.lxqt; [
         ### CORE 1
