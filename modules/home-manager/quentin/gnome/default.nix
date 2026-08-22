@@ -106,9 +106,10 @@ in
         "org/gnome/shell/extensions/blur-my-shell/dash-to-dock" = {
             blur = true;
             brightness = 1.0;
+            corner-radius = 24;
             override-background = true;
             pipeline = "pipeline_default_rounded";
-            sigma = 10;
+            sigma = 5;
             static-blur = false;
             style-dash-to-dock = 2;
             unblur-in-overview = false;

@@ -84,6 +84,7 @@
         nix-clean = import ./pkgs/nix-clean.nix { inherit pkgs; };
         nix-latest-update = import ./pkgs/nix-latest-update.nix { inherit pkgs; };
         kiwix = pkgs.callPackage ./pkgs/kiwix.nix { inherit pkgs; };
+        gnome-rounded-blur = pkgs.callPackage ./pkgs/gnome-rounded-blur.nix {};
         gnomeExtensions.hanabi = pkgs.callPackage ./pkgs/hanabi.nix {};
         texstudio = pkgs.callPackage ./pkgs/texstudio.nix { inherit pkgs; };
       }
