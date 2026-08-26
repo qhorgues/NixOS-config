@@ -3,7 +3,7 @@
 let
   cfg = config.mx.programs.discord;
   flatpakApp = import ../flatpak/app.nix {
-    inherit pkgs lib;
+    inherit lib;
     enableApp = cfg.enable;
   };
 in
@@ -12,8 +12,11 @@ in
     enable = lib.mkEnableOption "Install Discord client";
   };
 
-  config =  {
-    mx.services.flatpak.enable = if cfg.enable then lib.mkForce true else lib.mkDefault false;
-    home.activation.discord = flatpakApp "com.discordapp.Discord";
-  };
+  config = lib.mkMerge [
+    {
+      mx.services.flatpak.enable = if cfg.enable then lib.mkForce true else lib.mkDefault false;
+    }
+
+    (flatpakApp "com.discordapp.Discord")
+  ];
 }

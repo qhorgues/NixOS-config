@@ -3,7 +3,7 @@
 let
   cfg = config.mx.programs.element;
   flatpakApp = import ../flatpak/app.nix {
-    inherit pkgs lib;
+    inherit lib;
     enableApp = cfg.enable;
   };
 in
@@ -12,8 +12,11 @@ in
     enable = lib.mkEnableOption "Install Client client";
   };
 
-  config =  {
-    mx.services.flatpak.enable = if cfg.enable then lib.mkForce true else lib.mkDefault false;
-    home.activation.element = flatpakApp "im.riot.Riot";
-  };
+  config = lib.mkMerge [
+    {
+      mx.services.flatpak.enable = if cfg.enable then lib.mkForce true else lib.mkDefault false;
+    }
+
+    (flatpakApp "im.riot.Riot")
+  ];
 }

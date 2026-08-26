@@ -1,17 +1,10 @@
-{ lib, pkgs, enableApp ? false }:
+{ lib, enableApp ? false }:
 
+# Keys are defined unconditionally and only their values depend on
+# `enableApp`, otherwise the module fixpoint forces `mx.services.flatpak.enable`
+# while building the config attribute set, which is an infinite recursion.
 appId:
-  if enableApp then
-    lib.hm.dag.entryAfter ["flatpak"]
-      ''
-        if ! ${pkgs.flatpak}/bin/flatpak list --user | ${pkgs.gnugrep}/bin/grep -q "${appId}"; then
-          ${pkgs.flatpak}/bin/flatpak install --user -y flathub ${appId}
-        fi
-      ''
-  else
-  lib.hm.dag.entryAfter ["flatpak"]
-    ''
-      if ${pkgs.flatpak}/bin/flatpak list --user | ${pkgs.gnugrep}/bin/grep -q "${appId}"; then
-        ${pkgs.flatpak}/bin/flatpak uninstall --user -y ${appId}
-      fi
-    ''
+{
+  mx.services.flatpak.apps = lib.optionals enableApp [ appId ];
+  mx.services.flatpak.removedApps = lib.optionals (!enableApp) [ appId ];
+}
