@@ -13,7 +13,7 @@
           xterm
       ];
       desktopManager.lxqt.enable = true;
-      windowManager.openbox.enable = false;
+      # windowManager.openbox.enable = false;
       xkb = {
           layout = lib.mkDefault "fr";
           variant = "";
@@ -24,43 +24,43 @@
 
     environment.lxqt.excludePackages = with pkgs.lxqt; [
         ### CORE 1
-        libfm-qt
-        lxqt-about
-        lxqt-admin
-        lxqt-config
-        lxqt-globalkeys
-        lxqt-menu-data
-        lxqt-notificationd
-        lxqt-openssh-askpass
-        lxqt-policykit
-        lxqt-powermanagement
-        lxqt-qtplugin
-        lxqt-session
-        lxqt-sudo
-        lxqt-themes
-        lxqt-wayland-session
-        pavucontrol-qt
+        # libfm-qt
+        # lxqt-about
+        # lxqt-admin
+        # lxqt-config
+        # lxqt-globalkeys
+        # lxqt-menu-data
+        # lxqt-notificationd
+        # lxqt-openssh-askpass
+        # lxqt-policykit
+        # lxqt-powermanagement
+        # lxqt-qtplugin
+        # lxqt-session
+        # lxqt-sudo
+        # lxqt-themes
+        # lxqt-wayland-session
+        # pavucontrol-qt
 
         ### CORE 2
-        lxqt-panel
-        lxqt-runner
-        pcmanfm-qt
+        # lxqt-panel
+        # lxqt-runner
+        # pcmanfm-qt
 
         ### LXQt project
-        qterminal
-        obconf-qt
-        lximage-qt
-        lxqt-archiver
+        # qterminal
+        # obconf-qt
+        # lximage-qt
+        # lxqt-archiver
 
         ### QtDesktop project
-        qps
-        screengrab
+        # qps
+        # screengrab
 
         ### Default icon theme
-        pkgs.kdePackages.breeze-icons
+        # kdePackages.breeze-icons
 
         ### Screen saver
-        pkgs.xscreensaver
+        # xscreensaver
     ];
 
     environment.systemPackages = with pkgs.lxqt; [
