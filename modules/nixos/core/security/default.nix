@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, config, ... }:
 
 {
   imports = [
@@ -7,8 +7,8 @@
 
   security.rtkit.enable = lib.mkDefault true;
   security.apparmor.enable = lib.mkDefault false;
-  services.gnome.gnome-keyring.enable = lib.mkDefault true;
-  security.pam.services.login.enableGnomeKeyring = lib.mkDefault true;
+  services.gnome.gnome-keyring.enable = lib.mkDefault (!config.mx.mode.server.enable);
+  security.pam.services.login.enableGnomeKeyring = lib.mkDefault (!config.mx.mode.server.enable);
 
   security.tpm2 = {
     enable = true;

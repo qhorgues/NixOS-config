@@ -50,7 +50,7 @@ in
         ];
 
         initrd.systemd.enable = lib.mkDefault true;
-        plymouth.enable = lib.mkDefault true;
+        plymouth.enable = lib.mkDefault (!config.mx.mode.server.enable);
 
         initrd.systemd.tpm2.enable = true;
         initrd.systemd.services.systemd-udev-settle.enable = lib.mkForce false;
