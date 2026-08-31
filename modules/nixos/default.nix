@@ -13,6 +13,7 @@
     ./postgresql
     ./team-viewer
     ./remote-desktop
+    ./remote-login
     ./virtual-display
     ./llm
     ./vm

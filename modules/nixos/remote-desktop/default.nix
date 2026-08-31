@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  username = "quentin";
+  username = "remote-login";
 
   runtimeDir = "/run/user/$(${pkgs.coreutils}/bin/id -u ${username})";
 
@@ -86,7 +86,7 @@ in
       default = [ ];
       description = ''
         Sunshine apps, each with its own name and resolution/output switch.
-        These target the *quentin-session* mode (an interactively logged-in GNOME
+        These target the *${username}-session* mode (an interactively logged-in GNOME
         session + Mutter display-switch).
       '';
       type = lib.types.listOf (lib.types.submodule {
@@ -155,15 +155,21 @@ in
       };
     };
 
+    users.users."${username}" = {
+      name = "${username}";
+      createHome = true;
+      extraGroups = [ "gamers" ];
+      isNormalUser = true;
+    };
 
     security.sudo.extraRules = [{
-    users = [ "sunshine" ];
-    commands = [
-      { command = "${steamOpenScript}"; }
-      { command = "${steamCloseScript}"; }
-      { command = "${steamMonitorScript}"; }
-    ];
-  }];
+      users = [ "${username}" ];
+      commands = [
+        { command = "${steamOpenScript}"; }
+        { command = "${steamCloseScript}"; }
+        { command = "${steamMonitorScript}"; }
+      ];
+    }];
 
     assertions = lib.optionals switches [
       {
