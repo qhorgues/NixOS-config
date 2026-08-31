@@ -53,6 +53,7 @@ in
               };
             };
             displayManager.gdm.enable = true;
+            displayManager.defaultSession = lib.mkDefault "gnome";
             desktopManager.gnome = {
               enable = true;
               sessionPath = lib.optional cfg.rounded-blur gnome-rounded-blur;
