@@ -357,7 +357,8 @@ All default to `true`.
 |---|---|---|---|
 | `mx.programs.games.enable` | bool | `false` | Steam, gamescope, GameMode, MangoHud, Proton-GE + Proton-CachyOS, gaming sysctls, zen kernel |
 | `mx.programs.games.users` | list of str | `[]` | Users added to the `gamers` and `gamemode` groups |
-| `mx.programs.games.game_lib_dirs` | list of str | `[]` | Shared game library directories, created `0770 root gamers` |
+| `mx.programs.games.game_lib_dirs` | list of str | `[]` | Shared game library directories. Only the directory itself is created, `2770 root:gamers` + a default ACL granting `rwx` to `gamers`; its contents then inherit group `gamers` and group write. Never `chown -R root` such a directory: Wine refuses a Proton prefix it does not own (`wine: '.../pfx' is not owned by you`), so files inside must stay owned by the player |
+| `mx.programs.games.shared_steam_dir` | str or null | `null` | Shared Steam data directory on the games disk. Inside the Steam wrapper, `<dir>/common` is bind-mounted onto `~/.local/share/Steam/steamapps/common` (games shared between gamers) and `<dir>/work/<user>/{downloading,temp,shadercache}` onto their counterparts (per-user staging, same filesystem as the games). Proton prefixes and manifests stay in each home, since Wine refuses a prefix it does not own. Migrating an existing library is manual |
 | `mx.programs.games.force-fsr4-for-rdna3` | bool | `false` | Force FSR4 on AMD 7000 series |
 | `mx.programs.games.enableHDR` | bool | `false` | HDR support in gamescope |
 | `mx.programs.games.lsfg.enable` | bool | `false` | Install `lsfg-vk` (requires the Lossless Scaling app on Steam) |

@@ -18,6 +18,21 @@ let
     obsCapture = config.mx.programs.obs-studio.enable;
   };
 
+  steamAppsDir = "$HOME/.local/share/Steam/steamapps";
+
+  steamPrefixDir = "$HOME/.local/share/Steam/compatdata";
+
+  steamBinds = lib.optionals (cfg.shared_steam_dir != null) [
+    {
+      src = cfg.shared_steam_dir;
+      dst = steamAppsDir;
+    }
+    {
+      src = steamPrefixDir;
+      dst = "${steamAppsDir}/compatdata";
+    }
+  ];
+
   mkFhsDesktop = pkg: desktopFile: bin:
     pkg.overrideAttrs (old: {
       postInstall = (old.postInstall or "") + ''
@@ -173,6 +188,23 @@ in
       description = "Folder with games shared for all gamers user";
     };
 
+    shared_steam_dir = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "/mnt/Games/SteamLibrary";
+      description = ''
+        Directory on the shared disk holding the Steam data common to every gamer.
+        Inside the Steam wrapper, `<dir>/common` is bind-mounted onto
+        `~/.local/share/Steam/steamapps/common`, so the installed games are shared,
+        and `<dir>/work/<user>/{downloading,temp,shadercache}` onto their
+        counterparts, so downloads are staged on the same filesystem as the games
+        and land with a rename instead of a copy across partitions.
+
+        Everything else stays in each user home, Proton prefixes first: Wine
+        refuses a prefix it does not own.
+      '';
+    };
+
     lsfg = {
       enable = lib.mkEnableOption "Install Losseless Scaling (required Lossless scaling app on Steam) but not enable by default";
       activate_on_all_games = lib.mkEnableOption "Activate Lossless Scaling on all games by default";
@@ -262,6 +294,15 @@ in
           proton-cachyos
         ];
         package = pkgs.steam.override {
+          extraPreBwrapCmds = lib.optionalString (cfg.shared_steam_dir != null) ''
+            mkdir -p "${steamAppsDir}" "${steamPrefixDir}"
+            # Mount point for the prefixes, inside the shared tree: it has to exist
+            # there, since the stacked bind is resolved after the first one.
+            [ -d "${cfg.shared_steam_dir}" ] && mkdir -p "${cfg.shared_steam_dir}/compatdata"
+          '';
+
+          extraBwrapArgs = map (b: ''--bind "${b.src}" "${b.dst}"'') steamBinds;
+
           extraEnv = {
             TZ = ":/etc/localtime";
             PROTON_PRIORITY_HIGH=true;
@@ -308,7 +349,38 @@ in
       ${user}.extraGroups = [ "gamemode" ];
     }) cfg.users);
 
-    systemd.tmpfiles.rules = map (p: "d ${p} 0770 root gamers -") cfg.game_lib_dirs;
+    systemd.tmpfiles.rules =
+      let
+        acl = lib.concatStringsSep "," [
+          "user::rwX"
+          "group::rwX"
+          "group:gamers:rwX"
+          "mask::rwX"
+          "other::---"
+          "default:user::rwx"
+          "default:group::rwx"
+          "default:group:gamers:rwx"
+          "default:mask::rwx"
+          "default:other::---"
+        ];
+
+        mkRules = owner: p: [
+          "d ${p} 2770 ${owner} gamers -"
+          "a+ ${p} - - - - ${acl}"
+        ];
+        mkRecursiveRules = p: [
+          "Z ${p} ~2770 root gamers -"
+          "A+ ${p} - - - - ${acl}"
+        ];
+      in
+      lib.concatMap (mkRules "root") cfg.game_lib_dirs
+      ++ lib.optionals (cfg.shared_steam_dir != null) (
+        mkRules "root" cfg.shared_steam_dir
+        ++ lib.concatMap (mkRules "-") [
+          "${cfg.shared_steam_dir}/common"
+        ]
+        ++ mkRecursiveRules cfg.shared_steam_dir
+      );
 
     environment = {
       sessionVariables = {
