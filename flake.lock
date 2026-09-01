@@ -211,14 +211,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1788272287,
-        "narHash": "sha256-niXuz1P/BhnyUbacIF4ZWtF74UtdhTmHflEh0/o5Reg=",
-        "path": "/home/quentin/Programmes/Modulix-OS/mxpkgs",
-        "type": "path"
+        "lastModified": 1788273385,
+        "narHash": "sha256-/UmRKrYpNKoLl8+8Eq5HBgCg+apyEsbIx9s7qH+sA7U=",
+        "owner": "Modulix-OS",
+        "repo": "mxpkgs",
+        "rev": "9b5c656775c49241546a03a06273daec01eae4bc",
+        "type": "github"
       },
       "original": {
-        "path": "/home/quentin/Programmes/Modulix-OS/mxpkgs",
-        "type": "path"
+        "owner": "Modulix-OS",
+        "repo": "mxpkgs",
+        "type": "github"
       }
     },
     "nix-cachyos-kernel": {

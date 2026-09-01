@@ -10,8 +10,9 @@ against a single nixpkgs.
 
 ```
 .
-├── flake.nix                → inputs, the shared `common` module, nixosConfigurations
+├── flake.nix                → inputs and nixosConfigurations
 ├── hosts/
+│   ├── common.nix           → locale, main user, agenix, personal overlay
 │   ├── fw-laptop-16/        → Framework 16 (AMD, LUKS root, LLM, Sunshine, gaming)
 │   └── desktop-acer-n50/    → Acer N50 (NVIDIA Pascal, GNOME, gaming)
 ├── home/quentin/            → shared Home Manager profile, imported by each host
@@ -35,9 +36,10 @@ path, not published as a module.
 `home-manager.nixosModules.default`, `mxpkgs/modulixos` and `mxpkgs/modules`. On top of that it adds:
 
 - `agenix.nixosModules.default` — mxpkgs carries no secret management of its own
-- an inline `common` module defined in `flake.nix` — `age.identityPaths`, the agenix CLI, OpenSSH
-  with the firewall closed, and the overlay adding personal packages to `pkgs`. It lives there
-  rather than in a file because every line of it comes from this flake's own inputs
+- `hosts/common.nix` — everything shared by every machine: the locale (`time.timeZone`,
+  `i18n.*`, `console.keyMap`, none of which ModulixOS sets), the `quentin` account and its zsh
+  shell, `age.identityPaths` and the agenix CLI, OpenSSH with the firewall closed, and the overlay
+  adding personal packages to `pkgs`
 - `hosts/<name>/configuration.nix`
 
 ## Home Manager
@@ -79,7 +81,7 @@ sudo nixos-rebuild switch --flake .#desktop-acer-n50
 ## Secrets (agenix)
 
 `secrets.nix` maps each encrypted file to the public keys allowed to decrypt it. Decryption uses the
-**host** SSH key (`/etc/ssh/ssh_host_ed25519_key`), set by the `common` module in `flake.nix`.
+**host** SSH key (`/etc/ssh/ssh_host_ed25519_key`), set in `hosts/common.nix`.
 
 ```bash
 nix run github:ryantm/agenix -- -e secrets/<host>/<secret>.age
@@ -105,7 +107,7 @@ Most packages come from mxpkgs, reached through the `modulixos-config` argument 
 | `modulixos-config.lib.mkGameConfigSwitcher` / `.igpu-launch` | used by `hosts/fw-laptop-16/quentin.nix`                                                                                                                                                                         |
 
 Packages that are personal rather than part of ModulixOS stay here instead, added to `pkgs` by an
-overlay in the `common` module of `flake.nix` so they are reachable as `pkgs.<name>` from Home Manager too
+overlay in `hosts/common.nix` so they are reachable as `pkgs.<name>` from Home Manager too
 (mxpkgs sets `home-manager.useGlobalPkgs`):
 
 | Package      | Input                                | Used by                   |

@@ -65,15 +65,6 @@ in
       };
     };
 
-    users.users.quentin = {
-      isNormalUser = true;
-      initialPassword = "1234";
-      description = "Quentin Horgues";
-      extraGroups = [ "wheel" "networkmanager" ];
-      shell = pkgs.zsh;
-    };
-    programs.zsh.enable = true;
-
     users.users."elise"= {
       isNormalUser = true;
       initialPassword = "1234";

@@ -173,15 +173,6 @@
 
     age.secrets.huggingface-token.file = ../../secrets/shared/huggingface-token.age;
 
-    users.users.quentin = {
-      isNormalUser = true;
-      initialPassword = "1234";
-      description = "Quentin Horgues";
-      extraGroups = [ "wheel" "networkmanager" ];
-      shell = pkgs.zsh;
-    };
-    programs.zsh.enable = true;
-
     environment.systemPackages = with pkgs; [
       (callPackage ./pkgs/fw16-keyboard.nix { })
     ];

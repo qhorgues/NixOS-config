@@ -22,34 +22,15 @@
 
   outputs = { mxpkgs, agenix, nixos-hardware, coe33, ... }:
   let
-    common = { pkgs, lib, ... }: {
-      nixpkgs.overlays = [
-        (final: prev: {
-          coe33 = coe33.packages.${prev.stdenv.hostPlatform.system}.default;
-        })
-      ];
-
-      # agenix decrypts with the host SSH key.
-      age.identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-      environment.systemPackages = [
-        agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
-      ];
-
-      services.openssh = {
-        enable = true;
-        openFirewall = lib.mkDefault false;
-      };
-    };
-
     mkHost = name: mxpkgs.lib.modulixosSystem {
       system = "x86_64-linux";
       modules = [
         agenix.nixosModules.default
-        common
+        ./hosts/common.nix
         ./hosts/${name}/configuration.nix
       ];
       specialArgs = {
-        inherit nixos-hardware;
+        inherit nixos-hardware agenix coe33;
         secretsPath = ./secrets;
       };
     };
