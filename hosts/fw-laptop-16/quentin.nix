@@ -7,7 +7,7 @@
 
   mx = {
     update = {
-        flake_path = "/home/quentin/Programmes/Nix/NixOS-config";
+        flake_path = "/home/quentin/config";
         flake_config = "fw-laptop-16";
     };
     auto-update.enable = true;
