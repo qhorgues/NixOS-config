@@ -1,98 +1,63 @@
 {
+  description = "NixOS hosts and Home Manager profile";
+
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    mxpkgs.url = "github:Modulix-OS/mxpkgs";
+    nixpkgs.follows = "mxpkgs/nixpkgs";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    mxpkgs.inputs.nixpkgs-unstable.follows = "nixpkgs-unstable";
+
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    home-manager = {
-        url = "github:nix-community/home-manager/release-26.05";
-        inputs.nixpkgs.follows = "nixpkgs";
-    };
-    firefox-addons = {
-        url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-        inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+
     coe33 = {
       url = "github:qhorgues/CO-E33-Save-Editor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, coe33, ... }@inputs:
+  outputs = { mxpkgs, agenix, nixos-hardware, coe33, ... }:
   let
-    systems = [ "x86_64-linux" "aarch64-linux" "i686-linux" "x86_64-darwin" "aarch64-darwin" ];
-    forAllSystems = nixpkgs.lib.genAttrs systems;
+    common = { pkgs, lib, ... }: {
+      nixpkgs.overlays = [
+        (final: prev: {
+          coe33 = coe33.packages.${prev.stdenv.hostPlatform.system}.default;
+        })
+      ];
 
-    nixpkgsConfig = {
-      allowUnfree = true;
+      # agenix decrypts with the host SSH key.
+      age.identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      environment.systemPackages = [
+        agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
+      ];
 
-      # TEMPORARY FIX
-      permittedInsecurePackages = [ "electron-40.10.5" ]; # For winboat /!\
+      services.openssh = {
+        enable = true;
+        openFirewall = lib.mkDefault false;
+      };
     };
 
-    make-system = {
-        system ? "x86_64-linux",
-        modules ? [],
-        specialArgs ? {},
-      }:
-      let
-        pkgs-unstable = import nixpkgs-unstable {
-          system = system;
-          config = nixpkgsConfig;
-        };
-        defaults = {
-          inherit self pkgs-unstable inputs;
-          secretsPath = ./secrets;
-        };
-      in nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = defaults // specialArgs;
-        modules = [
-          inputs.agenix.nixosModules.default
-          inputs.home-manager.nixosModules.default
-          ./modules/nixos
-        ] ++ modules;
+    mkHost = name: mxpkgs.lib.modulixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        agenix.nixosModules.default
+        common
+        ./hosts/${name}/configuration.nix
+      ];
+      specialArgs = {
+        inherit nixos-hardware;
+        secretsPath = ./secrets;
       };
+    };
   in
   {
-    lib.make-system = make-system;
-    nixosModules = {
-      modulix-os =
-        { ... }: {
-          imports = [ ./modules/nixos ];
-          _module.args = {
-            inputs = inputs;
-            secretsPath = ./secrets;
-          };
-        };
-      home-manager = inputs.home-manager.nixosModules.default;
-      agenix = inputs.agenix.nixosModules.default;
+    nixosConfigurations = {
+      fw-laptop-16 = mkHost "fw-laptop-16";
+      desktop-acer-n50 = mkHost "desktop-acer-n50";
     };
-    homeModules.quentin = ./modules/home-manager/quentin;
-
-    packages = forAllSystems (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
-        coe33 = coe33.packages.${system}.default;
-        clean-dir = import ./pkgs/clean-dir.nix { inherit pkgs; };
-        lsfg-vk = pkgs.callPackage ./pkgs/lsfg-vk.nix {};
-        nix-clean = import ./pkgs/nix-clean.nix { inherit pkgs; };
-        nix-latest-update = import ./pkgs/nix-latest-update.nix { inherit pkgs; };
-        kiwix = pkgs.callPackage ./pkgs/kiwix.nix { inherit pkgs; };
-        gnome-rounded-blur = pkgs.callPackage ./pkgs/gnome-rounded-blur.nix {};
-        gnomeExtensions.hanabi = pkgs.callPackage ./pkgs/hanabi.nix {};
-        texstudio = pkgs.callPackage ./pkgs/texstudio.nix { inherit pkgs; };
-      }
-    );
-
-    lib.mkGameConfigSwitcher = { pkgs, ... } @ args:
-      pkgs.callPackage ./lib/game-settings-switcher.nix args;
-    lib.igpu-launch = { pkgs, igpuId, igpuNumber }:
-      pkgs.callPackage ./lib/igpu-launch.nix { inherit igpuId igpuNumber; };
   };
 }

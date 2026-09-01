@@ -7,3 +7,7 @@ result-*
 
 # Video assets are served from release tags and fetched with pkgs.fetchurl
 *.mp4
+
+# Python tooling cache
+.ruff_cache
+.claude

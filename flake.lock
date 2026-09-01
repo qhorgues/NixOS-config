@@ -85,6 +85,7 @@
     "firefox-addons": {
       "inputs": {
         "nixpkgs": [
+          "mxpkgs",
           "nixpkgs"
         ]
       },
@@ -180,6 +181,7 @@
     "home-manager_2": {
       "inputs": {
         "nixpkgs": [
+          "mxpkgs",
           "nixpkgs"
         ]
       },
@@ -196,6 +198,27 @@
         "ref": "release-26.05",
         "repo": "home-manager",
         "type": "github"
+      }
+    },
+    "mxpkgs": {
+      "inputs": {
+        "firefox-addons": "firefox-addons",
+        "home-manager": "home-manager_2",
+        "nix-cachyos-kernel": "nix-cachyos-kernel",
+        "nixpkgs": "nixpkgs_2",
+        "nixpkgs-unstable": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788272287,
+        "narHash": "sha256-niXuz1P/BhnyUbacIF4ZWtF74UtdhTmHflEh0/o5Reg=",
+        "path": "/home/quentin/Programmes/Modulix-OS/mxpkgs",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/quentin/Programmes/Modulix-OS/mxpkgs",
+        "type": "path"
       }
     },
     "nix-cachyos-kernel": {
@@ -216,6 +239,24 @@
         "owner": "xddxdd",
         "ref": "release",
         "repo": "nix-cachyos-kernel",
+        "type": "github"
+      }
+    },
+    "nixos-hardware": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1788044418,
+        "narHash": "sha256-cmOd3iGoE140M2GidgQMQbyxHZ4dT7C0QZq2+CrXQyA=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "dc3f0cfde2050172abf6c3cdb684f735c15a57c5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
         "type": "github"
       }
     },
@@ -268,11 +309,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1787962033,
-        "narHash": "sha256-u6z9VTZA4Kf3RkHQo9sQI7NI4Ei/uiU9vrMqOiwWP1Y=",
+        "lastModified": 1788187754,
+        "narHash": "sha256-bu1QxmXKmPuvBLN7bHP355OV9Qo13x9WCiRDH62CqRM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c5c4a43b0e8056328ec4529f735cabdb8f1942bb",
+        "rev": "5dfba6236110080a54247d6460bc2ff5dda939cc",
         "type": "github"
       },
       "original": {
@@ -282,14 +323,29 @@
         "type": "github"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1767892417,
+        "narHash": "sha256-8bW3q88CEg2u4hSP66Vf4lpbLonHz7hqDNBMcCY7E9U=",
+        "rev": "3497aa5c9457a9d88d71fa93a4a8368816fbeeba",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.05pre924538.3497aa5c9457/nixexprs.tar.xz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
         "coe33": "coe33",
-        "firefox-addons": "firefox-addons",
-        "home-manager": "home-manager_2",
-        "nix-cachyos-kernel": "nix-cachyos-kernel",
-        "nixpkgs": "nixpkgs_2",
+        "mxpkgs": "mxpkgs",
+        "nixos-hardware": "nixos-hardware",
+        "nixpkgs": [
+          "mxpkgs",
+          "nixpkgs"
+        ],
         "nixpkgs-unstable": "nixpkgs-unstable"
       }
     },
