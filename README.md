@@ -75,8 +75,8 @@ sudo nixos-rebuild switch --flake .#fw-laptop-16
 sudo nixos-rebuild switch --flake .#desktop-acer-n50
 ```
 
-`mx.update.flake_path` in each host's `quentin.nix` points at this repository, so the `nix-update` and
-`nix-clean-boot` helpers rebuild the right flake. Update it if you move the checkout.
+`mx.update.flake_path` in each host's `quentin.nix` points at this repository, so the `mx-update` and
+`mx-clean-boot` helpers rebuild the right flake. Update it if you move the checkout.
 
 ## Secrets (agenix)
 
@@ -102,8 +102,8 @@ Most packages come from mxpkgs, reached through the `modulixos-config` argument 
 
 | Reference                                                    | Provides                                                                                                                                                                                                         |
 | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `modulixos-config.packages.<system>.*`                       | `clean-dir`, `nix-clean`, `nix-latest-update`, `modulix-icon`, `texstudio`, `gnomeExtensions.hanabi`, …                                                                                                          |
-| `modulixos-config.lib.mkNixUpdate` / `.mkNixCleanBoot`       | used by `home/quentin/core/flake-script.nix`. Both scripts bake the flake location into themselves, so mxpkgs exports them as builders taking `{ pkgs, flake_path, flake_config }` rather than as plain packages |
+| `modulixos-config.packages.<system>.*`                       | `clean-dir`, `mx-clean`, `mx-latest-update`, `modulix-icon`, `texstudio`, `gnomeExtensions.hanabi`, …                                                                                                            |
+| `modulixos-config.lib.mkMxUpdate` / `.mkMxCleanBoot`         | used by `home/quentin/core/flake-script.nix`. Both scripts bake the flake location into themselves, so mxpkgs exports them as builders taking `{ pkgs, flake_path, flake_config }` rather than as plain packages |
 | `modulixos-config.lib.mkGameConfigSwitcher` / `.igpu-launch` | used by `hosts/fw-laptop-16/quentin.nix`                                                                                                                                                                         |
 
 Packages that are personal rather than part of ModulixOS stay here instead, added to `pkgs` by an
@@ -121,7 +121,7 @@ repository are the Home Manager ones in `home/quentin`:
 
 | Option                                                        | Description                                                                                                                                                                                                                                                                    |
 | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `mx.update.flake_path` / `.flake_config`                      | flake directory and configuration name used by `nix-update`                                                                                                                                                                                                                    |
+| `mx.update.flake_path` / `.flake_config`                      | flake directory and configuration name used by `mx-update`                                                                                                                                                                                                                     |
 | `mx.auto-update.enable`                                       | inert — the timer consuming it is commented out                                                                                                                                                                                                                                |
 | `mx.services.flatpak.enable`                                  | user Flatpak installation, Flathub remote, Flatseal                                                                                                                                                                                                                            |
 | `mx.desktop-environment.gnome.connection` / `.live-wallpaper` | GNOME Connections, Hanabi video wallpaper                                                                                                                                                                                                                                      |

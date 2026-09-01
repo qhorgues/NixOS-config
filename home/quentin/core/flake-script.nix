@@ -4,15 +4,15 @@ let
     cfg = config.mx.update;
     cfga = config.mx.auto-update;
     inherit (modulixos-config.packages.${pkgs.stdenv.hostPlatform.system})
-      nix-latest-update nix-clean clean-dir;
+      mx-latest-update mx-clean clean-dir;
 
-    nix-update = modulixos-config.lib.mkNixUpdate {
+    mx-update = modulixos-config.lib.mkMxUpdate {
         inherit pkgs;
         flake_path = cfg.flake_path;
         flake_config = cfg.flake_config;
     };
 
-    nix-clean-boot = modulixos-config.lib.mkNixCleanBoot {
+    mx-clean-boot = modulixos-config.lib.mkMxCleanBoot {
         inherit pkgs;
         flake_path = cfg.flake_path;
         flake_config = cfg.flake_config;
@@ -43,10 +43,10 @@ in
     config = lib.mkMerge [
         {
             home.packages = [
-                nix-update
-                nix-clean-boot
-                nix-clean
-                nix-latest-update
+                mx-update
+                mx-clean-boot
+                mx-clean
+                mx-latest-update
                 clean-dir
             ];
         }
@@ -58,7 +58,7 @@ in
         #         };
         #         Service = {
         #             Type = "exec";
-        #             ExecStart = "${nix-update}/bin/nix-update";
+        #             ExecStart = "${mx-update}/bin/mx-update";
         #         };
         #         Install = {
         #           WantedBy = [ "multi-user.target" ];

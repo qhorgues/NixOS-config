@@ -68,9 +68,10 @@ This repository contains CI/CD configurations for GitHub and GitLab that automat
 ### Change execution time
 
 **GitHub**: Modify the cron in `.github/workflows/update-flake.yml`:
+
 ```yaml
 schedule:
-  - cron: '0 14 * * *'  # 2 PM UTC instead of 2 AM
+  - cron: "0 14 * * *" # 2 PM UTC instead of 2 AM
 ```
 
 **GitLab**: Modify the interval pattern in the schedule via GitLab interface
@@ -80,11 +81,13 @@ schedule:
 Modify the `24 hours ago` / `86400` value in the files:
 
 **GitHub**:
+
 ```bash
 CUTOFF_DATE=$(date -u -d '48 hours ago' --iso-8601=seconds)  # 48h instead of 24h
 ```
 
 **GitLab**:
+
 ```bash
 CUTOFF_TIME=$((CURRENT_TIME - 172800))  # 172800 = 48h in seconds
 ```
@@ -105,6 +108,7 @@ Replace `master` with your main branch (`main`, etc.) in the configuration files
 The auto-merge process includes **multiple safety checks** to ensure only legitimate flake.lock updates are merged:
 
 **GitHub Actions checks:**
+
 1. ✅ Label verification: PR must have `automated` label
 2. ✅ Branch name verification: Must start with `flake-update-`
 3. ✅ Title verification: Must be "🔄 Automatic flake.lock update"
@@ -114,6 +118,7 @@ The auto-merge process includes **multiple safety checks** to ensure only legiti
 7. ✅ Mergeable status: PR must be in mergeable state
 
 **GitLab CI checks:**
+
 1. ✅ Label verification: MR must have `automated` label
 2. ✅ Branch name verification: Must start with `flake-update-`
 3. ✅ Title verification: Must be "🔄 Automatic flake.lock update"
@@ -127,26 +132,32 @@ The auto-merge process includes **multiple safety checks** to ensure only legiti
 ## 📊 Monitoring
 
 ### GitHub
+
 - Check the **Actions** tab to see execution history
 - Created PRs have the `automated` label
 
 ### GitLab
+
 - Check **CI/CD** > **Pipelines** for history
 - Created MRs have the `automated` label
 
 ## 🐛 Troubleshooting
 
 ### GitHub: "Resource not accessible by integration"
+
 → Check workflow permissions in Settings > Actions > General
 
 ### GitLab: "401 Unauthorized"
+
 → Verify that the `CI_PUSH_TOKEN` token is properly configured with correct scopes
 
 ### PRs/MRs are not being merged automatically
+
 → Check the `auto-merge` job logs for errors
 
 ### Nix: "experimental features"
-→ Commands automatically use `--experimental-features 'nix-command flakes'`
+
+→ Commands automatically use `--experimental-features 'mx-command flakes'`
 
 ## 💡 Tips
 
