@@ -14,7 +14,17 @@ in
       settings.user = {
         name  = "qhorgues";
         email = "quentin.horgues@outlook.fr";
+        gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.config/git/allowed_signers";
+        init.defaultBranch = "main";
+      };
+      signing = {
+        format = "ssh";
+        key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+        signByDefault = true;
       };
     };
   };
+
+  home.file.".config/git/allowed_signers".text =
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeDXES7JVBTFfXQTezi08nO8GQpWTiQP/myoLfpTAtD quentin@fw-laptop-quentin";
 }
