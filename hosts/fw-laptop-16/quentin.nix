@@ -133,7 +133,6 @@
         }
       ];
     })
-    # modulixos-config.packages.${pkgs.stdenv.hostPlatform.system}.kiwix
   ];
 
   nix.settings.secret-key-files = [ "/etc/nix/signing-key.sec" ];
