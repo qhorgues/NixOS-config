@@ -1,4 +1,4 @@
-{ pkgs, config, lib, modulixos-config, ... }:
+{ pkgs, config, lib, ... }:
 
 let
   cfg = config.mx.programs.office.latex;
@@ -11,7 +11,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       texliveFull
-      modulixos-config.packages.${pkgs.stdenv.hostPlatform.system}.texstudio
+      texstudio
       hunspellDicts.fr-any
       hunspellDicts.en-us
     ];
