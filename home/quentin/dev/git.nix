@@ -11,9 +11,11 @@ in
   config = lib.mkIf (config.mx.programs.dev.enable || cfg.enable) {
     programs.git = {
       enable = true;
-      settings.user = {
-        name  = "qhorgues";
-        email = "quentin.horgues@outlook.fr";
+      settings = {
+        user = {
+          name  = "qhorgues";
+          email = "quentin.horgues@outlook.fr";
+        };
         gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.config/git/allowed_signers";
         init.defaultBranch = "main";
       };
@@ -23,8 +25,8 @@ in
         signByDefault = true;
       };
     };
+    home.file.".config/git/allowed_signers".text =
+      "quentin.horgues@outlook.fr ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeDXES7JVBTFfXQTezi08nO8GQpWTiQP/myoLfpTAtD";
   };
 
-  home.file.".config/git/allowed_signers".text =
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeDXES7JVBTFfXQTezi08nO8GQpWTiQP/myoLfpTAtD quentin@fw-laptop-quentin";
 }
