@@ -79,6 +79,7 @@
   in
   [
     pkgs.coe33
+    pkgs.video-downloader
     (modulixos-config.lib.igpu-launch {
       inherit pkgs;
       igpuId  = "1002:15bf";
