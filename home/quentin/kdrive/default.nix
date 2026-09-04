@@ -2,15 +2,13 @@
 let
   cfg = config.mx.programs.kdrive;
   pname = "kDrive";
-  version = "3.8.5.2";
+  version = "3.8.7.1";
 
-  # Téléchargement de l'AppImage de kDrive
   src = pkgs.fetchurl {
     url = "https://download.storage.infomaniak.com/drive/desktopclient/${pname}-${version}-amd64.AppImage";
-    sha256 = "sha256-8ec7d+HI89GSCKR8evgBtVy2qEzdrzPl97tPvvRzZAI=";
+    sha256 = "sha256-jWV/D6WKBj4xXtZ2tBaLINMEcKpcy0FgrlsF+hqqQ3o=";
   };
 
-  # Code source de l'icône au format SVG
   iconSvgCode = ''
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 32 32" role="img">
         <path fill="#A2BFFF" fill-rule="evenodd" d="M11.628 1.606c0-1.145 1.139-1.921 2.171-1.48l2.702 1.156c.414.177.733.527.878.96l1.075 3.215c.173.517.591.909 1.11 1.039l11.241 2.813A1.6 1.6 0 0 1 32 10.867v13.425c0 1.08-1.02 1.85-2.028 1.533l-17.238-5.429a1.6 1.6 0 0 1-1.106-1.533z" clip-rule="evenodd" opacity="0.504">
@@ -58,6 +56,19 @@ Icon=kdrive
 Terminal=false
 Type=Application
 Categories=Network;
+MimeType=x-scheme-handler/kdrive;
+EOF
+
+cat > $out/share/applications/kdrive-uri-handler.desktop <<EOF
+[Desktop Entry]
+Name=kDrive (URI handler)
+Comment=Ouvre les liens kdrive://
+Exec=$out/bin/kdrive %u
+Icon=kdrive
+Terminal=false
+Type=Application
+NoDisplay=true
+MimeType=x-scheme-handler/kdrive;
 EOF
     '';
   };
