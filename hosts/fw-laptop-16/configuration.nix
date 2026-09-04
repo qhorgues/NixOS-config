@@ -8,6 +8,7 @@
 
     mx = {
       core.network.security-mode = false;
+      bootloader.secureBoot.enable = true;
       hardware = {
         laptop = true;
         cpu.vendor = "amd"; # "intel"/"amd"

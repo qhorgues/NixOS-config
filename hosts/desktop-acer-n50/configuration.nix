@@ -21,6 +21,7 @@ in
 
     mx = {
       core.network.security-mode = false;
+      bootloader.secureBoot.enable = true;
       hardware = {
         cpu.vendor = "intel"; # "intel"/"amd"
         ssd.lists = [ "/" "/mnt/Games" ]; # All mountpoint with a SSD
