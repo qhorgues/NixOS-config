@@ -97,6 +97,8 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [ kdriveApp kdrive_update ];
 
+    xdg.mimeApps.defaultApplications."x-scheme-handler/kdrive" = "kdrive-uri-handler.desktop";
+
     systemd.user.services.kdrive = {
       Unit = {
         Description = "Lancement de kDrive AppImage";

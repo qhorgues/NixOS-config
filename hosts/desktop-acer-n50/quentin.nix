@@ -11,6 +11,7 @@
         flake_config = "desktop-acer-n50";
     };
     auto-update.enable = true;
+    xdg.mimeApps.enable = true; # Manage ~/.config/mimeapps.list declaratively
     desktop-environment.gnome = {
       connection = false;
       live-wallpaper = true;

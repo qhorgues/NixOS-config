@@ -14,6 +14,7 @@
     ./dev
     ./graphism
     ./kdrive
+    ./xdg-mime
     ./zed-editor
     ./video-downloader
     ./vm-manager
