@@ -107,7 +107,7 @@
           authorizedKeys = [
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJBmPru5d8lvYkkooKj3fjE8hFVcpwMW0RxdH/FKikJN quentin@uw-laptop-13"
           ];
-          wakeOnLan.interfaces = [ "enp199s0f3u1" ];
+          wakeOnLan.interfaces = [ "enp197s0f3u2u4" ];
         };
         remote-desktop = { # Sunshine game streaming server
           enable = true;
