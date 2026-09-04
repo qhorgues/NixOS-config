@@ -152,7 +152,7 @@
           users = [ "quentin" ]; # Allowed user for gamemode
           shared_steam_dir = "/mnt/Games/SteamLibrary";
           lsfg.enable = false;
-          heroic.enable = false;
+          heroic.enable = true;
           lutris.enable = false;
           umu.enable = false;
 
