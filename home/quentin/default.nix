@@ -6,6 +6,7 @@
     ./cryptomator
     ./discord
     ./element
+    ./signal
     ./audio-enhancer
     ./gnome
     ./firefox
