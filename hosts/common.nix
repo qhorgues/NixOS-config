@@ -4,12 +4,17 @@
   nixpkgs.overlays = [
     (final: prev: {
       coe33 = coe33.packages.${prev.stdenv.hostPlatform.system}.default;
+      proton-ge-hash = (import ../pkgs/proton-fetch-sha256.nix { pkgs = final; }).proton-ge-hash;
+      proton-cachyos-hash = (import ../pkgs/proton-fetch-sha256.nix { pkgs = final; }).proton-cachyos-hash;
     })
+
   ];
 
   age.identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
   environment.systemPackages = [
     agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    pkgs.proton-ge-hash
+    pkgs.proton-cachyos-hash
   ];
 
   services.openssh = {
