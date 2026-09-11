@@ -53,13 +53,13 @@ in
           ];
         };
         "rpi-horgues" = {
-          HostName = "91.168.167.51";
+          HostName = "82.233.104.114";
           Port = 16000;
           User = "quentin";
           IdentityFile = "~/.ssh/id_ed25519";
         };
         "rpi-horgues-proxy" = {
-          HostName = "91.168.167.51";
+          HostName = "82.233.104.114";
           Port = 16000;
           User = "quentin";
           IdentityFile = "~/.ssh/id_ed25519";
