@@ -3,7 +3,6 @@
   imports = [
     ./core
     ./cryptomator
-    ./signal
     ./audio-enhancer
     ./gnome
     ./firefox
