@@ -2,10 +2,7 @@
 {
   imports = [
     ./core
-    ./flatpak
     ./cryptomator
-    ./discord
-    ./element
     ./signal
     ./audio-enhancer
     ./gnome

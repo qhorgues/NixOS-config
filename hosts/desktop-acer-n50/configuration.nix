@@ -37,6 +37,9 @@ in
       };
       desktop = "gnome"; # "cli"/"gnome"/"plasma"/"lxqt"
       fonts.enable = true;
+      services = {
+        flatpak.enable = true; # Flatpak runtime; apps installed with `flatpak install`
+      };
       programs = { # Enable some system app
         home-manager = {
           enable = true;

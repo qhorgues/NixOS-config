@@ -1,4 +1,4 @@
-{ config, nixos-hardware, lib, pkgs, ... }:
+{ config, nixos-hardware,  pkgs, ... }:
 {
     imports = [
       nixos-hardware.nixosModules.framework-16-7040-amd
@@ -40,6 +40,7 @@
       };
       fonts.enable = true;
       services = {
+        flatpak.enable = true; # Flatpak runtime; apps installed with `flatpak install`
         vm = {
           enable = true; # Enable VM tools
           allArchitectures = true;

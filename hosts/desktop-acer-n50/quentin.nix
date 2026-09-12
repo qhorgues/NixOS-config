@@ -27,8 +27,6 @@
         onlyoffice.enable = true;
       };
       signal.enable = true;
-      discord.enable = true; # Install discord flatpak
-      element.enable = true; # Install Element flatpak
       audio-enhancer.enable = false; # Install audio enhancer with custom profiles
       zed-editor.enable = true; # Install custom zed editor
       ssh.enable = true; # Install ssh client
