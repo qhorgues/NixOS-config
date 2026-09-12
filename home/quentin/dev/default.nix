@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, config, lib, ... }:
+{ pkgs, config, lib, ... }:
 
 let
   cfg = config.mx.programs.dev;
@@ -27,8 +27,8 @@ in
   config = lib.mkMerge [
     (
       lib.mkIf cfg.enable {
-        home.packages = with pkgs-unstable; [
-          pkgs.git
+        home.packages = with pkgs; [
+          git
           zeal
           claude-code
         ] ++ lib.optionals cfg.nix [
@@ -81,8 +81,8 @@ in
           dconf-editor
           cambalache
           gnome-builder
-          pkgs.flatpak
-          pkgs.flatpak-builder
+          flatpak
+          flatpak-builder
         ] ++ lib.optionals cfg.ci [
           act
         ] ++ lib.optionals cfg.java [
