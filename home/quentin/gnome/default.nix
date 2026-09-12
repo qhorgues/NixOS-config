@@ -41,6 +41,7 @@ in
         gnomeExtensions.places-status-indicator
         gnomeExtensions.quick-settings-audio-panel
         gnomeExtensions.upower-battery
+        gnomeExtensions.display-configuration-switcher
         # gnomeExtensions.desktop-icons-ng-ding
         # gnomeExtensions.tiling-shell
         # Icons
@@ -64,6 +65,7 @@ in
               places-status-indicator.extensionUuid
               quick-settings-audio-panel.extensionUuid
               upower-battery.extensionUuid
+              display-configuration-switcher.extensionUuid
               # desktop-icons-ng-ding.extensionUuid
               # tiling-shell.extensionUuid
             ]
