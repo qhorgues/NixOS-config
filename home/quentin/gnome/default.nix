@@ -150,7 +150,7 @@ in
         };
         "org/gnome/TextEditor" = {
             indent-style = "space";
-            restore-session = true;
+            restore-session = false;
             show-line-numbers = true;
             show-right-margin = false;
             style-scheme = "Adwaita";
