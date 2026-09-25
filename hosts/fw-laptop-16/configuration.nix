@@ -40,6 +40,8 @@
       };
       fonts.enable = true;
       services = {
+        modulix-daemon.testMode = true;
+        modulix-daemon.testUser = "quentin";
         flatpak.enable = true; # Flatpak runtime; apps installed with `flatpak install`
         vm = {
           enable = true; # Enable VM tools
