@@ -39,6 +39,8 @@ in
       fonts.enable = true;
       services = {
         flatpak.enable = true; # Flatpak runtime; apps installed with `flatpak install`
+        modulix-daemon.testMode = true;
+        modulix-daemon.testUser = "quentin";
       };
       programs = { # Enable some system app
         home-manager = {
