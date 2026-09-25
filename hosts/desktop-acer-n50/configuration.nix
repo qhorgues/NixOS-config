@@ -24,7 +24,7 @@ in
       bootloader.secureBoot.enable = true;
       hardware = {
         cpu.vendor = "intel"; # "intel"/"amd"
-        ssd.lists = [ "/" "/mnt/Games" ]; # All mountpoint with a SSD
+        ssd.lists = [ "/" ]; # All mountpoint with a SSD
         gpu = {
           vendor = "nvidia"; #  "amd"/"nvidia"/"intel"
           generation = "pascal"; # Use chipset reférence or null
@@ -52,9 +52,6 @@ in
         games = {
           steam.enable = true;
           users = [ "quentin" ]; # Allowed user for gamemode
-          game_lib_dirs = [
-            "/mnt/Games"
-          ];
           lsfg.enable = false;
           heroic.enable = false;
           lutris.enable = false;
