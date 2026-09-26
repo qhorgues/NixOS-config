@@ -68,6 +68,5 @@
 
   home.packages =
   [
-    pkgs.coe33
   ];
 }

@@ -10,6 +10,7 @@ in
         nixos-hardware.nixosModules.common-pc-ssd
         nixos-hardware.nixosModules.common-pc
         ./hardware-configuration.nix
+        ./hard-disk-storage.nix
     ];
 
     hardware.nvidia.open = false;
