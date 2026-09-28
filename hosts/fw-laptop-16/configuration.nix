@@ -167,7 +167,8 @@
             enable = true;
             screen = {
               width = 2560;
-              height = 1440;
+              height = 1600;
+              output = [ "eDP-2" ];
             };
           };
         };
