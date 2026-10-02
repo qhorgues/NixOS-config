@@ -152,10 +152,16 @@
           latest-unstable-mesa-driver.enable = false;
           force-fsr4-for-rdna3 = true; # Only for AMD radeon 7000 user
           users = [ "quentin" ]; # Allowed user for gamemode
-          shared_steam_dir = [
+          # game_shared_lib_dir = [
+          #   {
+          #     real_path = "/mnt/Games";
+          #     dir_name = "Shared_Games";
+          #   }
+          # ];
+          game_user_lib_dir = [
             {
-              real_path = "/mnt/Games";
-              dir_name = "Shared_Games";
+              user = "quentin";
+              path = "/mnt/Games";
             }
           ];
           lsfg.enable = false;
