@@ -108,12 +108,12 @@ in
         "org/gnome/shell/extensions/blur-my-shell/dash-to-dock" = {
             blur = true;
             brightness = 1.0;
-            corner-radius = 24;
+            corner-radius = lib.hm.gvariant.mkInt32 24;
             override-background = true;
             pipeline = "pipeline_default_rounded";
-            sigma = 5;
+            sigma = lib.hm.gvariant.mkInt32 5;
             static-blur = false;
-            style-dash-to-dock = 2;
+            style-dash-to-dock = lib.hm.gvariant.mkInt32 2;
             unblur-in-overview = false;
         };
         "org/gnome/shell/extensions/dash-to-dock" = {
@@ -122,7 +122,7 @@ in
            	autohide = true;
             background-opacity = 0.8;
             custom-theme-shrink = false;
-            dash-max-icon-size = 64;
+            dash-max-icon-size = lib.hm.gvariant.mkInt32 64;
             dock-fixed = false;
             dock-position = "BOTTOM";
             extend-height = false;
@@ -130,7 +130,7 @@ in
             intellihide = true;
             intellihide-mode = "FOCUS_APPLICATION_WINDOWS";
             multi-monitor = true;
-            preferred-monitor = -2;
+            preferred-monitor = lib.hm.gvariant.mkInt32 (-2);
             scroll-to-focused-applications = true;
             show-icons-emblems = true;
             show-icons-network = false;
@@ -192,7 +192,7 @@ in
         };
         "org/gnome/desktop/input-sources" = {
             sources = [
-                (lib.gvariant.mkTuple["xkb" "fr+oss"])
+                (lib.hm.gvariant.mkTuple["xkb" "fr+oss"])
             ];
         };
         "org/gnome/baobab/preferences" = {
@@ -204,16 +204,16 @@ in
       // lib.optionalAttrs cfg.live-wallpaper {
         "io/github/jeffshee/hanabi-extension" = {
           video-path = "${config.home.homeDirectory}/.local/share/wallpaper/wallpaper.mp4";
-          content-fit = 2;
+          content-fit = lib.hm.gvariant.mkInt32 2;
           enable-graphics-offload = true;
           enable-va = true;
           force-mediafile = true;
-          pause-on-battery = 2;
-          pause-on-maximize-or-fullscreen = 2;
+          pause-on-battery = lib.hm.gvariant.mkInt32 2;
+          pause-on-maximize-or-fullscreen = lib.hm.gvariant.mkInt32 2;
           show-panel-menu = false;
           mute = true;
-          volume = 0;
-          startup-delay = 0;
+          volume = lib.hm.gvariant.mkInt32 0;
+          startup-delay = lib.hm.gvariant.mkInt32 0;
         };
       };
     };
