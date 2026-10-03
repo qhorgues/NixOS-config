@@ -5,7 +5,6 @@
       ./hardware-configuration.nix
     ];
 
-
     mx = {
       core.network.security-mode = false;
       bootloader.secureBoot.enable = true;
