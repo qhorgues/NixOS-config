@@ -124,6 +124,13 @@ in
           };
           terminal.integrated.gpucomputing = "on";
           workbench.preferredDarkColorTheme = "Visual Studio Dark";
+          rsp-ui.enableStartServerOnActivation = [
+            {
+              id = "redhat.vscode-community-server-connector";
+              name = "Community Server Connector";
+              startOnActivation = true;
+            }
+          ];
         };
 
         # Keybindings personnalisés
