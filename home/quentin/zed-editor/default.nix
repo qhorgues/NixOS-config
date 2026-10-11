@@ -87,7 +87,6 @@ in
           tree_view = false;
         };
         agent = {
-          sidebar_side = "right";
           limit_content_width = true;
           flexible = true;
           button = true;
