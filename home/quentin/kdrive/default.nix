@@ -2,11 +2,11 @@
 let
   cfg = config.mx.programs.kdrive;
   pname = "kDrive";
-  version = "3.8.7.1";
+  version = "3.8.8.1";
 
   src = pkgs.fetchurl {
     url = "https://download.storage.infomaniak.com/drive/desktopclient/${pname}-${version}-amd64.AppImage";
-    sha256 = "sha256-jWV/D6WKBj4xXtZ2tBaLINMEcKpcy0FgrlsF+hqqQ3o=";
+    sha256 = "sha256-hZhU3mpHzx2zStyCp+hB1lB99j4u0jak4bkBm5TbXFc=";
   };
 
   iconSvgCode = ''
