@@ -72,7 +72,7 @@
     mkGameConfigSwitcher = { ... } @ args: modulixos-config.lib.mkGameConfigSwitcher ({
       inherit pkgs;
       saveBase = "$HOME/kDrive/Documents/Loisirs/Jeux";
-      steamLibrary = "/home/quentin/Shared_Games/SteamLibrary";
+      steamLibrary = "/mnt/Games/SteamLibrary";
     } // args);
 
   in
