@@ -44,9 +44,6 @@ in
         {
             home.packages = [
                 mx-update
-                mx-clean-boot
-                mx-clean
-                mx-latest-update
                 clean-dir
             ];
         }

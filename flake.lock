@@ -311,11 +311,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792135545,
-        "narHash": "sha256-mrTEy8Y1v8ePuMYObn9xx51rsI/YJXrEOnx5eTt2io4=",
+        "lastModified": 1792161404,
+        "narHash": "sha256-2kYW0m22ElnLuapZK3NTI0Sc4RBSolzwFM/vSrPDDxk=",
         "owner": "Modulix-OS",
         "repo": "mxpkgs",
-        "rev": "1e6ba92372328c62560b9b9df0705fa835dcc460",
+        "rev": "4ad40e4c65db561bfd567c34b2fa2f58fba05072",
         "type": "github"
       },
       "original": {
