@@ -43,7 +43,7 @@
         modulix-daemon.testUser = "quentin";
         flatpak.enable = true; # Flatpak runtime; apps installed with `flatpak install`
         vm = {
-          enable = true; # Enable VM tools
+          enable = false; # Enable VM tools
           allArchitectures = true;
           users = [ "quentin" ]; # Trusted user
         };
@@ -53,7 +53,7 @@
         };
         lamp.enable = false; # Enable Apache/PHP/MariaDB stack
         llm = {
-          enable = true;
+          enable = false;
           ramOverflow.enable = true;
           open-webui.enable = false;
           huggingfaceTokenFile = config.age.secrets.huggingface-token.path;
@@ -104,7 +104,7 @@
         printer.enable = false;
         ios-connect.enable = false; # Enable IOS connection tools
         remote-login = {
-          enable = true;
+          enable = false;
           createUser = false; # quentin is declared by this host
           authorizedKeys = [
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJBmPru5d8lvYkkooKj3fjE8hFVcpwMW0RxdH/FKikJN quentin@uw-laptop-13"
@@ -112,7 +112,7 @@
           wakeOnLan.interfaces = [ "enp197s0f3u2u4" ];
         };
         remote-desktop = { # Sunshine game streaming server
-          enable = true;
+          enable = false;
           app = [
             {
               name = "Laptop 13";
@@ -122,7 +122,7 @@
           ];
         };
         virtual-display = {
-          enable = true;
+          enable = false;
           displays = [
             {
               videoOutput = "DP-8";
