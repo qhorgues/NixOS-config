@@ -14,13 +14,22 @@
         ssd.lists = [ "/" "/mnt/Games" ]; # All mountpoint with a SSD
         framework-fan-ctrl.enable = false; # If you use framework-laptop
         powersave.enable = false; # Auto energy saving mode on batterie
+        has_fingerprint = true;
         gpu = {
-          vendor = "amd"; #  "amd"/"nvidia"/"intel"
-          generation = "rdna3"; # Use chipset reférence or null
-          # (ex: Nvidia: "ada-lovelace", "blackwell",
-          #               "ampere", "pascal",
-          #  AMD: "rdna4", "gcn-4-gen", "gcn-1-gen")
-          compute.backend = "rocm"; #  "rocm"/"cuda"/"intel"/"cpu"
+          dedicated = {
+            vendor = "amd";
+            generation = "rdna3";
+            pciId = "1002:7480";
+            pciAddr = "03:00.0";
+            drmIndex = 1;
+          };
+          integrated = {
+            vendor = "amd";
+            generation = "rdna3";
+            pciId = "1002:15bf";
+            pciAddr = "c5:00.0";
+            drmIndex = 2;
+          };
         };
         bluetooth.enable = true;
       };
