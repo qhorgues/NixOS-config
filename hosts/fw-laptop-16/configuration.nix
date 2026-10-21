@@ -151,10 +151,13 @@
           };
         };
         creativity = {
-          blender.enable = false;
+          blender.enable = true;
           bambu-studio.enable = false;
         };
-        studio.obs-studio.enable = false;
+        studio = {
+          obs-studio.enable = false;
+          davinci-resolve.enable = true;
+        };
         games = {
           steam.enable = true;
           latest-unstable-mesa-driver.enable = false;
