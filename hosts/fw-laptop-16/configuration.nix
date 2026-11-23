@@ -144,19 +144,28 @@
         };
       };
       programs = { # Enable some system app
+        dev = {
+          vscode.enable = false;
+          git.enable = false;
+          distrobox.enable = false;
+          ue5.enable = false;
+        };
+        desktop.libreoffice.enable = false;
         home-manager = {
           enable = true;
           users = {
             quentin.configPath = ./quentin.nix;
           };
         };
+        utilities.web-browser.firefox.enable = false;
         creativity = {
           blender.enable = true;
           bambu-studio.enable = false;
         };
         studio = {
-          obs-studio.enable = false;
+          obs-studio.enable = true;
           davinci-resolve.enable = true;
+          kdenlive.enable = true;
         };
         games = {
           steam.enable = true;
@@ -201,6 +210,7 @@
 
     environment.systemPackages = with pkgs; [
       (callPackage ./pkgs/fw16-keyboard.nix { })
+      resources
     ];
 
     networking.hostName = "fw-laptop-16";
