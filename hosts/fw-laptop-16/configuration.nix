@@ -5,6 +5,11 @@
       ./hardware-configuration.nix
     ];
 
+    # Factorio
+    networking.firewall = {
+      allowedUDPPorts = [ 34197 ];
+    };
+
     mx = {
       core.network.security-mode = false;
       bootloader.secureBoot.enable = true;
