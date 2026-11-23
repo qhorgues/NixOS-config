@@ -2,7 +2,7 @@
 
 let
   modulix-os-icon = modulixos-config.packages.${pkgs.stdenv.hostPlatform.system}.modulix-icon;
-  hanabi = modulixos-config.packages.${pkgs.stdenv.hostPlatform.system}.gnomeExtensions.hanabi;
+  hanabi = modulixos-config.packages.${pkgs.stdenv.hostPlatform.system}.gnome-shell-extension-hanabi;
   cfg = config.mx.desktop-environment.gnome;
   wallpaperImageWhite = if cfg.live-wallpaper then "wallpaper.jpg" else "exp33silksong.jpg";
   wallpaperImageDark = if cfg.live-wallpaper then "wallpaper.jpg" else "exp33silksong.jpg";
