@@ -29,12 +29,12 @@
       audio-enhancer.enable = false; # Install audio enhancer with custom profiles
       zed-editor.enable = true; # Install custom zed editor
       ssh.enable = true; # Install ssh client
-      vscode.enable = true; # Install custom VS Code
+      vscode.enable = false; # Install custom VS Code
       kdrive.enable = true; # Install kdrive
       # Install graphism tools (GIMP, Krita, Inkscape)
       graphism = {
         gimp.enable = true;
-        krita.enable = false;
+        krita.enable = true;
         inkscape.enable = true;
       };
       git.enable = true; # Install git with config
