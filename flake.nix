@@ -2,7 +2,7 @@
   description = "NixOS hosts and Home Manager profile";
 
   inputs = {
-    mxpkgs.url = "github:Modulix-OS/mxpkgs";
+    mxpkgs.url = "github:Modulix-OS/mxpkgs/testing";
     nixpkgs.follows = "mxpkgs/nixpkgs";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     mxpkgs.inputs.nixpkgs-unstable.follows = "nixpkgs-unstable";
